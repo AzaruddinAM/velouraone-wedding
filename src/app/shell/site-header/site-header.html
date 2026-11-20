@@ -1,0 +1,36 @@
+<header class="header">
+  <div class="container bar">
+    <a class="logo" routerLink="/" (click)="menuOpen.set(false)" [attr.aria-label]="brand.name + ' home'">
+      <img [src]="brand.logo" [alt]="brand.name" width="900" height="227" />
+      <span class="text">{{ brand.tagline }}</span>
+    </a>
+
+    <button
+      type="button"
+      class="menu-toggle"
+      [attr.aria-expanded]="menuOpen()"
+      aria-controls="main-nav"
+      aria-label="Toggle menu"
+      (click)="menuOpen.set(!menuOpen())"
+    >
+      <app-icon [name]="menuOpen() ? 'close' : 'menu'" />
+    </button>
+
+    <nav id="main-nav" class="nav" [class.open]="menuOpen()" (click)="menuOpen.set(false)">
+      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Home</a>
+      <a [routerLink]="products.card.basePath" routerLinkActive="active">Invitation Cards</a>
+      <a [routerLink]="products.website.basePath" routerLinkActive="active">
+        Websites <span class="new-pill">New</span>
+      </a>
+      <a [routerLink]="shortlistPath()" [queryParams]="{ shortlist: 'true' }" class="shortlist-link">
+        <app-icon name="heart" /> Shortlist
+        @if (shortlist.count()) {
+          <span class="count">{{ shortlist.count() }}</span>
+        }
+      </a>
+      <a class="btn btn-whatsapp btn-sm" [href]="enquiryLink" target="_blank" rel="noopener">
+        <app-icon name="whatsapp" /> Chat on WhatsApp
+      </a>
+    </nav>
+  </div>
+</header>

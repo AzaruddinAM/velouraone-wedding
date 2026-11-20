@@ -1,0 +1,30 @@
+@let v = vm();
+<div class="layout">
+  <span class="frame"></span>
+  <span class="frame inner"></span>
+  <span class="step tl"></span>
+  <span class="step tr"></span>
+  <span class="step bl"></span>
+  <span class="step br"></span>
+
+  <div class="content">
+    <app-motif class="motif fan" [name]="template().motif" />
+    <p class="opening">{{ v.opening }}</p>
+    <p class="invite">{{ v.familyLine }} {{ v.invitation }}</p>
+
+    <h2 class="deco-name">{{ v.bride }}</h2>
+    <div class="and"><span></span>and<span></span></div>
+    <h2 class="deco-name">{{ v.groom }}</h2>
+
+    <div class="date-band">
+      <span>{{ v.monthShort }}</span>
+      <i></i>
+      <strong>{{ v.day }}</strong>
+      <i></i>
+      <span>{{ v.year }}</span>
+    </div>
+    <p class="date-line">{{ v.weekday }} · {{ v.time }}</p>
+    <p class="venue">{{ v.venue }}</p>
+    <p class="address">{{ v.address }}</p>
+  </div>
+</div>

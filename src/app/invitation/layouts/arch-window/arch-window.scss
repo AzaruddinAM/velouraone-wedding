@@ -1,0 +1,99 @@
+@use '../layout-base' as base;
+@include base.base;
+
+.layout {
+  padding: 11cqw 7cqw 6cqw;
+}
+
+.arch-wrap {
+  position: relative;
+  flex-shrink: 0;
+  width: 56cqw;
+  height: 62cqw;
+}
+
+.arch {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: 28cqw 28cqw 1.5cqw 1.5cqw;
+  border: 0.5cqw solid var(--accent);
+  background: var(--surface);
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+.arch-outline {
+  position: absolute;
+  inset: -2.2cqw;
+  border-radius: 30.2cqw 30.2cqw 2.6cqw 2.6cqw;
+  border: 0.25cqw solid var(--accent);
+  opacity: 0.6;
+}
+
+.crown {
+  position: absolute;
+  top: -8.5cqw;
+  left: 50%;
+  width: 11cqw;
+  padding: 1.2cqw;
+  translate: -50% 0;
+  border-radius: 50%;
+  background: var(--bg);
+}
+
+.monogram {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+
+  .ring {
+    position: absolute;
+    width: 82%;
+    opacity: 0.22;
+  }
+
+  span {
+    position: relative;
+    font-family: var(--f-heading);
+    font-size: 12cqw;
+    color: var(--primary);
+  }
+
+  em {
+    margin: 0 1cqw;
+    font-family: var(--f-script);
+    font-style: normal;
+    font-size: 8cqw;
+    color: var(--accent);
+  }
+}
+
+.content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.3cqw;
+  padding-top: 3cqw;
+}
+
+.names {
+  font-size: 9.5cqw;
+}
+
+.amp.inline {
+  display: inline;
+  font-size: 7cqw;
+}
+
+.date-line {
+  font-size: 2.7cqw;
+}

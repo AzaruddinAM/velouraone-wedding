@@ -1,0 +1,15 @@
+@let v = vm();
+<span class="border outer"></span>
+<span class="border inner"></span>
+@for (corner of corners; track corner) {
+  <app-motif [class]="'motif corner ' + corner" [name]="template().motif" />
+}
+<div class="hero">
+  <app-motif class="motif crest" [name]="template().motif" />
+  <p class="kicker">{{ v.opening }}</p>
+  <h1 class="names">{{ v.bride }}<span class="amp">&amp;</span>{{ v.groom }}</h1>
+  <div class="rule"></div>
+  <p class="date">{{ v.weekday }} · {{ v.dateLong }}</p>
+  <p class="place">{{ v.venue }}</p>
+  <app-countdown class="hero-countdown" [date]="v.isoDate" [time]="v.rawTime" />
+</div>

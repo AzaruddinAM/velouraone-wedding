@@ -1,0 +1,86 @@
+@use '../hero-base' as hero;
+@include hero.base;
+@include hero.nikah;
+
+:host {
+  background:
+    radial-gradient(ellipse at 50% 30%, var(--surface), var(--bg) 70%);
+}
+
+// The WebGL scene fills the whole hero.
+.stage {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+// Gradient behind the text keeps it readable over the 3D scene.
+.scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(180deg, transparent 38%, color-mix(in srgb, var(--bg) 88%, transparent) 70%, var(--bg) 100%);
+}
+
+.hero {
+  z-index: 2;
+  justify-content: flex-end;
+  padding: 60px 24px 56px;
+  pointer-events: none; // let the mouse reach the 3D scene
+
+  > * {
+    pointer-events: auto;
+  }
+
+  .names {
+    font-size: clamp(46px, 11cqw, 110px);
+  }
+}
+
+// Wide screens: text on the left, 3D subject on the right.
+@container site (min-width: 900px) {
+  .scrim {
+    background: linear-gradient(90deg, var(--bg) 0%, color-mix(in srgb, var(--bg) 85%, transparent) 34%, transparent 62%);
+  }
+
+  .hero {
+    align-items: flex-start;
+    justify-content: center;
+    width: 52%;
+    padding: 80px 0 80px 7%;
+    text-align: left;
+  }
+}
+
+.explore {
+  margin-top: 6px;
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  color: var(--soft);
+
+  span {
+    display: inline-block;
+    color: var(--accent);
+    animation: spin 4s linear infinite;
+  }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.badge-3d {
+  position: absolute;
+  top: 74px;
+  right: 18px;
+  z-index: 3;
+  padding: 4px 12px;
+  border: 1px solid var(--accent);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--bg) 60%, transparent);
+  backdrop-filter: blur(6px);
+  color: var(--accent);
+  font: 700 12px var(--f-body);
+  letter-spacing: 0.25em;
+}

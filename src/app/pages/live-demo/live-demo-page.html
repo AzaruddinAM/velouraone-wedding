@@ -1,0 +1,34 @@
+@if (template(); as t) {
+  @let d = details();
+  <div class="stage" [style.--stage-bg]="t.theme.bg" [style.--stage-accent]="t.theme.accent" [style.--stage-ink]="t.theme.ink">
+    <div class="demo-bar">
+      <a class="back" [routerLink]="['/templates', t.slug]"><app-icon name="arrow-left" /> Back</a>
+      <span class="demo-label">Demo · {{ t.name }} – {{ t.style }}</span>
+      <button type="button" class="btn btn-whatsapp btn-sm" (click)="order()"><app-icon name="whatsapp" /> Order this</button>
+    </div>
+
+    <div class="guest-view">
+      <div class="card-wrap">
+        <app-invitation-card [template]="t" [details]="d" [interactive]="true" />
+      </div>
+
+      <div class="guest-panel">
+        <p class="counting">Counting down to the big day</p>
+        <app-countdown [date]="d.date" [time]="d.time" />
+
+        <div class="guest-actions">
+          @if (calendarLink(); as cal) {
+            <a class="btn btn-light" [href]="cal" target="_blank" rel="noopener"><app-icon name="calendar" /> Save the date</a>
+          }
+          <a class="btn btn-light" [href]="mapLink()" target="_blank" rel="noopener"><app-icon name="map" /> Directions</a>
+        </div>
+        <p class="note">This is how your guests will see your invitation website.</p>
+      </div>
+    </div>
+  </div>
+} @else {
+  <div class="missing">
+    <h1>Design not found</h1>
+    <a class="btn btn-primary" routerLink="/templates">See all designs</a>
+  </div>
+}

@@ -1,0 +1,21 @@
+@let v = vm();
+<div class="hero">
+  <div class="arch-wrap">
+    <span class="outline"></span>
+    <div class="arch">
+      @if (v.photoUrl) {
+        <img [src]="v.photoUrl" alt="Couple photo" />
+      } @else {
+        <div class="monogram">
+          <app-motif class="motif ring" [name]="template().motif" />
+          <span>{{ v.brideInitial }}<em>&amp;</em>{{ v.groomInitial }}</span>
+        </div>
+      }
+    </div>
+    <app-motif class="motif crown" [name]="template().motif" />
+  </div>
+  <p class="kicker">{{ v.opening }}</p>
+  <h1 class="names">{{ v.bride }} <span class="amp inline">&amp;</span> {{ v.groom }}</h1>
+  <p class="date">{{ v.weekday }} · {{ v.dateLong }} · {{ v.time }}</p>
+  <p class="place">{{ v.venue }}</p>
+</div>

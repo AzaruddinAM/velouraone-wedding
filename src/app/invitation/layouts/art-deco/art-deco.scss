@@ -1,0 +1,116 @@
+@use '../layout-base' as base;
+@include base.base;
+
+.frame {
+  position: absolute;
+  inset: 4cqw;
+  border: 0.4cqw solid var(--accent);
+
+  &.inner {
+    inset: 6cqw;
+    border-width: 0.2cqw;
+  }
+}
+
+// Stepped art-deco corners.
+.step {
+  position: absolute;
+  width: 10cqw;
+  height: 10cqw;
+  border: 0.4cqw solid var(--accent);
+  background: var(--bg);
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 1.6cqw;
+    border: 0.2cqw solid var(--accent);
+    rotate: 45deg;
+  }
+
+  &.tl { top: 2cqw; left: 2cqw; }
+  &.tr { top: 2cqw; right: 2cqw; }
+  &.bl { bottom: 2cqw; left: 2cqw; }
+  &.br { bottom: 2cqw; right: 2cqw; }
+}
+
+.content {
+  position: relative;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.6cqw;
+  padding: 10cqw 13cqw;
+}
+
+.fan {
+  width: 30cqw;
+  margin-bottom: -1cqw;
+}
+
+.invite {
+  font-size: 2.8cqw;
+  letter-spacing: 0.05em;
+}
+
+.deco-name {
+  font-family: var(--f-heading);
+  font-size: 8.5cqw;
+  font-weight: 400;
+  letter-spacing: 0.12em;
+  line-height: 1.05;
+  text-transform: uppercase;
+  color: var(--primary);
+  overflow-wrap: anywhere;
+}
+
+.and {
+  display: flex;
+  align-items: center;
+  gap: 2.5cqw;
+  font-family: var(--f-script);
+  font-size: 6cqw;
+  color: var(--accent);
+
+  span {
+    width: 12cqw;
+    height: 0.25cqw;
+    background: var(--accent);
+  }
+}
+
+.date-band {
+  display: flex;
+  align-items: center;
+  gap: 2.5cqw;
+  margin-top: 2cqw;
+  padding: 1.5cqw 5cqw;
+  border-block: 0.3cqw solid var(--accent);
+  color: var(--primary);
+  font-family: var(--f-heading);
+  text-transform: uppercase;
+
+  span {
+    font-size: 3.2cqw;
+    letter-spacing: 0.2em;
+  }
+
+  strong {
+    font-size: 7cqw;
+    font-weight: 400;
+  }
+
+  i {
+    width: 1.6cqw;
+    height: 1.6cqw;
+    background: var(--accent);
+    rotate: 45deg;
+  }
+}
+
+.date-line {
+  font-size: 2.5cqw;
+  color: var(--soft);
+}

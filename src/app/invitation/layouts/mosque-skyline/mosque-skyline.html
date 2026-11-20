@@ -1,0 +1,28 @@
+@let v = vm();
+<div class="layout">
+  <app-falling-particles kind="star" [count]="22" />
+  <app-motif class="motif moon" name="crescent" />
+
+  <div class="content stagger">
+    <p class="arabic glow-text">{{ arabic() }}</p>
+    <p class="opening">{{ v.opening }}</p>
+    <p class="invite">{{ v.invitation }}</p>
+    <h2 class="names glow-text">{{ v.bride }}<span class="amp">&amp;</span>{{ v.groom }}</h2>
+    <div class="rule"></div>
+    <p class="date-line">{{ v.weekday }}, {{ v.dateLong }}</p>
+    <p class="time">{{ v.time }} · {{ v.venue }}</p>
+    <p class="address">{{ v.address }}</p>
+  </div>
+
+  <!-- Mosque silhouette with glowing windows -->
+  <svg class="skyline" viewBox="0 0 100 46" preserveAspectRatio="xMidYMax meet" aria-hidden="true">
+    <path class="far" d="M0 46 V34 H8 V26 Q12 20 16 26 V34 H24 V30 Q30 22 36 30 V46 Z M64 46 V30 Q70 22 76 30 V34 H84 V26 Q88 20 92 26 V34 H100 V46 Z" />
+    <path class="near" d="M18 46 V20 L19.5 14 L21 20 V46 Z M79 46 V20 L80.5 14 L82 20 V46 Z
+      M28 46 V30 H36 Q36 18 50 12 Q64 18 64 30 H72 V46 Z" />
+    <path class="near" d="M49.4 12 V6 H50.6 V12 Z" />
+    <path class="crest" d="M50 1 A2.2 2.2 0 1 0 51.8 4.6 A1.8 1.8 0 1 1 50 1 Z" />
+    @for (w of windows; track $index) {
+      <rect class="window" [attr.x]="w.x" y="36" width="2.2" height="5" rx="1.1" [style.animation-delay.s]="w.delay" />
+    }
+  </svg>
+</div>

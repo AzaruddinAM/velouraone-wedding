@@ -1,0 +1,82 @@
+<dialog #dialog class="dialog" (close)="close()" (click)="onBackdropClick($event)" aria-labelledby="order-title">
+  @if (template(); as t) {
+    @let d = details();
+    <div class="panel">
+      <button type="button" class="close" aria-label="Close" (click)="close()"><app-icon name="close" /></button>
+
+      <aside class="preview">
+        <app-design-preview [design]="t" [details]="d" />
+        <p class="preview-name">{{ t.name }} · {{ t.style }}</p>
+      </aside>
+
+      <section class="body">
+        <ol class="steps" aria-label="Order steps">
+          <li [class.active]="step() === 'details'" [class.done]="step() === 'photo'">1. Send order</li>
+          <li [class.active]="step() === 'photo'">2. Send photo</li>
+        </ol>
+
+        @if (step() === 'details') {
+          <h2 id="order-title">Order {{ t.name }}</h2>
+          <p class="lead">Your {{ products[t.kind].singular }} order goes to us on WhatsApp – we reply with price, delivery time and next steps.</p>
+
+          <dl class="summary">
+            <div><dt>Product</dt><dd>{{ products[t.kind].label }}</dd></div>
+            <div><dt>Template</dt><dd>{{ t.name }} – {{ t.style }} ({{ t.code }})</dd></div>
+            <div><dt>Couple</dt><dd>{{ d.bride }} &amp; {{ d.groom }}</dd></div>
+            <div><dt>Date</dt><dd>{{ prettyDate() }}</dd></div>
+            <div><dt>Venue</dt><dd>{{ d.venue }}</dd></div>
+            <div><dt>Photo</dt><dd>{{ d.photoUrl ? 'Added ✓' : 'Not added – you can send it in chat' }}</dd></div>
+          </dl>
+          <button type="button" class="btn btn-link btn-sm" (click)="editDetails()">Edit names, date or photo</button>
+
+          <label class="field">
+            <span>Your name <small>(optional)</small></span>
+            <input type="text" maxlength="40" [value]="customerName()" (input)="customerName.set(readInput($event))" />
+          </label>
+          <label class="field">
+            <span>Anything else? <small>(optional)</small></span>
+            <textarea rows="2" maxlength="300" placeholder="Extra events, language, music, RSVP…"
+              [value]="notes()" (input)="notes.set(readInput($event))"></textarea>
+          </label>
+
+          <button type="button" class="btn btn-whatsapp btn-lg block" (click)="sendOrder()">
+            <app-icon name="whatsapp" /> Send order on WhatsApp
+          </button>
+          <p class="fine">Opens a WhatsApp chat with {{ brand.name }} – your order is already typed.</p>
+        } @else {
+          <h2 id="order-title">Now send your photo</h2>
+          <p class="lead">
+            WhatsApp links can only carry text, so please send your couple photo in the same chat.
+          </p>
+
+          @if (d.photoUrl) {
+            <div class="photo-row">
+              <img [src]="d.photoUrl" alt="Your couple photo" />
+              <div class="photo-buttons">
+                @if (canSharePhoto()) {
+                  <button type="button" class="btn btn-whatsapp" (click)="sharePhoto()">
+                    <app-icon name="share" /> Share photo to WhatsApp
+                  </button>
+                }
+                <button type="button" class="btn btn-ghost" (click)="downloadPhoto()">
+                  <app-icon name="download" /> Download photo
+                </button>
+              </div>
+            </div>
+          } @else {
+            <p class="tip">No photo added yet – just attach one from your gallery in the WhatsApp chat using the 📎 button.</p>
+          }
+
+          @if (shareMessage()) {
+            <p class="success"><app-icon name="check" /> {{ shareMessage() }}</p>
+          }
+
+          <div class="end-actions">
+            <button type="button" class="btn btn-link" (click)="sendOrder()">WhatsApp didn't open? Try again</button>
+            <button type="button" class="btn btn-primary" (click)="close()">Done</button>
+          </div>
+        }
+      </section>
+    </div>
+  }
+</dialog>

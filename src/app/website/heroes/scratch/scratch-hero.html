@@ -1,0 +1,30 @@
+@let v = vm();
+<app-falling-particles kind="petal" [count]="18" />
+
+<div class="hero stagger">
+  <p class="arabic">{{ arabic() }}</p>
+  <p class="kicker">{{ v.opening }}</p>
+  <h1 class="names">{{ v.bride }}<span class="amp">&amp;</span>{{ v.groom }}</h1>
+  <p class="place">are getting married – Insha'Allah</p>
+
+  <p class="hint">
+    @if (revealedCount() < 3) {
+      <span class="hand" aria-hidden="true">☝</span> Scratch the golden coins to reveal our Nikah date
+    } @else {
+      Mark your calendar – we can't wait to see you!
+    }
+  </p>
+
+  <div class="coins">
+    @for (part of dateParts(); track part.label) {
+      <div class="coin-wrap">
+        <app-scratch-reveal class="coin" [interactive]="interactive()" label="?" (revealedChange)="onReveal()">
+          <span class="coin-face">{{ part.value }}</span>
+        </app-scratch-reveal>
+        <small>{{ part.label }}</small>
+      </div>
+    }
+  </div>
+
+  <p class="place">{{ v.venue }}, {{ v.address }}</p>
+</div>

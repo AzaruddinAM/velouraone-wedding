@@ -1,0 +1,93 @@
+@use '../layout-base' as base;
+@include base.base;
+
+.layout {
+  align-items: flex-start;
+  text-align: left;
+  padding: 10cqw 10cqw 9cqw;
+  gap: 2.5cqw;
+}
+
+.top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.label {
+  font-family: var(--f-body);
+  font-size: 2.3cqw;
+  font-weight: 600;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.mark {
+  width: 9cqw;
+}
+
+.kicker {
+  margin-top: 8cqw;
+  font-family: var(--f-script);
+  font-size: 6cqw;
+  color: var(--soft);
+}
+
+.names-block {
+  display: flex;
+  flex-direction: column;
+  font-family: var(--f-heading);
+  font-size: 10cqw;
+  font-weight: 300;
+  line-height: 1;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--primary);
+  overflow-wrap: anywhere;
+
+  .plus {
+    font-size: 7cqw;
+    color: var(--accent);
+  }
+}
+
+.bar {
+  width: 16cqw;
+  height: 1cqw;
+  background: var(--accent);
+}
+
+.big-date {
+  font-family: var(--f-heading);
+  font-size: 15cqw;
+  font-weight: 200;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: var(--primary);
+}
+
+.info {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5cqw;
+  width: 100%;
+  margin-top: auto;
+  padding-top: 3cqw;
+  border-top: 0.25cqw solid var(--primary);
+
+  p {
+    margin-top: 1cqw;
+    font-family: var(--f-body);
+    font-size: 2.8cqw;
+    line-height: 1.5;
+    color: var(--ink);
+  }
+}
+
+.foot {
+  font-family: var(--f-body);
+  font-size: 2.3cqw;
+  color: var(--soft);
+}

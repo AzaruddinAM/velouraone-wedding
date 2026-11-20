@@ -1,0 +1,89 @@
+<section class="intro">
+  <div class="container">
+    <nav class="switch" aria-label="Product">
+      <a [routerLink]="products.card.basePath" [class.active]="kind() === 'card'">{{ products.card.label }}</a>
+      <a [routerLink]="products.website.basePath" [class.active]="kind() === 'website'">{{ products.website.label }}</a>
+    </nav>
+    <h1>{{ total() }} {{ product().label | lowercase }}</h1>
+    <p class="sub">{{ product().shortDescription }}</p>
+    <p>
+      Every design below is shown with
+      @if (draft.isPersonalised()) {
+        <strong>your details</strong>.
+      } @else {
+        sample names – open any design to add yours.
+      }
+      Tap the heart to shortlist your favourites.
+    </p>
+  </div>
+</section>
+
+<div class="toolbar-wrap">
+  <div class="container toolbar">
+    <label class="search">
+      <app-icon name="search" />
+      <input
+        type="search"
+        placeholder="Search by code, name or colour – e.g. V12, royal, gold"
+        aria-label="Search designs"
+        [value]="search()"
+        (input)="search.set(readValue($event))"
+      />
+    </label>
+
+    <select aria-label="Sort designs" [value]="sort()" (change)="sort.set($any(readValue($event)))">
+      @for (option of sortOptions(); track option.value) {
+        <option [value]="option.value">{{ option.label }}</option>
+      }
+    </select>
+
+    <button type="button" class="chip heart-chip" [class.active]="onlyShortlist()" (click)="toggleShortlistFilter()">
+      <app-icon [name]="onlyShortlist() ? 'heart-filled' : 'heart'" /> Shortlist ({{ shortlistCount() }})
+    </button>
+  </div>
+
+  <div #chipBar class="container chips" role="tablist" aria-label="Categories">
+    <button type="button" class="chip" role="tab" [class.active]="selectedCategory() === 'all'"
+      [attr.aria-selected]="selectedCategory() === 'all'" (click)="selectCategory('all')">
+      All <span>{{ total() }}</span>
+    </button>
+    @for (c of catalog.categories; track c.id) {
+      <button type="button" class="chip" role="tab" [class.active]="selectedCategory() === c.id"
+        [attr.aria-selected]="selectedCategory() === c.id" (click)="selectCategory(c.id)">
+        {{ c.label }} <span>{{ catalog.countIn(kind(), c.id) }}</span>
+      </button>
+    }
+    <span class="chip-divider" aria-hidden="true"></span>
+    @for (f of featureChips; track f.id) {
+      @if (catalog.countWithFeature(kind(), f.id)) {
+        <button type="button" class="chip feature" [class.active]="selectedFeature() === f.id"
+          [attr.aria-pressed]="selectedFeature() === f.id" (click)="toggleFeature(f.id)">
+          {{ f.label }} <span>{{ catalog.countWithFeature(kind(), f.id) }}</span>
+        </button>
+      }
+    }
+  </div>
+</div>
+
+<section class="container results">
+  <p class="count" aria-live="polite">Showing {{ results().length }} of {{ total() }} designs</p>
+
+  @if (results().length) {
+    <div class="tile-grid">
+      @for (t of results(); track t.id) {
+        <app-template-tile [template]="t" />
+      }
+    </div>
+  } @else {
+    <div class="empty">
+      @if (onlyShortlist() && !shortlistCount()) {
+        <h2>Your shortlist is empty</h2>
+        <p>Tap the ♡ on any design to save it here, then compare and pick your favourite.</p>
+      } @else {
+        <h2>No designs match</h2>
+        <p>Try a different word or category.</p>
+      }
+      <button type="button" class="btn btn-primary" (click)="clearFilters()">Show all designs</button>
+    </div>
+  }
+</section>

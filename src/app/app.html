@@ -1,0 +1,16 @@
+@if (!isFullscreen()) {
+  <app-site-header />
+}
+
+<main id="main">
+  <router-outlet />
+</main>
+
+@if (!isFullscreen()) {
+  <app-site-footer />
+  <a class="wa-fab" [href]="enquiryLink" target="_blank" rel="noopener" aria-label="Chat with us on WhatsApp">
+    <app-icon name="whatsapp" />
+  </a>
+}
+
+<app-order-dialog />

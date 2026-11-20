@@ -1,0 +1,36 @@
+@let v = vm();
+<div class="layout">
+  <!-- Islamic geometric background: a slowly turning large star with tiled small stars -->
+  <app-motif class="motif big-star" name="star8" />
+  <div class="tiles" aria-hidden="true">
+    @for (t of tiles; track $index) {
+      <app-motif name="star8" />
+    }
+  </div>
+
+  <div class="content stagger">
+    <p class="arabic">{{ arabic() }}</p>
+    <p class="opening">{{ v.opening }}</p>
+
+    <div class="medallion">
+      <div class="medallion-inner">
+        @if (v.familyLine) {
+          <p class="family">{{ v.familyLine }}</p>
+        }
+        <p class="invite">{{ v.invitation }}</p>
+        <h2 class="names">{{ v.bride }}<span class="amp">&amp;</span>{{ v.groom }}</h2>
+      </div>
+    </div>
+
+    <div class="cells">
+      <span><small>{{ v.weekday }}</small>{{ v.day }}</span>
+      <span><small>{{ v.month }}</small>{{ v.year }}</span>
+      <span><small>Time</small>{{ v.time }}</span>
+    </div>
+    <p class="venue">{{ v.venue }}</p>
+    <p class="address">{{ v.address }}</p>
+    @if (arabicMeaning()) {
+      <p class="arabic-meaning">{{ arabicMeaning() }}</p>
+    }
+  </div>
+</div>

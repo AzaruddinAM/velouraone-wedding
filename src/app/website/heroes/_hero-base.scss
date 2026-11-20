@@ -1,0 +1,147 @@
+// Shared look for website heroes (the first screen).
+// Sizes use `cqw` of the `site` container so the hero scales from phone to desktop.
+
+@mixin base {
+  :host {
+    position: relative;
+    display: block;
+    min-height: var(--hero-h, 100svh);
+    overflow: hidden;
+    background: var(--bg);
+    color: var(--ink);
+  }
+
+  p,
+  h1 {
+    margin: 0;
+  }
+
+  .hero {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    min-height: var(--hero-h, 100svh);
+    padding: 48px 24px;
+    text-align: center;
+  }
+
+  .kicker {
+    font-family: var(--f-heading);
+    font-size: clamp(11px, 2.4cqw, 15px);
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  .names {
+    font-family: var(--f-script);
+    font-size: clamp(52px, 13cqw, 128px);
+    font-weight: 400;
+    line-height: 1.02;
+    color: var(--primary);
+    overflow-wrap: anywhere;
+
+    .amp {
+      display: block;
+      font-size: 0.5em;
+      color: var(--accent);
+    }
+  }
+
+  .date {
+    font-family: var(--f-heading);
+    font-size: clamp(13px, 2.8cqw, 18px);
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--primary);
+  }
+
+  .place {
+    font-family: var(--f-body);
+    font-size: clamp(14px, 2.6cqw, 17px);
+    color: var(--soft);
+  }
+
+  .motif {
+    color: var(--accent);
+  }
+
+  .rule {
+    width: min(220px, 50%);
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  }
+
+  .hero-countdown {
+    --cd-bg: color-mix(in srgb, var(--accent) 14%, transparent);
+    --cd-border: color-mix(in srgb, var(--accent) 60%, transparent);
+    --cd-ink: var(--primary);
+    margin-top: 6px;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Nikah collection: Arabic calligraphy, staggered entrance, glowing text.
+// ---------------------------------------------------------------------------
+@mixin nikah {
+  .arabic {
+    font-family: 'Amiri', 'Aref Ruqaa', serif;
+    font-size: clamp(24px, 6cqw, 46px);
+    line-height: 1.5;
+    color: var(--primary);
+    direction: rtl;
+  }
+
+  .arabic-meaning {
+    font-family: var(--f-body);
+    font-size: 14px;
+    font-style: italic;
+    color: var(--soft);
+  }
+
+  .glow {
+    text-shadow: 0 0 22px color-mix(in srgb, var(--accent) 60%, transparent);
+  }
+
+  .stagger > * {
+    animation: hero-rise 1s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  }
+
+  @for $i from 1 through 12 {
+    .stagger > :nth-child(#{$i}) {
+      animation-delay: #{0.2 + $i * 0.13}s;
+    }
+  }
+
+  @keyframes hero-rise {
+    from { opacity: 0; transform: translateY(26px); }
+  }
+
+  // Pointed (ogee) arch outline, drawn in an SVG with preserveAspectRatio="none".
+  .ogee {
+    position: absolute;
+    inset: 24px;
+    width: calc(100% - 48px);
+    height: calc(100% - 48px);
+    fill: none;
+    stroke: var(--accent);
+    stroke-width: 1.4;
+    vector-effect: non-scaling-stroke;
+    pointer-events: none;
+
+    path {
+      stroke-dasharray: 2600;
+      animation: hero-draw 3s ease-out both;
+      vector-effect: non-scaling-stroke;
+    }
+  }
+
+  @keyframes hero-draw {
+    from { stroke-dashoffset: 2600; }
+    to { stroke-dashoffset: 0; }
+  }
+}

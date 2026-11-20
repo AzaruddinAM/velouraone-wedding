@@ -1,0 +1,42 @@
+@use '../section-base' as base;
+@include base.base;
+
+.foot {
+  display: grid;
+  gap: 8px;
+  justify-items: center;
+  padding-block: 56px 40px;
+  text-align: center;
+}
+
+.ornament {
+  width: 54px;
+  color: var(--band-accent);
+}
+
+.names {
+  font-family: var(--f-script);
+  font-size: 42px;
+  line-height: 1.1;
+  color: var(--band-head);
+
+  span {
+    color: var(--band-accent);
+  }
+}
+
+.date {
+  font-family: var(--f-heading);
+  letter-spacing: 0.3em;
+}
+
+.tag {
+  font-weight: 600;
+  color: var(--band-accent);
+}
+
+.credit {
+  margin-top: 18px;
+  font-size: 12px;
+  letter-spacing: 0.1em;
+}

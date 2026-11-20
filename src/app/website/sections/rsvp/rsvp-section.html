@@ -1,0 +1,21 @@
+@let v = vm();
+<section class="section">
+  <header class="head">
+    <span class="num">07</span>
+    <app-motif class="ornament" [name]="template().motif" />
+    <p class="kicker">Counting down</p>
+    <h2>Will you join us?</h2>
+  </header>
+
+  <div class="card rsvp">
+    <app-countdown class="countdown" [date]="v.isoDate" [time]="v.rawTime" />
+    <p class="muted">Kindly let us know if you can make it.</p>
+    <div class="actions">
+      <button type="button" class="site-btn" (click)="answer('yes')">Joyfully accept</button>
+      <button type="button" class="site-btn outline" (click)="answer('no')">Regretfully decline</button>
+    </div>
+    @if (reply()) {
+      <p class="reply" role="status">{{ reply() }}</p>
+    }
+  </div>
+</section>

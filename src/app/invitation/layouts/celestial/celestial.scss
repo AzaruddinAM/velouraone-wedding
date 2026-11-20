@@ -1,0 +1,93 @@
+@use '../layout-base' as base;
+@include base.base;
+
+.layout {
+  background: radial-gradient(ellipse at 50% 30%, var(--surface), var(--bg) 70%);
+}
+
+.star {
+  position: absolute;
+  aspect-ratio: 1;
+  background: var(--primary);
+  clip-path: polygon(50% 0, 60% 40%, 100% 50%, 60% 60%, 50% 100%, 40% 60%, 0 50%, 40% 40%);
+  animation: twinkle 3s ease-in-out infinite;
+}
+
+@keyframes twinkle {
+  50% { opacity: 0.25; scale: 0.7; }
+}
+
+.content {
+  position: relative;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5cqw;
+  padding: 8cqw 10cqw;
+}
+
+.orbit {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 70cqw;
+  aspect-ratio: 1;
+  margin: 1cqw 0 2cqw;
+
+  .ring {
+    position: absolute;
+    inset: 4cqw;
+    border-radius: 50%;
+    border: 0.3cqw solid var(--accent);
+
+    &.outer {
+      inset: 0;
+      border: 0.2cqw dashed var(--accent);
+      opacity: 0.6;
+    }
+  }
+
+  .moon {
+    position: absolute;
+    top: -1cqw;
+    width: 13cqw;
+    padding: 1cqw;
+    border-radius: 50%;
+    background: var(--bg);
+  }
+
+  .planet {
+    position: absolute;
+    bottom: 13cqw;
+    right: 1.5cqw;
+    width: 4cqw;
+    height: 4cqw;
+    border-radius: 50%;
+    background: var(--primary);
+    box-shadow: 0 0 3cqw var(--primary);
+  }
+}
+
+.orbit-text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5cqw;
+  max-width: 54cqw;
+
+  .small {
+    font-size: 2.7cqw;
+  }
+}
+
+.names {
+  font-size: 10cqw;
+}
+
+.time {
+  font-family: var(--f-body);
+  font-size: 3cqw;
+  color: var(--soft);
+}

@@ -1,0 +1,26 @@
+@let v = vm();
+<section class="section">
+  <header class="head">
+    <span class="num">05</span>
+    <app-motif class="ornament" [name]="template().motif" />
+    <p class="kicker">Moments</p>
+    <h2>Our gallery</h2>
+  </header>
+
+  <div class="grid">
+    @for (tile of tiles; track tile.id) {
+      <figure [class]="'tile ' + tile.shape">
+        @if (v.photoUrl) {
+          <img [src]="v.photoUrl" alt="" [style.object-position]="tile.focus" [style.filter]="tile.filter" />
+        } @else {
+          <div class="placeholder" [style.opacity]="tile.opacity">
+            <app-motif [name]="template().motif" />
+          </div>
+        }
+      </figure>
+    }
+  </div>
+  @if (!v.photoUrl) {
+    <p class="hint muted">Your photos appear here</p>
+  }
+</section>

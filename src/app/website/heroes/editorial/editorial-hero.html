@@ -1,0 +1,30 @@
+@let v = vm();
+<div class="cover">
+  <header class="masthead">
+    <span>Vol. 01</span>
+    <strong>The Wedding Issue</strong>
+    <span>{{ v.monthShort }} {{ v.year }}</span>
+  </header>
+
+  <div class="body">
+    <h1 class="stack">
+      <span>{{ v.bride }}</span>
+      <em>&amp;</em>
+      <span>{{ v.groom }}</span>
+    </h1>
+
+    <figure class="photo">
+      @if (v.photoUrl) {
+        <img [src]="v.photoUrl" alt="Couple photo" />
+      } @else {
+        <div class="placeholder"><app-motif [name]="template().motif" /></div>
+      }
+      <figcaption>Cover story · {{ v.opening }}</figcaption>
+    </figure>
+  </div>
+
+  <footer class="strip">
+    <span class="big">{{ v.day }}.{{ v.monthNumber }}.{{ v.yearShort }}</span>
+    <span>{{ v.weekday }} · {{ v.time }}<br />{{ v.venue }}</span>
+  </footer>
+</div>

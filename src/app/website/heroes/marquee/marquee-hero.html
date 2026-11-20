@@ -1,0 +1,21 @@
+@let v = vm();
+<span class="blob one" aria-hidden="true"></span>
+<span class="blob two" aria-hidden="true"></span>
+
+<div class="hero">
+  <p class="badge">{{ v.opening }}</p>
+  <h1 class="giant">
+    <span>{{ v.bride }}</span>
+    <em>&amp;</em>
+    <span class="outline">{{ v.groom }}</span>
+  </h1>
+  <p class="date">{{ v.weekday }} · {{ v.dateLong }} · {{ v.venue }}</p>
+</div>
+
+<div class="ticker" aria-hidden="true">
+  <div class="track">
+    @for (i of loop; track i) {
+      <span>Save the date ✦ {{ v.day }}.{{ v.monthNumber }}.{{ v.year }} ✦ {{ v.bride }} &amp; {{ v.groom }} ✦</span>
+    }
+  </div>
+</div>

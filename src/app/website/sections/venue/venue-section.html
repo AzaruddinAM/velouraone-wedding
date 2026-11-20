@@ -1,0 +1,24 @@
+@let v = vm();
+<section class="section">
+  <header class="head">
+    <span class="num">06</span>
+    <app-motif class="ornament" [name]="template().motif" />
+    <p class="kicker">Getting there</p>
+    <h2>The venue</h2>
+  </header>
+
+  <div class="venue">
+    <div class="map" aria-hidden="true">
+      <span class="road r1"></span>
+      <span class="road r2"></span>
+      <span class="road r3"></span>
+      <span class="pin"><app-motif [name]="template().motif" /></span>
+    </div>
+    <div class="card details">
+      <h3>{{ v.venue }}</h3>
+      <p class="muted">{{ v.address }}</p>
+      <p class="when">{{ v.weekday }}, {{ v.dateLong }} · {{ v.time }}</p>
+      <a class="site-btn" [href]="v.mapUrl" target="_blank" rel="noopener">Get directions</a>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,31 @@
+@let v = vm();
+<div class="layout">
+  <p class="opening">{{ v.opening }}</p>
+
+  <div class="crest">
+    <app-motif class="motif halo" [name]="template().motif" />
+    <span class="ring"></span>
+    <span class="letters">
+      <span class="first">{{ v.brideInitial }}</span>
+      <span class="second">{{ v.groomInitial }}</span>
+    </span>
+  </div>
+
+  @if (v.familyLine) {
+    <p class="family">{{ v.familyLine }}</p>
+  }
+  <p class="invite">{{ v.invitation }}</p>
+
+  <h2 class="caps-names">
+    {{ v.bride }}
+    <span class="amp inline">&amp;</span>
+    {{ v.groom }}
+  </h2>
+
+  <div class="rule wide"></div>
+  <p class="date-line">{{ v.weekday }}, {{ v.month }} {{ v.day }}, {{ v.year }} · {{ v.time }}</p>
+  <div class="rule wide"></div>
+
+  <p class="venue">{{ v.venue }}</p>
+  <p class="address">{{ v.address }}</p>
+</div>

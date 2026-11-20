@@ -1,0 +1,60 @@
+@let t = template();
+@let v = vm();
+<div [class]="'site s-' + t.sectionStyle + ' pattern-' + t.theme.pattern" [style]="themeVars()">
+  <nav class="site-nav">
+    <span class="mono">{{ v.brideInitial }} <em>&amp;</em> {{ v.groomInitial }}</span>
+    @if (mode() === 'full') {
+      <div class="links">
+        @for (link of navLinks; track link.id) {
+          <button type="button" (click)="scrollTo(link.id)">{{ link.label }}</button>
+        }
+      </div>
+      <button type="button" class="rsvp" (click)="scrollTo('rsvp')">RSVP</button>
+    } @else {
+      <span class="rsvp">RSVP</span>
+    }
+  </nav>
+
+  <div class="hero-band">
+    @switch (t.hero) {
+      @case ('frame') { <app-frame-hero [vm]="v" [template]="t" /> }
+      @case ('split') { <app-split-hero [vm]="v" [template]="t" /> }
+      @case ('fullbleed') { <app-fullbleed-hero [vm]="v" [template]="t" /> }
+      @case ('arch') { <app-arch-hero [vm]="v" [template]="t" /> }
+      @case ('seal') { <app-seal-hero [vm]="v" [template]="t" /> }
+      @case ('editorial') { <app-editorial-hero [vm]="v" [template]="t" /> }
+      @case ('curtain') { <app-curtain-hero [vm]="v" [template]="t" /> }
+      @case ('wreath') { <app-wreath-hero [vm]="v" [template]="t" /> }
+      @case ('starry') { <app-starry-hero [vm]="v" [template]="t" /> }
+      @case ('toran') { <app-toran-hero [vm]="v" [template]="t" /> }
+      @case ('polaroid') { <app-polaroid-hero [vm]="v" [template]="t" /> }
+      @case ('kasavu') { <app-kasavu-hero [vm]="v" [template]="t" /> }
+      @case ('marquee') { <app-marquee-hero [vm]="v" [template]="t" /> }
+      @case ('floral') { <app-floral-hero [vm]="v" [template]="t" /> }
+      @case ('lantern') { <app-lantern-hero [vm]="v" [template]="t" /> }
+      @case ('mosque') { <app-mosque-hero [vm]="v" [template]="t" /> }
+      @case ('doors') { <app-doors-hero [vm]="v" [template]="t" /> }
+      @case ('girih') { <app-girih-hero [vm]="v" [template]="t" /> }
+      @case ('scratch') { <app-scratch-hero [vm]="v" [template]="t" [interactive]="mode() === 'full'" /> }
+      @case ('petals') { <app-petals-hero [vm]="v" [template]="t" /> }
+      @case ('scene3d') { <app-scene3d-hero [vm]="v" [template]="t" [interactive]="mode() === 'full'" /> }
+    }
+  </div>
+
+  @if (mode() === 'full') {
+    @for (section of sections; track section; let even = $even) {
+      <div class="band" [class.alt]="even" [attr.data-section]="section" [appRevealOnScroll]="!!t.animated">
+        @switch (section) {
+          @case ('welcome') { <app-welcome-section [vm]="v" [template]="t" /> }
+          @case ('couple') { <app-couple-section [vm]="v" [template]="t" /> }
+          @case ('story') { <app-story-section [vm]="v" [template]="t" /> }
+          @case ('events') { <app-events-section [vm]="v" [template]="t" /> }
+          @case ('gallery') { <app-gallery-section [vm]="v" [template]="t" /> }
+          @case ('venue') { <app-venue-section [vm]="v" [template]="t" /> }
+          @case ('rsvp') { <app-rsvp-section [vm]="v" [template]="t" /> }
+          @case ('footer') { <app-footer-section [vm]="v" [template]="t" /> }
+        }
+      </div>
+    }
+  }
+</div>

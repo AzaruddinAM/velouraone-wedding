@@ -1,0 +1,61 @@
+@use '../hero-base' as hero;
+@include hero.base;
+
+.bloom,
+.bud {
+  position: absolute;
+  pointer-events: none;
+}
+
+.bloom {
+  width: clamp(200px, 40cqw, 380px);
+  opacity: 0.85;
+  animation: sway 7s ease-in-out infinite alternate;
+
+  &.tl { top: -50px; left: -60px; rotate: 135deg; }
+  &.br { bottom: -50px; right: -60px; rotate: -45deg; }
+}
+
+.bud {
+  width: clamp(70px, 14cqw, 130px);
+  opacity: 0.5;
+
+  &.tr { top: 30px; right: 30px; rotate: -150deg; }
+  &.bl { bottom: 30px; left: 30px; rotate: 30deg; }
+}
+
+@keyframes sway {
+  to { transform: rotate(6deg); }
+}
+
+.date-grid {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 18px;
+  width: min(420px, 90%);
+  color: var(--primary);
+
+  span {
+    padding: 8px 0;
+    border-block: 1px solid var(--accent);
+    font-family: var(--f-heading);
+    font-size: 13px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
+  strong {
+    display: grid;
+    font-family: var(--f-heading);
+    font-size: 56px;
+    font-weight: 400;
+    line-height: 1;
+
+    small {
+      font-size: 12px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+    }
+  }
+}

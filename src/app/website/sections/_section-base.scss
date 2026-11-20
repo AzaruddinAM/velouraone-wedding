@@ -1,0 +1,155 @@
+// Shared look for every website section.
+// Colours come from the "band" variables set by WeddingWebsite (they alternate per section):
+//   --band-bg  --band-ink  --band-head  --band-accent  --band-soft  --band-card
+// Four looks are selected by the host class: s-classic | s-cards | s-editorial | s-bold.
+
+@mixin base {
+  :host {
+    display: block;
+    color: var(--band-ink);
+  }
+
+  .section {
+    max-width: 1040px;
+    margin: 0 auto;
+    padding: 72px 22px;
+  }
+
+  // ----- Section heading -------------------------------------------------
+  .head {
+    margin-bottom: 36px;
+    text-align: center;
+
+    .num { display: none; }
+
+    .ornament {
+      display: block;
+      width: 46px;
+      margin: 0 auto 10px;
+      color: var(--band-accent);
+    }
+
+    .kicker {
+      margin: 0;
+      font-family: var(--f-body);
+      font-size: 12px;
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      color: var(--band-accent);
+    }
+
+    h2 {
+      margin: 6px 0 0;
+      font-family: var(--f-script);
+      font-size: 46px;
+      font-weight: 400;
+      line-height: 1.1;
+      color: var(--band-head);
+    }
+  }
+
+  p { margin: 0; }
+
+  .muted { color: var(--band-soft); }
+
+  .card {
+    padding: 22px 18px;
+    border-block: 1px solid color-mix(in srgb, var(--band-accent) 55%, transparent);
+  }
+
+  .site-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    border: 1px solid var(--band-head);
+    border-radius: 999px;
+    background: var(--band-head);
+    color: var(--band-bg);
+    font: 600 14px var(--f-body);
+    letter-spacing: 0.04em;
+    text-decoration: none;
+    cursor: pointer;
+
+    &.outline {
+      background: transparent;
+      color: var(--band-head);
+    }
+  }
+
+  // ----- Cards look -------------------------------------------------------
+  :host(.s-cards) {
+    .head h2 {
+      font-family: var(--f-heading);
+      font-size: 34px;
+    }
+
+    .card {
+      border: 0;
+      border-radius: 22px;
+      background: var(--band-card);
+      box-shadow: 0 12px 30px rgb(0 0 0 / 0.08);
+    }
+  }
+
+  // ----- Editorial look ---------------------------------------------------
+  :host(.s-editorial) {
+    .head {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      align-items: end;
+      gap: 4px 18px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--band-ink);
+      text-align: left;
+
+      .ornament { display: none; }
+
+      .num {
+        display: block;
+        grid-row: span 2;
+        font-family: var(--f-heading);
+        font-size: 64px;
+        font-weight: 300;
+        line-height: 0.85;
+        color: var(--band-accent);
+      }
+
+      h2 {
+        font-family: var(--f-heading);
+        font-size: 34px;
+        letter-spacing: 0.03em;
+        text-transform: uppercase;
+      }
+    }
+
+    .card {
+      border: 0;
+      border-left: 3px solid var(--band-accent);
+      text-align: left;
+    }
+
+    .site-btn { border-radius: 0; }
+  }
+
+  // ----- Bold look --------------------------------------------------------
+  :host(.s-bold) {
+    .head h2 {
+      font-family: var(--f-heading);
+      font-size: 44px;
+      text-transform: uppercase;
+    }
+
+    .card {
+      border: 3px solid var(--band-head);
+      border-radius: 6px;
+      box-shadow: 7px 7px 0 var(--band-head);
+    }
+
+    .site-btn {
+      border-width: 3px;
+      border-radius: 6px;
+      box-shadow: 4px 4px 0 var(--band-accent);
+    }
+  }
+}

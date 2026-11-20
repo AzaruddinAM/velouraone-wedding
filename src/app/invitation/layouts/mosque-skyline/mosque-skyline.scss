@@ -1,0 +1,75 @@
+@use '../layout-base' as base;
+@include base.base;
+@include base.nikah;
+
+.layout {
+  background: linear-gradient(180deg, var(--bg) 0%, var(--surface) 70%, color-mix(in srgb, var(--accent) 35%, var(--surface)) 100%);
+  --particle: var(--primary);
+}
+
+// The crescent rises over the domes when the card opens.
+.moon {
+  position: absolute;
+  top: 6cqw;
+  right: 10cqw;
+  width: 15cqw;
+  color: var(--primary);
+  filter: drop-shadow(0 0 4cqw color-mix(in srgb, var(--primary) 70%, transparent));
+  animation: moonrise 3s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+@keyframes moonrise {
+  from { transform: translateY(30cqw) scale(0.8); opacity: 0; }
+}
+
+.content {
+  position: relative;
+  z-index: 4;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.4cqw;
+  padding: 20cqw 11cqw 0;
+}
+
+.names {
+  font-size: 11cqw;
+}
+
+.time {
+  font-family: var(--f-heading);
+  font-size: 3cqw;
+  color: var(--primary);
+}
+
+.skyline {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  z-index: 3;
+
+  .far {
+    fill: color-mix(in srgb, var(--ink) 18%, var(--surface));
+    opacity: 0.6;
+  }
+
+  .near {
+    fill: color-mix(in srgb, #000 55%, var(--surface));
+  }
+
+  .crest {
+    fill: var(--accent);
+  }
+
+  .window {
+    fill: var(--accent);
+    animation: window-glow 3s ease-in-out infinite;
+  }
+}
+
+@keyframes window-glow {
+  0%, 100% { opacity: 0.45; }
+  50% { opacity: 1; }
+}

@@ -1,0 +1,34 @@
+@let v = vm();
+<div class="layout">
+  <app-motif class="motif bloom top-left" [name]="template().motif" />
+  <app-motif class="motif bloom bottom-right" [name]="template().motif" />
+  <app-motif class="motif bud top-right" [name]="template().motif" />
+  <app-motif class="motif bud bottom-left" [name]="template().motif" />
+
+  <div class="content">
+    <p class="opening">{{ v.opening }}</p>
+    @if (v.familyLine) {
+      <p class="family">{{ v.familyLine }}</p>
+    }
+    <p class="invite">{{ v.invitation }}</p>
+
+    <h2 class="names stacked">
+      <span>{{ v.bride }}</span>
+      <span class="amp">&amp;</span>
+      <span>{{ v.groom }}</span>
+    </h2>
+
+    <div class="date-grid">
+      <span class="side">{{ v.weekday }}</span>
+      <span class="center">
+        <small>{{ v.month }}</small>
+        <strong>{{ v.day }}</strong>
+        <small>{{ v.year }}</small>
+      </span>
+      <span class="side">{{ v.time }}</span>
+    </div>
+
+    <p class="venue">{{ v.venue }}</p>
+    <p class="address">{{ v.address }}</p>
+  </div>
+</div>

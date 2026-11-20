@@ -1,0 +1,21 @@
+@let v = vm();
+<section class="section">
+  <header class="head">
+    <span class="num">04</span>
+    <app-motif class="ornament" [name]="template().motif" />
+    <p class="kicker">Celebrations</p>
+    <h2>Wedding events</h2>
+  </header>
+
+  <div class="events">
+    @for (event of v.events; track event.name; let i = $index) {
+      <article class="card event">
+        <span class="index">{{ i + 1 }}</span>
+        <h3>{{ event.name }}</h3>
+        <p class="date">{{ event.date }}</p>
+        <p class="time">{{ event.time }}</p>
+        <p class="muted">{{ v.venue }}</p>
+      </article>
+    }
+  </div>
+</section>

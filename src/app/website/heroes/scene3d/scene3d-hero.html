@@ -1,0 +1,20 @@
+@let v = vm();
+<app-three-scene class="stage" [kind]="sceneKind()" [theme]="template().theme" [live]="interactive()" />
+<span class="scrim" aria-hidden="true"></span>
+
+<div class="hero stagger">
+  <p class="arabic glow">{{ arabic() }}</p>
+  @if (arabicMeaning()) {
+    <p class="arabic-meaning">{{ arabicMeaning() }}</p>
+  }
+  <p class="kicker">{{ v.opening }}</p>
+  <h1 class="names glow">{{ v.bride }}<span class="amp">&amp;</span>{{ v.groom }}</h1>
+  <p class="date">{{ v.weekday }} · {{ v.dateLong }} · {{ v.time }}</p>
+  <p class="place">{{ v.venue }}</p>
+  <app-countdown class="hero-countdown" [date]="v.isoDate" [time]="v.rawTime" />
+  @if (interactive()) {
+    <p class="explore"><span aria-hidden="true">✦</span> Move your mouse or tilt your phone to explore in 3D</p>
+  }
+</div>
+
+<span class="badge-3d" aria-hidden="true">3D</span>

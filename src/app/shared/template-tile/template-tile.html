@@ -1,0 +1,54 @@
+@let t = template();
+<div class="tile">
+  <a class="preview" [routerLink]="link()" [attr.aria-label]="'Open ' + t.name + ' ' + t.style">
+    @defer (on viewport) {
+      <app-design-preview [design]="t" [details]="details()" />
+    } @placeholder {
+      <div class="skeleton" [style.background]="t.theme.bg"></div>
+    }
+    <span class="code">{{ t.code }}</span>
+    @if (t.threeD) {
+      <span class="feature-badge three-d">🧊 3D</span>
+    } @else if (t.scratch) {
+      <span class="feature-badge">🪙 Scratch</span>
+    } @else if (t.animated) {
+      <span class="feature-badge">✨ Animated</span>
+    }
+    @if (t.isNew) {
+      <span class="flag new">New</span>
+    } @else if (t.popular) {
+      <span class="flag">Popular</span>
+    }
+    <span class="hover-hint"><app-icon name="eye" /> Preview</span>
+  </a>
+
+  <button
+    type="button"
+    class="heart"
+    [class.active]="isShortlisted()"
+    [attr.aria-pressed]="isShortlisted()"
+    [attr.aria-label]="isShortlisted() ? 'Remove from shortlist' : 'Add to shortlist'"
+    (click)="toggleShortlist()"
+  >
+    <app-icon [name]="isShortlisted() ? 'heart-filled' : 'heart'" />
+  </button>
+
+  <div class="meta">
+    <div>
+      <h3>{{ t.name }}</h3>
+      <p>{{ t.style }} · {{ catalog.categoryLabel(t.category) }}</p>
+    </div>
+    <div class="swatches" aria-hidden="true">
+      <span [style.background]="t.theme.bg"></span>
+      <span [style.background]="t.theme.primary"></span>
+      <span [style.background]="t.theme.accent"></span>
+    </div>
+  </div>
+
+  <div class="actions">
+    <a class="btn btn-ghost btn-sm" [routerLink]="link()">Customise</a>
+    <button type="button" class="btn btn-whatsapp btn-sm" (click)="order()">
+      <app-icon name="whatsapp" /> Order
+    </button>
+  </div>
+</div>

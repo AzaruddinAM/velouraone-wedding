@@ -1,0 +1,47 @@
+@use '../hero-base' as hero;
+@include hero.base;
+@include hero.nikah;
+
+:host {
+  background:
+    radial-gradient(ellipse at 50% 30%, color-mix(in srgb, var(--accent) 26%, transparent), transparent 60%),
+    var(--bg);
+}
+
+.hang {
+  position: absolute;
+  top: 0;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transform-origin: top center;
+  animation: swing 3.4s ease-in-out infinite alternate;
+
+  .cord {
+    flex: 1;
+    width: 1.5px;
+    background: var(--accent);
+  }
+
+  .lamp {
+    color: var(--accent);
+    filter: drop-shadow(0 0 14px color-mix(in srgb, var(--accent) 85%, transparent));
+    animation: flicker 2.6s ease-in-out infinite;
+  }
+}
+
+@keyframes swing {
+  from { transform: rotate(-6deg); }
+  to { transform: rotate(6deg); }
+}
+
+@keyframes flicker {
+  0%, 100% { opacity: 1; }
+  45% { opacity: 0.8; }
+}
+
+.hero {
+  z-index: 4;
+  padding: 190px 48px 70px;
+}

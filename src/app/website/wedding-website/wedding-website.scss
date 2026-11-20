@@ -1,0 +1,157 @@
+:host {
+  display: block;
+}
+
+.site {
+  container: site / inline-size;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--f-body);
+  font-size: 16px;
+  line-height: 1.55;
+  text-align: left;
+}
+
+// ----- Navigation ---------------------------------------------------------
+.site-nav {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  height: 56px;
+  padding: 0 20px;
+  background: color-mix(in srgb, var(--bg) 88%, transparent);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid color-mix(in srgb, var(--accent) 35%, transparent);
+  color: var(--primary);
+
+  .mono {
+    font-family: var(--f-heading);
+    font-size: 20px;
+    letter-spacing: 0.08em;
+
+    em {
+      font-family: var(--f-script);
+      font-style: normal;
+      color: var(--accent);
+    }
+  }
+
+  .links {
+    display: none;
+    gap: 22px;
+
+    @container site (min-width: 760px) {
+      display: flex;
+    }
+
+    button {
+      padding: 4px 0;
+      border: 0;
+      background: none;
+      color: var(--ink);
+      font: 500 14px var(--f-body);
+      letter-spacing: 0.06em;
+      cursor: pointer;
+
+      &:hover {
+        color: var(--accent);
+      }
+    }
+  }
+
+  .rsvp {
+    padding: 7px 18px;
+    border: 1px solid var(--accent);
+    border-radius: 999px;
+    background: var(--accent);
+    color: var(--bg);
+    font: 600 13px var(--f-body);
+    letter-spacing: 0.12em;
+    cursor: pointer;
+  }
+}
+
+.s-editorial .site-nav .rsvp,
+.s-bold .site-nav .rsvp {
+  border-radius: 0;
+}
+
+// ----- Alternating section "bands" -----------------------------------------
+// Sections read these variables, so one stylesheet works for every palette.
+.band {
+  --band-bg: var(--bg);
+  --band-ink: var(--ink);
+  --band-head: var(--primary);
+  --band-accent: var(--accent);
+  --band-soft: var(--soft);
+  --band-card: var(--surface);
+  background: var(--band-bg);
+  scroll-margin-top: 56px;
+
+  &.alt {
+    --band-bg: var(--surface);
+    --band-card: var(--bg);
+  }
+}
+
+// Bold look: every other band is a solid block of the primary colour.
+.s-bold .band.alt {
+  --band-bg: var(--primary);
+  --band-ink: var(--bg);
+  --band-head: var(--bg);
+  --band-soft: color-mix(in srgb, var(--bg) 80%, transparent);
+  --band-card: transparent;
+}
+
+// ----- Light textures on plain bands -----------------------------------
+$tint: color-mix(in srgb, var(--accent) 14%, transparent);
+
+.pattern-dots .band:not(.alt) {
+  background-image: radial-gradient($tint 2px, transparent 2.5px);
+  background-size: 22px 22px;
+}
+
+.pattern-grid .band:not(.alt) {
+  background-image:
+    linear-gradient($tint 1px, transparent 1px),
+    linear-gradient(90deg, $tint 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+.pattern-damask .band:not(.alt) {
+  background-image: radial-gradient(circle, $tint 0 5px, transparent 6px);
+  background-size: 44px 44px;
+}
+
+.pattern-paper .band:not(.alt) {
+  background-image:
+    radial-gradient(circle at 15% 20%, rgb(255 255 255 / 0.35), transparent 35%),
+    radial-gradient(circle at 85% 80%, $tint, transparent 45%);
+}
+
+.pattern-sunburst .band:not(.alt) {
+  background-image: repeating-conic-gradient(from 0deg at 50% 0%, $tint 0deg 3deg, transparent 3deg 9deg);
+}
+
+// ----- Scroll-reveal for animated designs ------------------------------------
+.band.reveal > * {
+  opacity: 0;
+  transform: translateY(48px);
+  transition: opacity 0.9s ease, transform 0.9s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.band.reveal.in-view > * {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .band.reveal > * {
+    opacity: 1;
+    transform: none;
+  }
+}

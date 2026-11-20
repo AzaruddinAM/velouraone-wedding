@@ -1,0 +1,115 @@
+@use '../layout-base' as base;
+@include base.base;
+@include base.nikah;
+
+.layout {
+  justify-content: center;
+  padding: 8cqw 7cqw;
+  --particle: var(--accent);
+}
+
+// Ticket with side notches (cut with radial masks) and a perforated tear line.
+.ticket {
+  position: relative;
+  z-index: 4;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  border-radius: 3cqw;
+  background: var(--surface);
+  box-shadow: 0 2cqw 5cqw rgb(0 0 0 / 0.25), inset 0 0 0 0.5cqw var(--accent);
+  mask:
+    radial-gradient(circle 4cqw at 0 64%, transparent 98%, #000) top / 100% 100%,
+    radial-gradient(circle 4cqw at 100% 64%, transparent 98%, #000) top / 100% 100%;
+  mask-composite: intersect;
+}
+
+.top {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.3cqw;
+  padding: 8cqw 8cqw 5cqw;
+}
+
+.crest {
+  width: 10cqw;
+  animation: spin 16s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.names {
+  font-size: 10.5cqw;
+}
+
+.perforation {
+  height: 0;
+  margin: 0 6cqw;
+  border-top: 0.5cqw dashed color-mix(in srgb, var(--accent) 70%, transparent);
+}
+
+.bottom {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2cqw;
+  padding: 5cqw 7cqw 8cqw;
+}
+
+.hint {
+  font-family: var(--f-heading);
+  font-size: 2.8cqw;
+  letter-spacing: 0.06em;
+  color: var(--primary);
+
+  .hand {
+    display: inline-block;
+    animation: tap 1.2s ease-in-out infinite;
+  }
+}
+
+@keyframes tap {
+  50% { transform: translateY(-0.8cqw); }
+}
+
+.strip {
+  width: 100%;
+  min-height: 24cqw;
+  overflow: hidden;
+  border-radius: 2cqw;
+  --foil-a: var(--accent);
+  --foil-b: #fdf1cf;
+  --foil-ink: var(--primary);
+}
+
+.strip-face {
+  display: grid;
+  place-content: center;
+  gap: 1cqw;
+  min-height: 24cqw;
+  padding: 3cqw;
+  border: 0.3cqw dashed var(--accent);
+  border-radius: 2cqw;
+  background: color-mix(in srgb, var(--accent) 12%, var(--surface));
+  text-align: center;
+
+  strong {
+    font-family: var(--f-heading);
+    font-size: 4cqw;
+    font-weight: 600;
+    color: var(--primary);
+  }
+
+  span {
+    font-size: 3cqw;
+    color: var(--ink);
+  }
+
+  small {
+    font-size: 2.4cqw;
+    color: var(--soft);
+  }
+}

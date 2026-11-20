@@ -1,0 +1,114 @@
+@use '../hero-base' as hero;
+@include hero.base;
+
+.toran {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 2;
+  display: flex;
+  justify-content: space-around;
+  padding: 0 30px;
+
+  .rope {
+    position: absolute;
+    top: 8px;
+    left: 0;
+    right: 0;
+    height: 12px;
+    border-radius: 99px;
+    background: repeating-linear-gradient(90deg, var(--accent) 0 12px, var(--primary) 12px 24px);
+  }
+}
+
+.string {
+  position: relative;
+  top: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  i {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 35%, #ffd36b, var(--accent) 60%, #b4600a);
+
+    &:nth-child(even) {
+      background: radial-gradient(circle at 35% 35%, #ff9d6b, var(--primary) 70%);
+    }
+  }
+
+  b {
+    width: 16px;
+    height: 22px;
+    margin-top: -2px;
+    background: #4f8a3a;
+    clip-path: polygon(50% 100%, 0 0, 100% 0);
+  }
+}
+
+.pillar {
+  position: absolute;
+  top: 20px;
+  bottom: 0;
+  width: 26px;
+  background:
+    repeating-linear-gradient(180deg, transparent 0 16px, color-mix(in srgb, var(--primary) 40%, transparent) 16px 19px),
+    linear-gradient(90deg, var(--surface), color-mix(in srgb, var(--accent) 45%, var(--surface)), var(--surface));
+  border-inline: 2px solid var(--accent);
+
+  &.left { left: 12px; }
+  &.right { right: 12px; }
+}
+
+.hero {
+  padding: 150px 56px 60px;
+  gap: 10px;
+}
+
+.emblem {
+  width: 84px;
+}
+
+.kicker {
+  font-weight: 700;
+  color: var(--primary);
+}
+
+.names.heading {
+  font-family: var(--f-heading);
+  font-size: clamp(36px, 8cqw, 78px);
+  letter-spacing: 0.05em;
+}
+
+.weds {
+  font-family: var(--f-script);
+  font-size: clamp(30px, 6cqw, 48px);
+  line-height: 1;
+  color: var(--accent);
+}
+
+.muhurtham {
+  display: grid;
+  gap: 4px;
+  margin: 10px 0;
+  padding: 12px 22px;
+  border: 2px dashed var(--accent);
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--surface) 75%, transparent);
+  color: var(--primary);
+
+  span {
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  strong {
+    font-family: var(--f-heading);
+    font-weight: 600;
+  }
+}

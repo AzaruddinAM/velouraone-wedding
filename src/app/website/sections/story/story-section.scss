@@ -1,0 +1,52 @@
+@use '../section-base' as base;
+@include base.base;
+
+.timeline {
+  display: grid;
+  gap: 22px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  @container site (min-width: 720px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.moment {
+  display: grid;
+  gap: 8px;
+  text-align: center;
+}
+
+.year {
+  justify-self: center;
+  padding: 4px 14px;
+  border-radius: 999px;
+  background: var(--band-accent);
+  color: var(--band-bg);
+  font: 600 13px var(--f-body);
+  letter-spacing: 0.1em;
+}
+
+h3 {
+  margin: 0;
+  font-family: var(--f-heading);
+  font-size: 22px;
+  font-weight: 500;
+  color: var(--band-head);
+}
+
+:host(.s-editorial) .moment {
+  text-align: left;
+}
+
+:host(.s-editorial) .year {
+  justify-self: start;
+  padding: 0;
+  border-radius: 0;
+  background: none;
+  color: var(--band-accent);
+  font-family: var(--f-heading);
+  font-size: 28px;
+}

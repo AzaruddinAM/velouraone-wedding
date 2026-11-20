@@ -1,0 +1,127 @@
+@if (template(); as t) {
+  @let product = products[t.kind];
+  <div class="container page">
+    <nav class="crumbs" aria-label="Breadcrumb">
+      <a routerLink="/">Home</a> / <a [routerLink]="product.basePath">{{ product.label }}</a> / <span>{{ t.name }}</span>
+    </nav>
+
+    <div class="layout">
+      <!-- Live preview -->
+      <section class="preview-col" aria-label="Live preview">
+        <div class="preview-sticky">
+          @if (t.kind === 'card') {
+            <div class="preview-frame">
+              <app-invitation-card [template]="t" [details]="details()" [interactive]="true" />
+            </div>
+          } @else {
+            <div class="device-switch" role="tablist" aria-label="Preview device">
+              <button type="button" role="tab" [class.active]="device() === 'phone'" [attr.aria-selected]="device() === 'phone'"
+                (click)="device.set('phone')">Phone</button>
+              <button type="button" role="tab" [class.active]="device() === 'desktop'" [attr.aria-selected]="device() === 'desktop'"
+                (click)="device.set('desktop')">Desktop</button>
+            </div>
+
+            @if (device() === 'phone') {
+              <div class="phone">
+                <span class="notch" aria-hidden="true"></span>
+                <app-scaled-frame [designWidth]="390" [designHeight]="800" [scrollable]="true">
+                  <app-wedding-website [template]="t" [details]="details()" heroHeight="744px" />
+                </app-scaled-frame>
+              </div>
+            } @else {
+              <div class="laptop">
+                <div class="laptop-bar" aria-hidden="true"><i></i><i></i><i></i></div>
+                <app-scaled-frame [designWidth]="1280" [designHeight]="820" [scrollable]="true">
+                  <app-wedding-website [template]="t" [details]="details()" heroHeight="764px" />
+                </app-scaled-frame>
+              </div>
+            }
+            <p class="scroll-hint">Scroll inside the preview to see every section</p>
+          }
+
+          @if (neighbours(); as n) {
+            <div class="stepper">
+              <a class="btn btn-ghost btn-sm" [routerLink]="n.previous.link">
+                <app-icon name="arrow-left" /> {{ n.previous.code }}
+              </a>
+              <a class="btn btn-ghost btn-sm" [routerLink]="links()!.demo">
+                <app-icon name="expand" /> {{ t.kind === 'card' ? 'Full-screen demo' : 'Open full website' }}
+              </a>
+              <a class="btn btn-ghost btn-sm" [routerLink]="n.next.link">
+                {{ n.next.code }} <app-icon name="arrow-right" />
+              </a>
+            </div>
+          }
+        </div>
+      </section>
+
+      <!-- Info + personalise -->
+      <section class="info-col">
+        <span class="badge">{{ t.code }} · {{ product.label }} · {{ catalog.categoryLabel(t.category) }}</span>
+        <h1>{{ t.name }} <span>{{ t.style }}</span></h1>
+        <p class="description">{{ t.description }}</p>
+
+        <ul class="tags">
+          @for (tag of t.tags; track tag) {
+            <li>{{ tag }}</li>
+          }
+          @if (t.kind === 'website') {
+            <li>{{ t.sectionStyle }} sections</li>
+          } @else {
+            <li>{{ t.supportsPhoto ? 'photo frame' : 'monogram' }}</li>
+          }
+        </ul>
+
+        <div class="palette" aria-label="Colour palette">
+          @for (c of [t.theme.bg, t.theme.primary, t.theme.accent, t.theme.ink]; track $index) {
+            <span [style.background]="c" [title]="c"></span>
+          }
+        </div>
+
+        <div class="buy">
+          <button type="button" class="btn btn-whatsapp btn-lg" (click)="order()">
+            <app-icon name="whatsapp" /> Order {{ t.code }} on WhatsApp
+          </button>
+          <button type="button" class="btn btn-ghost btn-lg heart" [class.active]="isShortlisted()" (click)="toggleShortlist()"
+            [attr.aria-pressed]="isShortlisted()">
+            <app-icon [name]="isShortlisted() ? 'heart-filled' : 'heart'" />
+            {{ isShortlisted() ? 'Shortlisted' : 'Shortlist' }}
+          </button>
+        </div>
+
+        <div class="card-box" id="personalise">
+          <h2>Personalise your {{ t.kind === 'card' ? 'invitation' : 'website' }}</h2>
+          <p class="hint">Changes show instantly on the preview – and on every other design too.</p>
+          <app-personalise-form [showsPhoto]="t.supportsPhoto" />
+        </div>
+
+        <ul class="perks">
+          @for (perk of perks(); track perk) {
+            <li><app-icon name="check" /> {{ perk }}</li>
+          }
+        </ul>
+      </section>
+    </div>
+
+    <section class="related">
+      <h2>You may also like</h2>
+      <div class="tile-grid">
+        @for (r of related(); track r.id) {
+          <app-template-tile [template]="r" />
+        }
+      </div>
+    </section>
+  </div>
+
+  <!-- Sticky order bar on phones -->
+  <div class="mobile-bar">
+    <span><strong>{{ t.code }}</strong> {{ t.style }}</span>
+    <button type="button" class="btn btn-whatsapp" (click)="order()"><app-icon name="whatsapp" /> Order</button>
+  </div>
+} @else {
+  <div class="container not-found">
+    <h1>Design not found</h1>
+    <p>This design may have been renamed. Browse all designs to find it.</p>
+    <a class="btn btn-primary" routerLink="/">Back to home</a>
+  </div>
+}

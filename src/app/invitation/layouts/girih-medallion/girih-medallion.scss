@@ -1,0 +1,109 @@
+@use '../layout-base' as base;
+@include base.base;
+@include base.nikah;
+
+.big-star {
+  position: absolute;
+  top: 18%;
+  left: 50%;
+  width: 120cqw;
+  margin-left: -60cqw;
+  opacity: 0.12;
+  animation: turn 60s linear infinite;
+}
+
+@keyframes turn {
+  to { transform: rotate(360deg); }
+}
+
+.tiles {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  align-content: space-between;
+  padding: 2cqw;
+  color: var(--accent);
+  opacity: 0.3;
+
+  app-motif {
+    width: 9cqw;
+    margin: auto;
+  }
+
+  // Only the top and bottom rows are drawn – the middle stays clear for text.
+  app-motif:nth-child(n + 7):nth-child(-n + 30) {
+    visibility: hidden;
+  }
+}
+
+.content {
+  position: relative;
+  z-index: 2;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.6cqw;
+  padding: 16cqw 9cqw;
+}
+
+// Octagon medallion with a double gold edge.
+$octagon: polygon(30% 0, 70% 0, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0 70%, 0 30%);
+
+.medallion {
+  width: 72cqw;
+  aspect-ratio: 1;
+  padding: 0.8cqw;
+  clip-path: $octagon;
+  background: linear-gradient(135deg, var(--accent), var(--primary), var(--accent));
+  animation: shine 6s linear infinite;
+  background-size: 300% 300%;
+}
+
+@keyframes shine {
+  to { background-position: 300% 300%; }
+}
+
+.medallion-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.2cqw;
+  height: 100%;
+  padding: 8cqw;
+  clip-path: $octagon;
+  background: var(--surface);
+}
+
+.names {
+  font-size: 9.5cqw;
+}
+
+.cells {
+  display: flex;
+  gap: 2cqw;
+  margin-top: 1cqw;
+
+  span {
+    display: grid;
+    min-width: 17cqw;
+    padding: 1.4cqw 2cqw;
+    border: 0.3cqw solid var(--accent);
+    border-radius: 1.4cqw;
+    font-family: var(--f-heading);
+    font-size: 4.2cqw;
+    line-height: 1.1;
+    color: var(--primary);
+  }
+
+  small {
+    font-family: var(--f-body);
+    font-size: 2cqw;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--soft);
+  }
+}

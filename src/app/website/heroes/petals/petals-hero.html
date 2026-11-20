@@ -1,0 +1,23 @@
+@let v = vm();
+<app-falling-particles kind="petal" [count]="26" />
+<svg class="ogee" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+  <path d="M6 100 V40 C6 22 30 16 50 3 C70 16 94 22 94 40 V100" />
+</svg>
+
+<div class="hero stagger">
+  <app-motif class="motif crest" [name]="template().motif" />
+  <p class="arabic">{{ arabic() }}</p>
+  <p class="kicker">{{ v.opening }}</p>
+  @if (v.familyLine) {
+    <p class="place">{{ v.familyLine }}</p>
+  }
+  <h1 class="names">
+    <span class="word">{{ v.bride }}</span>
+    <span class="amp">&amp;</span>
+    <span class="word">{{ v.groom }}</span>
+  </h1>
+  <div class="rule"></div>
+  <p class="date">{{ v.weekday }} · {{ v.dateLong }}</p>
+  <p class="place">{{ v.venue }}</p>
+  <app-countdown class="hero-countdown" [date]="v.isoDate" [time]="v.rawTime" />
+</div>

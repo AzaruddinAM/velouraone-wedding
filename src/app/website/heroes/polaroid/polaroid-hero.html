@@ -1,0 +1,24 @@
+@let v = vm();
+<div class="hero">
+  <p class="hello">{{ v.opening }}!</p>
+
+  <div class="pile">
+    @for (shot of shots; track shot.id) {
+      <figure class="polaroid" [style.rotate.deg]="shot.rotate" [style.translate]="shot.offset">
+        <span class="tape"></span>
+        <div class="pic">
+          @if (v.photoUrl) {
+            <img [src]="v.photoUrl" alt="" [style.object-position]="shot.focus" [style.filter]="shot.filter" />
+          } @else {
+            <app-motif [name]="template().motif" />
+          }
+        </div>
+        <figcaption>{{ shot.caption }}</figcaption>
+      </figure>
+    }
+  </div>
+
+  <h1 class="names">{{ v.bride }} + {{ v.groom }}</h1>
+  <p class="sub">are getting married!</p>
+  <p class="date">{{ v.weekday }} · {{ v.dateLong }} · {{ v.venue }}</p>
+</div>

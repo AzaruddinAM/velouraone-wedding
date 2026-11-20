@@ -1,0 +1,34 @@
+@let v = vm();
+<div class="layout">
+  <svg class="ogee" viewBox="0 0 100 140" aria-hidden="true">
+    <path class="outer draw" d="M9 134 V56 C9 32 34 24 50 9 C66 24 91 32 91 56 V134 Z" />
+    <path class="inner draw" d="M13 130 V58 C13 37 36 29 50 15 C64 29 87 37 87 58 V130 Z" />
+  </svg>
+
+  @for (l of lanterns; track $index) {
+    <span class="hang" [style.left.%]="l.x" [style.height.cqw]="l.length" [style.animation-delay.s]="l.delay">
+      <i class="cord"></i>
+      <app-motif class="lamp" name="lantern" [style.width.cqw]="l.size" />
+    </span>
+  }
+
+  <app-falling-particles kind="spark" [count]="10" />
+
+  <div class="content stagger">
+    <p class="arabic glow-text">{{ arabic() }}</p>
+    @if (arabicMeaning()) {
+      <p class="arabic-meaning">{{ arabicMeaning() }}</p>
+    }
+    <p class="opening">{{ v.opening }}</p>
+    @if (v.familyLine) {
+      <p class="family">{{ v.familyLine }}</p>
+    }
+    <p class="invite">{{ v.invitation }}</p>
+    <h2 class="names glow-text">{{ v.bride }}<span class="amp">&amp;</span>{{ v.groom }}</h2>
+    <app-motif class="motif divider" name="star8" />
+    <p class="date-line">{{ v.weekday }} · {{ v.dateLong }}</p>
+    <p class="time">after {{ v.time }}</p>
+    <p class="venue">{{ v.venue }}</p>
+    <p class="address">{{ v.address }}</p>
+  </div>
+</div>

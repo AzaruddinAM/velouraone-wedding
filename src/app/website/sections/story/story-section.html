@@ -1,0 +1,18 @@
+<section class="section">
+  <header class="head">
+    <span class="num">03</span>
+    <app-motif class="ornament" [name]="template().motif" />
+    <p class="kicker">Our story</p>
+    <h2>How it all began</h2>
+  </header>
+
+  <ol class="timeline">
+    @for (moment of vm().story; track moment.title) {
+      <li class="card moment">
+        <span class="year">{{ moment.year }}</span>
+        <h3>{{ moment.title }}</h3>
+        <p class="muted">{{ moment.text }}</p>
+      </li>
+    }
+  </ol>
+</section>

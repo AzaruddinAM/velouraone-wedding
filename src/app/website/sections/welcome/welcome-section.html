@@ -1,0 +1,25 @@
+@let v = vm();
+<section class="section">
+  <header class="head">
+    <span class="num">01</span>
+    <app-motif class="ornament" [name]="template().motif" />
+    <p class="kicker">{{ v.opening }}</p>
+    <h2>You're invited</h2>
+  </header>
+
+  <div class="card welcome-card">
+    @if (template().wording.arabic) {
+      <p class="arabic">{{ template().wording.arabic }}</p>
+      @if (template().wording.arabicMeaning) {
+        <p class="muted meaning">{{ template().wording.arabicMeaning }}</p>
+      }
+    }
+    @if (v.familyLine) {
+      <p class="family muted">{{ v.familyLine }}</p>
+    }
+    <p class="invite">{{ v.invitation }}</p>
+    <p class="names">{{ v.bride }} <span>&amp;</span> {{ v.groom }}</p>
+    <p class="when">{{ v.weekday }}, {{ v.dateLong }} · {{ v.time }}</p>
+    <p class="where muted">{{ v.venue }}, {{ v.address }}</p>
+  </div>
+</section>

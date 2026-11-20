@@ -1,0 +1,27 @@
+@let v = vm();
+<div class="toran" aria-hidden="true">
+  <span class="rope"></span>
+  @for (drop of drops; track $index) {
+    <span class="string">
+      @for (bead of drop; track bead) {
+        <i></i>
+      }
+      <b></b>
+    </span>
+  }
+</div>
+<span class="pillar left" aria-hidden="true"></span>
+<span class="pillar right" aria-hidden="true"></span>
+
+<div class="hero">
+  <app-motif class="motif emblem" [name]="template().motif" />
+  <p class="kicker">{{ v.opening }}</p>
+  <h1 class="names heading">{{ v.bride }}</h1>
+  <span class="weds">weds</span>
+  <h1 class="names heading">{{ v.groom }}</h1>
+  <div class="muhurtham">
+    <span>Shubh Muhurtham</span>
+    <strong>{{ v.weekday }}, {{ v.dateLong }} · {{ v.time }}</strong>
+  </div>
+  <p class="place">{{ v.venue }}, {{ v.address }}</p>
+</div>

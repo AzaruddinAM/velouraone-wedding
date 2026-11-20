@@ -1,0 +1,138 @@
+@use '../layout-base' as base;
+@include base.base;
+
+.layout {
+  align-items: flex-start;
+  text-align: left;
+  padding: 9cqw 8cqw 8cqw;
+  overflow: hidden;
+}
+
+.block {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 38%;
+  background: var(--surface);
+  clip-path: polygon(0 18%, 100% 0, 100% 100%, 0 100%);
+}
+
+.circle {
+  position: absolute;
+  border-radius: 50%;
+
+  &.one {
+    top: -10cqw;
+    right: -12cqw;
+    width: 42cqw;
+    aspect-ratio: 1;
+    background: var(--surface);
+    opacity: 0.9;
+  }
+
+  &.two {
+    top: 46%;
+    left: -6cqw;
+    width: 16cqw;
+    aspect-ratio: 1;
+    border: 1.6cqw solid var(--primary);
+  }
+}
+
+.squiggle {
+  position: absolute;
+  top: 20cqw;
+  right: 8cqw;
+  width: 22cqw;
+  height: 4cqw;
+  background: radial-gradient(circle at 50% 0, transparent 1.4cqw, var(--accent) 1.5cqw 2.3cqw, transparent 2.4cqw) 0 0 / 5cqw 4cqw repeat-x;
+}
+
+.opening {
+  position: relative;
+  padding: 1cqw 3cqw;
+  background: var(--accent);
+  color: var(--bg);
+  font-family: var(--f-body);
+  font-weight: 700;
+  letter-spacing: 0.2em;
+}
+
+.giant {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  margin-top: 8cqw;
+  font-family: var(--f-heading);
+  font-size: 15cqw;
+  font-weight: 400;
+  line-height: 0.95;
+  text-transform: uppercase;
+  color: var(--primary);
+  overflow-wrap: anywhere;
+
+  .and {
+    font-family: var(--f-script);
+    font-size: 11cqw;
+    text-transform: none;
+    color: var(--ink);
+  }
+}
+
+.sticker {
+  position: absolute;
+  top: 54%;
+  right: 8cqw;
+  display: grid;
+  place-items: center;
+  width: 25cqw;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: var(--ink);
+  color: var(--bg);
+  rotate: 12deg;
+  text-align: center;
+
+  app-motif {
+    position: absolute;
+    width: 60%;
+    color: var(--bg);
+    opacity: 0.15;
+  }
+
+  span {
+    position: relative;
+    font-family: var(--f-script);
+    font-size: 5cqw;
+    line-height: 1;
+  }
+}
+
+.bottom {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  gap: 5cqw;
+  width: 100%;
+  margin-top: auto;
+  color: var(--ink);
+}
+
+.big-day {
+  font-family: var(--f-heading);
+  font-size: 9cqw;
+  line-height: 0.95;
+  text-transform: uppercase;
+}
+
+.details {
+  font-family: var(--f-body);
+  font-size: 2.7cqw;
+  line-height: 1.45;
+
+  .where {
+    font-weight: 700;
+    font-size: 3.1cqw;
+  }
+}

@@ -1,0 +1,25 @@
+@let v = vm();
+<app-motif class="motif ring-star one" name="star8" />
+<app-motif class="motif ring-star two" name="star8" />
+@for (row of ['top', 'bottom']; track row) {
+  <div class="tiles" [class]="'tiles ' + row" aria-hidden="true">
+    @for (t of tiles; track $index) {
+      <app-motif name="star8" [style.animation-delay.s]="t.delay" />
+    }
+  </div>
+}
+
+<div class="hero stagger">
+  <p class="arabic">{{ arabic() }}</p>
+  <div class="medallion">
+    <div class="inner">
+      <p class="kicker">{{ v.opening }}</p>
+      <h1 class="names">{{ v.bride }}<span class="amp">&amp;</span>{{ v.groom }}</h1>
+    </div>
+  </div>
+  <p class="date">{{ v.weekday }} · {{ v.dateLong }} · {{ v.time }}</p>
+  <p class="place">{{ v.venue }}</p>
+  @if (arabicMeaning()) {
+    <p class="arabic-meaning">{{ arabicMeaning() }}</p>
+  }
+</div>

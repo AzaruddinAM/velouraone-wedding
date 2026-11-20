@@ -1,0 +1,19 @@
+@let v = vm();
+<div class="backdrop">
+  @if (v.photoUrl) {
+    <img [src]="v.photoUrl" alt="" />
+  } @else {
+    <div class="pattern">
+      @for (i of tiles; track i) {
+        <app-motif [name]="template().motif" />
+      }
+    </div>
+  }
+</div>
+<div class="hero">
+  <p class="kicker">We're getting married</p>
+  <h1 class="names">{{ v.bride }} <span class="amp inline">&amp;</span> {{ v.groom }}</h1>
+  <p class="date">{{ v.weekday }} · {{ v.dateLong }}</p>
+  <p class="place">{{ v.venue }}</p>
+  <span class="scroll-cue" aria-hidden="true"></span>
+</div>

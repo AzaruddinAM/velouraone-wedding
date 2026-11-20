@@ -1,0 +1,154 @@
+// Typography shared by all invitation layouts.
+// Sizes use `cqw` (container query width) so a card looks identical
+// as a 200px thumbnail or a 600px full preview.
+
+@mixin base {
+  :host {
+    position: absolute;
+    inset: 0;
+    display: block;
+  }
+
+  .layout {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .opening {
+    font-family: var(--f-heading);
+    font-size: 2.5cqw;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  .family {
+    font-family: var(--f-body);
+    font-size: 3.3cqw;
+    font-style: italic;
+    color: var(--soft);
+  }
+
+  .invite {
+    font-family: var(--f-body);
+    font-size: 3.3cqw;
+    line-height: 1.35;
+    color: var(--ink);
+    max-width: 80%;
+  }
+
+  .names {
+    font-family: var(--f-script);
+    font-weight: 400;
+    font-size: 11cqw;
+    line-height: 1.05;
+    color: var(--primary);
+    overflow-wrap: anywhere;
+  }
+
+  .amp {
+    display: block;
+    font-family: var(--f-script);
+    font-size: 6.5cqw;
+    line-height: 1;
+    color: var(--accent);
+  }
+
+  .date-line {
+    font-family: var(--f-heading);
+    font-size: 3.2cqw;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--primary);
+  }
+
+  .venue {
+    font-family: var(--f-heading);
+    font-size: 3.3cqw;
+    color: var(--primary);
+    max-width: 82%;
+  }
+
+  .address {
+    font-family: var(--f-body);
+    font-size: 2.8cqw;
+    color: var(--soft);
+    max-width: 80%;
+  }
+
+  .motif {
+    color: var(--accent);
+  }
+
+  .rule {
+    width: 34%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Nikah collection: Arabic calligraphy, pointed (ogee) arch and entrance animation.
+// ---------------------------------------------------------------------------
+@mixin nikah {
+  .arabic {
+    font-family: 'Amiri', 'Aref Ruqaa', serif;
+    font-size: 5.6cqw;
+    line-height: 1.5;
+    color: var(--primary);
+    direction: rtl;
+  }
+
+  .arabic-meaning {
+    font-family: var(--f-body);
+    font-size: 2.3cqw;
+    font-style: italic;
+    color: var(--soft);
+  }
+
+  // Pointed arch drawn in an SVG with viewBox 0 0 100 140 (same ratio as the card).
+  .ogee {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    fill: none;
+    stroke: var(--accent);
+    pointer-events: none;
+
+    .outer { stroke-width: 0.7; }
+    .inner { stroke-width: 0.3; opacity: 0.7; }
+    .draw {
+      stroke-dasharray: 600;
+      animation: draw-arch 2.6s ease-out both;
+    }
+  }
+
+  @keyframes draw-arch {
+    from { stroke-dashoffset: 600; }
+    to { stroke-dashoffset: 0; }
+  }
+
+  // Children of `.stagger` fade up one after another.
+  .stagger > * {
+    animation: rise-in 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  }
+
+  @for $i from 1 through 14 {
+    .stagger > :nth-child(#{$i}) {
+      animation-delay: #{0.15 + $i * 0.12}s;
+    }
+  }
+
+  @keyframes rise-in {
+    from { opacity: 0; transform: translateY(3cqw); }
+  }
+
+  .glow-text {
+    text-shadow: 0 0 2.5cqw color-mix(in srgb, var(--accent) 55%, transparent);
+  }
+}

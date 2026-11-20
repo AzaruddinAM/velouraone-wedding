@@ -1,0 +1,63 @@
+@use '../section-base' as base;
+@include base.base;
+
+.welcome-card {
+  display: grid;
+  gap: 12px;
+  max-width: 640px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.family {
+  font-style: italic;
+  font-size: 17px;
+}
+
+.invite {
+  font-size: 18px;
+  line-height: 1.5;
+}
+
+.names {
+  margin: 6px 0;
+  font-family: var(--f-script);
+  font-size: 44px;
+  line-height: 1.1;
+  color: var(--band-head);
+
+  span { color: var(--band-accent); }
+}
+
+.when {
+  font-family: var(--f-heading);
+  font-size: 15px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--band-head);
+}
+
+:host(.s-editorial) .welcome-card {
+  margin: 0;
+  text-align: left;
+}
+
+:host(.s-bold) .names,
+:host(.s-editorial) .names {
+  font-family: var(--f-heading);
+  font-size: 34px;
+  text-transform: uppercase;
+}
+
+.arabic {
+  font-family: 'Amiri', 'Aref Ruqaa', serif;
+  font-size: 34px;
+  line-height: 1.5;
+  color: var(--band-head);
+  direction: rtl;
+}
+
+.meaning {
+  font-size: 14px;
+  font-style: italic;
+}

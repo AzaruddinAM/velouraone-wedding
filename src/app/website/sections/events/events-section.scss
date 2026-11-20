@@ -1,0 +1,72 @@
+@use '../section-base' as base;
+@include base.base;
+
+.events {
+  display: grid;
+  gap: 18px;
+
+  @container site (min-width: 720px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.event {
+  display: grid;
+  gap: 6px;
+  justify-items: center;
+  text-align: center;
+}
+
+.index {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--band-accent);
+  border-radius: 50%;
+  color: var(--band-accent);
+  font: 600 15px var(--f-heading);
+}
+
+h3 {
+  margin: 4px 0 0;
+  font-family: var(--f-script);
+  font-size: 32px;
+  font-weight: 400;
+  color: var(--band-head);
+}
+
+.date {
+  font-family: var(--f-heading);
+  font-size: 14px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.time {
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--band-head);
+}
+
+:host(.s-editorial) .event {
+  justify-items: start;
+  text-align: left;
+}
+
+:host(.s-editorial) .index {
+  width: auto;
+  border: 0;
+  border-radius: 0;
+  font-size: 13px;
+  letter-spacing: 0.2em;
+}
+
+:host(.s-editorial) h3,
+:host(.s-bold) h3,
+:host(.s-cards) h3 {
+  font-family: var(--f-heading);
+  font-size: 22px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}

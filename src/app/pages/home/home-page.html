@@ -1,0 +1,234 @@
+<!-- Hero -->
+<section class="hero">
+  <span class="swoosh top" aria-hidden="true"></span>
+  <span class="swoosh bottom" aria-hidden="true"></span>
+  <div class="container hero-grid">
+    <div class="hero-copy">
+      <div class="brand-lines">
+        <p class="slogan">{{ brand.slogan }}</p>
+        <p class="motto">{{ brand.motto }}</p>
+      </div>
+      <span class="eyebrow">
+        <app-icon name="sparkle" /> {{ cardTotal }} cards · {{ websiteTotal }} websites · one WhatsApp tap
+      </span>
+      <h1>Wedding invitations that feel like <em>you</em>.</h1>
+      <p class="lead">
+        Pick a beautiful invitation card or a complete wedding website, see it with your own names in seconds,
+        and order on WhatsApp. No sign-up, no fuss.
+      </p>
+
+      <div class="try">
+        <p class="try-title">Try it – type your names</p>
+        <app-personalise-form mode="names" />
+      </div>
+
+      <div class="cta">
+        <a class="btn btn-primary btn-lg" [routerLink]="products.website.basePath">Wedding websites <app-icon name="arrow-right" /></a>
+        <a class="btn btn-ghost btn-lg" [routerLink]="products.card.basePath">Invitation cards</a>
+      </div>
+    </div>
+
+    <div class="hero-cards" aria-label="Sample designs">
+      @for (d of heroDesigns; track d.id; let i = $index) {
+        <a class="hero-card" [class]="'hero-card pos-' + i" [routerLink]="detailLink(d)">
+          <app-design-preview [design]="d" [details]="details()" />
+          <span class="hero-label">{{ d.name }}</span>
+        </a>
+      }
+    </div>
+  </div>
+</section>
+
+<!-- Stats -->
+<section class="stats container" aria-label="Highlights">
+  <div><strong>{{ cardTotal }}</strong><span>Invitation cards</span></div>
+  <div><strong>{{ websiteTotal }}</strong><span>Wedding websites</span></div>
+  <div><strong>{{ catalog.categories.length }}</strong><span>Wedding styles</span></div>
+  <div><strong>1-tap</strong><span>WhatsApp ordering</span></div>
+</section>
+
+<!-- Choose a product -->
+<section class="section container">
+  <header class="section-head center">
+    <span class="eyebrow">Two ways to invite</span>
+    <h2>Card, website – or both</h2>
+  </header>
+  <div class="products">
+    @for (kind of productKinds; track kind) {
+      @let info = products[kind];
+      @let sample = productSamples[kind];
+      <a class="product" [class.featured]="kind === 'website'" [routerLink]="info.basePath">
+        <div class="product-preview">
+          <app-design-preview [design]="sample" [details]="details()" />
+        </div>
+        <div class="product-text">
+          @if (kind === 'website') {
+            <span class="ribbon">New</span>
+          }
+          <h3>{{ info.label }}</h3>
+          <p>{{ info.shortDescription }}</p>
+          <ul>
+            @if (kind === 'website') {
+              <li>Love story, events & photo gallery</li>
+              <li>Venue map, countdown & RSVP</li>
+              <li>{{ websiteTotal }} designs · W1 – W{{ websiteTotal }}</li>
+            } @else {
+              <li>Share on WhatsApp & Instagram</li>
+              <li>Print-ready high resolution</li>
+              <li>{{ cardTotal }} designs · V1 – V{{ cardTotal }}</li>
+            }
+          </ul>
+          <span class="btn btn-primary">Browse {{ info.label | lowercase }} <app-icon name="arrow-right" /></span>
+        </div>
+      </a>
+    }
+  </div>
+</section>
+
+<!-- Nikah collection -->
+<section class="nikah">
+  <div class="container">
+    <header class="nikah-head">
+      <p class="arabic">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</p>
+      <span class="eyebrow">New · {{ nikahCount }} Nikah designs</span>
+      <h2>The Nikah Collection</h2>
+      <p>
+        Swinging lanterns, moonlit mosques, mashrabiya doors that open, Islamic geometry – and
+        <strong>scratch-to-reveal</strong> invitations where guests uncover your date with a finger.
+      </p>
+      <div class="nikah-cta">
+        <a class="btn btn-gold" [routerLink]="products.website.basePath" [queryParams]="{ category: 'nikah' }">Nikah websites</a>
+        <a class="btn btn-light" [routerLink]="products.card.basePath" [queryParams]="{ category: 'nikah' }">Nikah cards</a>
+        <a class="btn btn-ghost-light" [routerLink]="products.website.basePath" [queryParams]="{ feature: 'scratch' }">🪙 Scratch &amp; reveal</a>
+      </div>
+    </header>
+    <div class="tile-grid">
+      @for (t of nikahShowcase; track t.id) {
+        <app-template-tile [template]="t" />
+      }
+    </div>
+  </div>
+</section>
+
+<!-- 3D collection -->
+<section class="section container three-d">
+  <header class="section-head row">
+    <div>
+      <span class="eyebrow">🧊 New · {{ threeDCount }} 3D Nikah websites</span>
+      <h2>Step into 3D</h2>
+      <p class="three-d-lead">
+        A golden mosque you can look around, floating lanterns, spinning wedding rings and a glowing crescent –
+        real 3D that moves with your guests' mouse or phone.
+      </p>
+    </div>
+    <a class="btn btn-primary" [routerLink]="products.website.basePath" [queryParams]="{ feature: '3d' }">
+      See all 3D designs <app-icon name="arrow-right" />
+    </a>
+  </header>
+  <div class="tile-grid">
+    @for (t of threeDShowcase; track t.id) {
+      <app-template-tile [template]="t" />
+    }
+  </div>
+</section>
+
+<!-- How it works -->
+<section class="section container">
+  <header class="section-head">
+    <span class="eyebrow">How it works</span>
+    <h2>From "yes" to invite in four steps</h2>
+  </header>
+  <ol class="steps">
+    @for (step of steps; track step.title; let i = $index) {
+      <li>
+        <span class="num">{{ i + 1 }}</span>
+        <h3>{{ step.title }}</h3>
+        <p>{{ step.text }}</p>
+      </li>
+    }
+  </ol>
+</section>
+
+<!-- Popular websites -->
+<section class="section container">
+  <header class="section-head row">
+    <div>
+      <span class="eyebrow">New · Wedding websites</span>
+      <h2>Popular websites</h2>
+    </div>
+    <a class="btn btn-ghost" [routerLink]="products.website.basePath">View all {{ websiteTotal }} <app-icon name="arrow-right" /></a>
+  </header>
+  <div class="tile-grid">
+    @for (t of popularWebsites; track t.id) {
+      <app-template-tile [template]="t" />
+    }
+  </div>
+</section>
+
+<!-- Popular cards -->
+<section class="section container">
+  <header class="section-head row">
+    <div>
+      <span class="eyebrow">Loved by couples</span>
+      <h2>Popular invitation cards</h2>
+    </div>
+    <a class="btn btn-ghost" [routerLink]="products.card.basePath">View all {{ cardTotal }} <app-icon name="arrow-right" /></a>
+  </header>
+  <div class="tile-grid">
+    @for (t of popularCards; track t.id) {
+      <app-template-tile [template]="t" />
+    }
+  </div>
+</section>
+
+<!-- Categories -->
+<section class="section container">
+  <header class="section-head">
+    <span class="eyebrow">Find your vibe</span>
+    <h2>Browse websites by style</h2>
+  </header>
+  <div class="categories">
+    @for (c of categoryTiles(); track c.id) {
+      <a
+        class="category"
+        [routerLink]="products.website.basePath"
+        [queryParams]="{ category: c.id }"
+        [style.--c-bg]="c.theme.bg"
+        [style.--c-fg]="c.theme.primary"
+        [style.--c-accent]="c.theme.accent"
+      >
+        <strong>{{ c.label }}</strong>
+        <span>{{ c.description }}</span>
+        <small>{{ c.count }} designs</small>
+      </a>
+    }
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="section container narrow">
+  <header class="section-head center">
+    <span class="eyebrow">Questions</span>
+    <h2>Good to know</h2>
+  </header>
+  <div class="faq">
+    @for (item of faqs; track item.q; let first = $first) {
+      <details [open]="first">
+        <summary>{{ item.q }}</summary>
+        <p>{{ item.a }}</p>
+      </details>
+    }
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="container">
+  <div class="cta-band">
+    <h2>Found "the one"? Let's make it yours.</h2>
+    <p class="closing">{{ brand.closingLine }}</p>
+    <p>Send us the design code (like <strong>V7</strong> or <strong>W7</strong>) on WhatsApp and we'll take it from there.</p>
+    <a class="btn btn-whatsapp btn-lg" [href]="enquiryLink" target="_blank" rel="noopener">
+      <app-icon name="whatsapp" /> Chat with us on WhatsApp
+    </a>
+  </div>
+</section>

@@ -1,0 +1,37 @@
+@use '../hero-base' as hero;
+@include hero.base;
+@include hero.nikah;
+
+:host {
+  background:
+    radial-gradient(ellipse at 50% 0%, color-mix(in srgb, var(--accent) 30%, transparent), transparent 55%),
+    var(--bg);
+}
+
+.hero {
+  z-index: 2;
+  padding: 100px 48px 70px;
+}
+
+.crest {
+  width: 64px;
+  animation: float 4s ease-in-out infinite;
+}
+
+@keyframes float {
+  50% { transform: translateY(-8px) rotate(6deg); }
+}
+
+// Names write in letter-by-letter with a soft blur.
+.names .word {
+  display: block;
+  animation: ink-in 1.6s ease-out both;
+}
+
+.names .word:last-child {
+  animation-delay: 0.6s;
+}
+
+@keyframes ink-in {
+  from { opacity: 0; filter: blur(10px); letter-spacing: 0.3em; }
+}

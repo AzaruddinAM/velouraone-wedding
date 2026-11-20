@@ -1,0 +1,36 @@
+@let v = vm();
+<div class="layout">
+  <div class="kasavu top"><span class="temple"></span></div>
+
+  <div class="content">
+    <app-motif class="motif lamp" [name]="template().motif" />
+    <p class="opening">{{ v.opening }}</p>
+    @if (v.familyLine) {
+      <p class="family">{{ v.familyLine }}</p>
+    }
+    <p class="invite">{{ v.invitation }}</p>
+
+    <h2 class="names kasavu-name">{{ v.bride }}</h2>
+    <span class="amp">&amp;</span>
+    <h2 class="names kasavu-name">{{ v.groom }}</h2>
+
+    <div class="muhurtham">
+      <div>
+        <span class="label">Date</span>
+        <strong>{{ v.day }} {{ v.monthShort }} {{ v.year }}</strong>
+        <span>{{ v.weekday }}</span>
+      </div>
+      <i></i>
+      <div>
+        <span class="label">Muhurtham</span>
+        <strong>{{ v.time }}</strong>
+        <span>onwards</span>
+      </div>
+    </div>
+
+    <p class="venue">{{ v.venue }}</p>
+    <p class="address">{{ v.address }}</p>
+  </div>
+
+  <div class="kasavu bottom"><span class="temple"></span></div>
+</div>

@@ -1,0 +1,84 @@
+@use '../hero-base' as hero;
+@include hero.base;
+
+:host {
+  background:
+    radial-gradient(ellipse at 50% 35%, color-mix(in srgb, var(--accent) 22%, transparent), transparent 60%),
+    var(--bg);
+}
+
+.arch-wrap {
+  position: relative;
+  width: min(300px, 62%);
+  aspect-ratio: 3 / 4;
+  margin: 26px 0 10px;
+}
+
+.arch {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border: 4px solid var(--accent);
+  border-radius: 999px 999px 10px 10px;
+  background: var(--surface);
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+.outline {
+  position: absolute;
+  inset: -14px;
+  border: 1px solid var(--accent);
+  border-radius: 999px 999px 16px 16px;
+  opacity: 0.7;
+}
+
+.crown {
+  position: absolute;
+  top: -34px;
+  left: 50%;
+  width: 54px;
+  padding: 6px;
+  translate: -50% 0;
+  border-radius: 50%;
+  background: var(--bg);
+}
+
+.monogram {
+  position: relative;
+  display: grid;
+  place-items: center;
+  height: 100%;
+
+  .ring {
+    position: absolute;
+    width: 85%;
+    opacity: 0.22;
+  }
+
+  span {
+    position: relative;
+    font-family: var(--f-heading);
+    font-size: clamp(44px, 10cqw, 70px);
+    color: var(--primary);
+  }
+
+  em {
+    margin: 0 6px;
+    font-family: var(--f-script);
+    font-style: normal;
+    color: var(--accent);
+  }
+}
+
+.names {
+  font-size: clamp(44px, 10cqw, 96px);
+
+  .amp.inline {
+    display: inline;
+  }
+}

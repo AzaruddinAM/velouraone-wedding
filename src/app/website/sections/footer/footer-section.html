@@ -1,0 +1,8 @@
+@let v = vm();
+<footer class="section foot">
+  <app-motif class="ornament" [name]="template().motif" />
+  <p class="names">{{ v.bride }} <span>&amp;</span> {{ v.groom }}</p>
+  <p class="date">{{ v.day }} · {{ v.monthNumber }} · {{ v.year }}</p>
+  <p class="tag">{{ v.hashtag }}</p>
+  <p class="credit muted">Made with love · {{ brand }}</p>
+</footer>

@@ -1,0 +1,33 @@
+@let v = vm();
+<div class="layout">
+  <app-falling-particles kind="star" [count]="16" />
+
+  <div class="ticket stagger">
+    <div class="top">
+      <app-motif class="motif crest" name="star8" />
+      <p class="arabic">{{ arabic() }}</p>
+      <p class="opening">{{ v.opening }}</p>
+      <p class="invite">{{ v.invitation }}</p>
+      <h2 class="names">{{ v.bride }}<span class="amp">&amp;</span>{{ v.groom }}</h2>
+    </div>
+
+    <div class="perforation" aria-hidden="true"></div>
+
+    <div class="bottom">
+      <p class="hint">
+        @if (revealedCount() < 1) {
+          <span class="hand" aria-hidden="true">☝</span> Scratch below to reveal when &amp; where
+        } @else {
+          We can't wait to celebrate with you!
+        }
+      </p>
+      <app-scratch-reveal class="strip" [interactive]="interactive()" label="Scratch to reveal ✦" (revealedChange)="onReveal()">
+        <div class="strip-face">
+          <strong>{{ v.weekday }}, {{ v.dateLong }}</strong>
+          <span>{{ v.time }} · {{ v.venue }}</span>
+          <small>{{ v.address }}</small>
+        </div>
+      </app-scratch-reveal>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,24 @@
+@let v = vm();
+<svg class="ogee" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+  <path d="M4 100 V40 C4 22 30 16 50 2 C70 16 96 22 96 40 V100" />
+</svg>
+
+@for (l of lanterns; track $index) {
+  <span class="hang" [style.left.%]="l.x" [style.height.px]="l.length" [style.animation-delay.s]="l.delay">
+    <i class="cord"></i>
+    <app-motif class="lamp" name="lantern" [style.width.px]="l.size" />
+  </span>
+}
+<app-falling-particles kind="spark" [count]="16" />
+
+<div class="hero stagger">
+  <p class="arabic glow">{{ arabic() }}</p>
+  @if (arabicMeaning()) {
+    <p class="arabic-meaning">{{ arabicMeaning() }}</p>
+  }
+  <p class="kicker">{{ v.opening }}</p>
+  <h1 class="names glow">{{ v.bride }}<span class="amp">&amp;</span>{{ v.groom }}</h1>
+  <p class="date">{{ v.weekday }} · {{ v.dateLong }}</p>
+  <p class="place">{{ v.venue }}</p>
+  <app-countdown class="hero-countdown" [date]="v.isoDate" [time]="v.rawTime" />
+</div>

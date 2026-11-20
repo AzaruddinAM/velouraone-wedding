@@ -1,0 +1,23 @@
+@let v = vm();
+<app-falling-particles kind="star" [count]="34" />
+<span class="shooting" aria-hidden="true"></span>
+<app-motif class="motif moon" name="crescent" />
+
+<div class="hero stagger">
+  <p class="arabic glow">{{ arabic() }}</p>
+  <p class="kicker">{{ v.opening }}</p>
+  <h1 class="names glow">{{ v.bride }}<span class="amp">&amp;</span>{{ v.groom }}</h1>
+  <p class="date">{{ v.weekday }}, {{ v.dateLong }} · {{ v.time }}</p>
+  <p class="place">{{ v.venue }}</p>
+</div>
+
+<svg class="skyline" viewBox="0 0 400 120" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+  <path class="far" d="M0 120 V84 H30 V64 Q42 46 54 64 V84 H96 V74 Q112 54 128 74 V120 Z M272 120 V74 Q288 54 304 74 V84 H346 V64 Q358 46 370 64 V84 H400 V120 Z" />
+  <path class="near" d="M110 120 V44 L116 28 L122 44 V120 Z M278 120 V44 L284 28 L290 44 V120 Z
+    M140 120 V78 H160 Q160 44 200 30 Q240 44 240 78 H260 V120 Z" />
+  <path class="near" d="M198 30 V14 H202 V30 Z" />
+  <path class="crest" d="M200 2 A6 6 0 1 0 205 12 A5 5 0 1 1 200 2 Z" />
+  @for (w of windows; track $index) {
+    <rect class="window" [attr.x]="w.x" y="92" width="7" height="14" rx="3.5" [style.animation-delay.s]="w.delay" />
+  }
+</svg>

@@ -1,0 +1,58 @@
+@use '../hero-base' as hero;
+@include hero.base;
+
+.wreath {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 280px;
+  height: 280px;
+  margin: 8px 0;
+}
+
+.leaf {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 22px;
+  height: 44px;
+  margin: -22px 0 0 -11px;
+  border-radius: 100% 0;
+  background: var(--accent);
+  opacity: 0.85;
+
+  &:nth-child(3n) {
+    background: var(--primary);
+    opacity: 0.6;
+  }
+}
+
+.tie {
+  position: absolute;
+  bottom: -10px;
+  width: 46px;
+  rotate: 180deg;
+}
+
+.initials {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-family: var(--f-heading);
+  font-size: 64px;
+  color: var(--primary);
+
+  i {
+    width: 1px;
+    height: 70px;
+    background: var(--accent);
+  }
+}
+
+.names {
+  font-size: clamp(42px, 9cqw, 90px);
+
+  .amp.inline {
+    display: inline;
+  }
+}

@@ -1,0 +1,29 @@
+@let v = vm();
+<div class="layout">
+  <span class="block"></span>
+  <span class="circle one"></span>
+  <span class="circle two"></span>
+  <span class="squiggle"></span>
+
+  <p class="opening">{{ v.opening }}</p>
+
+  <h2 class="giant">
+    <span>{{ v.bride }}</span>
+    <span class="and">&amp;</span>
+    <span>{{ v.groom }}</span>
+  </h2>
+
+  <div class="sticker">
+    <app-motif class="motif" [name]="template().motif" />
+    <span>tying<br />the knot!</span>
+  </div>
+
+  <div class="bottom">
+    <p class="big-day">{{ v.day }} {{ v.monthShort }}<br />{{ v.year }}</p>
+    <div class="details">
+      <p>{{ v.weekday }} · {{ v.time }}</p>
+      <p class="where">{{ v.venue }}</p>
+      <p>{{ v.address }}</p>
+    </div>
+  </div>
+</div>

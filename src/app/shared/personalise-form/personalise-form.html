@@ -1,0 +1,81 @@
+@let d = details();
+<form class="form" [class.compact]="mode() === 'names'" (submit)="$event.preventDefault()">
+  <div class="row two">
+    <label class="field">
+      <span>Bride's name</span>
+      <input type="text" maxlength="24" autocomplete="off" [value]="d.bride" (input)="setText('bride', $event)" />
+    </label>
+    <label class="field">
+      <span>Groom's name</span>
+      <input type="text" maxlength="24" autocomplete="off" [value]="d.groom" (input)="setText('groom', $event)" />
+    </label>
+  </div>
+
+  @if (mode() === 'full') {
+    <div class="row two">
+      <label class="field">
+        <span>Wedding date</span>
+        <input type="date" [value]="d.date" (input)="setText('date', $event)" />
+      </label>
+      <label class="field">
+        <span>Time</span>
+        <input type="time" [value]="d.time" (input)="setText('time', $event)" />
+      </label>
+    </div>
+
+    <label class="field">
+      <span>Venue</span>
+      <input type="text" maxlength="60" [value]="d.venue" (input)="setText('venue', $event)" />
+    </label>
+
+    <label class="field">
+      <span>Address / City</span>
+      <input type="text" maxlength="70" [value]="d.address" (input)="setText('address', $event)" />
+    </label>
+
+    <label class="field">
+      <span>Family line <small>(optional)</small></span>
+      <input type="text" maxlength="60" placeholder="e.g. With the blessings of our parents"
+        [value]="d.familyLine" (input)="setText('familyLine', $event)" />
+    </label>
+
+    <div class="photo">
+      <div class="photo-preview" [class.empty]="!d.photoUrl">
+        @if (d.photoUrl) {
+          <img [src]="d.photoUrl" alt="Your couple photo" />
+        } @else {
+          <app-icon name="upload" />
+        }
+      </div>
+      <div class="photo-actions">
+        <strong>Couple photo</strong>
+        <small>
+          @if (showsPhoto()) {
+            Shown inside this design. Also sent with your order.
+          } @else {
+            This design uses a monogram, but we'll still use your photo on your website.
+          }
+        </small>
+        <div class="buttons">
+          <label class="btn btn-ghost btn-sm upload">
+            <input type="file" accept="image/*" (change)="onPhotoSelected($event)" />
+            {{ photoBusy() ? 'Processing…' : d.photoUrl ? 'Change photo' : 'Upload photo' }}
+          </label>
+          @if (d.photoUrl) {
+            <button type="button" class="btn btn-link btn-sm" (click)="removePhoto()">Remove</button>
+          }
+        </div>
+        @if (photoError()) {
+          <small class="error">{{ photoError() }}</small>
+        }
+        @if (draft.photoNotSaved()) {
+          <small class="hint">Photo is large – it works now but won't be remembered after closing the browser.</small>
+        }
+      </div>
+    </div>
+
+    @if (draft.isPersonalised()) {
+      <button type="button" class="btn btn-link btn-sm reset" (click)="draft.reset()">Reset to sample details</button>
+    }
+  }
+</form>

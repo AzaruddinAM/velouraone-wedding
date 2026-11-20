@@ -1,0 +1,27 @@
+@let v = vm();
+<div class="hero">
+  <p class="kicker">{{ v.opening }}</p>
+
+  <div class="seal">
+    <!-- Lettering that slowly spins around the seal -->
+    <svg class="ring-text" viewBox="0 0 200 200" aria-hidden="true">
+      <defs>
+        <path [attr.id]="pathId" d="M100,100 m-82,0 a82,82 0 1,1 164,0 a82,82 0 1,1 -164,0" />
+      </defs>
+      <text>
+        <textPath [attr.href]="'#' + pathId" textLength="510">
+          {{ v.bride }} &amp; {{ v.groom }} · {{ v.day }}.{{ v.monthNumber }}.{{ v.year }} ·
+        </textPath>
+      </text>
+    </svg>
+    <div class="disc">
+      <app-motif class="motif halo" [name]="template().motif" />
+      <span class="initials">{{ v.brideInitial }}<em>&amp;</em>{{ v.groomInitial }}</span>
+    </div>
+  </div>
+
+  <h1 class="caps">{{ v.bride }} <span>and</span> {{ v.groom }}</h1>
+  <div class="rule"></div>
+  <p class="date">{{ v.weekday }}, {{ v.dateLong }}</p>
+  <p class="place">{{ v.venue }}</p>
+</div>

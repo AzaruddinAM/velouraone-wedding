@@ -1,0 +1,29 @@
+@let v = vm();
+<div class="layout">
+  <svg class="ogee" viewBox="0 0 100 140" aria-hidden="true">
+    <path class="outer" d="M12 132 V60 C12 38 36 28 50 14 C64 28 88 38 88 60 V132 Z" />
+  </svg>
+
+  <div class="content stagger">
+    <app-motif class="motif crest" [name]="template().motif" />
+    <p class="arabic">{{ arabic() }}</p>
+    <p class="opening">{{ v.opening }}</p>
+    @if (v.familyLine) {
+      <p class="family">{{ v.familyLine }}</p>
+    }
+    <p class="invite">{{ v.invitation }}</p>
+    <h2 class="names">{{ v.bride }}<span class="amp">&amp;</span>{{ v.groom }}</h2>
+    <div class="date-box">
+      <strong>{{ v.day }} {{ v.month }} {{ v.year }}</strong>
+      <span>{{ v.weekday }} · {{ v.time }}</span>
+    </div>
+    <p class="venue">{{ v.venue }}</p>
+    <p class="address">{{ v.address }}</p>
+  </div>
+
+  <!-- Carved lattice doors swing open when the card is shown -->
+  <div class="doors" aria-hidden="true">
+    <span class="door left"><i class="knob"></i></span>
+    <span class="door right"><i class="knob"></i></span>
+  </div>
+</div>

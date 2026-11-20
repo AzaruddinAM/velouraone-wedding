@@ -1,0 +1,29 @@
+@let v = vm();
+<section class="section">
+  <header class="head">
+    <span class="num">02</span>
+    <app-motif class="ornament" [name]="template().motif" />
+    <p class="kicker">The happy couple</p>
+    <h2>Bride &amp; Groom</h2>
+  </header>
+
+  <div class="pair">
+    @for (person of people(); track person.role) {
+      <article class="card person">
+        <div class="portrait">
+          @if (v.photoUrl) {
+            <img [src]="v.photoUrl" [alt]="person.name" [style.object-position]="person.focus" />
+          } @else {
+            <span>{{ person.initial }}</span>
+          }
+        </div>
+        <p class="role">{{ person.role }}</p>
+        <h3>{{ person.name }}</h3>
+        <p class="muted">{{ person.line }}</p>
+      </article>
+      @if ($first) {
+        <span class="and">&amp;</span>
+      }
+    }
+  </div>
+</section>

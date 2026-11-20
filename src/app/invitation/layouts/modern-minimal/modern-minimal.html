@@ -1,0 +1,33 @@
+@let v = vm();
+<div class="layout">
+  <header class="top">
+    <span class="label">{{ v.opening }}</span>
+    <app-motif class="motif mark" [name]="template().motif" />
+  </header>
+
+  <p class="kicker">The wedding of</p>
+  <h2 class="names-block">
+    <span>{{ v.bride }}</span>
+    <span class="plus">+</span>
+    <span>{{ v.groom }}</span>
+  </h2>
+
+  <div class="bar"></div>
+
+  <p class="big-date">{{ v.day }}.{{ v.monthNumber }}.{{ v.yearShort }}</p>
+
+  <div class="info">
+    <div>
+      <span class="label">When</span>
+      <p>{{ v.weekday }}<br />{{ v.dateLong }}<br />{{ v.time }}</p>
+    </div>
+    <div>
+      <span class="label">Where</span>
+      <p>{{ v.venue }}<br />{{ v.address }}</p>
+    </div>
+  </div>
+
+  @if (v.familyLine) {
+    <p class="foot">{{ v.familyLine }}</p>
+  }
+</div>

@@ -1,0 +1,41 @@
+@let v = vm();
+<div class="layout">
+  <!-- Toran: a garland with hanging marigold strings -->
+  <div class="toran">
+    <span class="rope"></span>
+    @for (drop of drops; track $index) {
+      <span class="string">
+        @for (bead of drop; track bead) {
+          <i></i>
+        }
+        <b></b>
+      </span>
+    }
+  </div>
+
+  <span class="pillar left"></span>
+  <span class="pillar right"></span>
+  <span class="bell left"></span>
+  <span class="bell right"></span>
+
+  <div class="content">
+    <app-motif class="motif emblem" [name]="template().motif" />
+    <p class="opening">{{ v.opening }}</p>
+    @if (v.familyLine) {
+      <p class="family">{{ v.familyLine }}</p>
+    }
+    <p class="invite">{{ v.invitation }}</p>
+    <h2 class="names heading">{{ v.bride }}</h2>
+    <span class="weds">weds</span>
+    <h2 class="names heading">{{ v.groom }}</h2>
+
+    <div class="muhurtham">
+      <span class="label">Muhurtham</span>
+      <strong>{{ v.weekday }}, {{ v.dateLong }}</strong>
+      <span>{{ v.time }}</span>
+    </div>
+
+    <p class="venue">{{ v.venue }}</p>
+    <p class="address">{{ v.address }}</p>
+  </div>
+</div>

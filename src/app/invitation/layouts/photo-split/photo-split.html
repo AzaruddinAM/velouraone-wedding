@@ -1,0 +1,28 @@
+@let v = vm();
+<div class="layout">
+  <div class="hero">
+    @if (v.photoUrl) {
+      <img [src]="v.photoUrl" alt="Couple photo" />
+    } @else {
+      <div class="placeholder">
+        @for (i of pattern; track i) {
+          <app-motif class="motif tile" [name]="template().motif" />
+        }
+        <span class="initials">{{ v.brideInitial }} &amp; {{ v.groomInitial }}</span>
+      </div>
+    }
+    <span class="badge">{{ v.opening }}</span>
+  </div>
+
+  <div class="content">
+    @if (v.familyLine) {
+      <p class="family">{{ v.familyLine }}</p>
+    }
+    <p class="invite">{{ v.invitation }}</p>
+    <h2 class="names">{{ v.bride }} <span class="amp inline">&amp;</span> {{ v.groom }}</h2>
+    <p class="pill">{{ v.weekday }} · {{ v.day }} {{ v.month }} {{ v.year }} · {{ v.time }}</p>
+    <p class="venue">{{ v.venue }}</p>
+    <p class="address">{{ v.address }}</p>
+    <app-motif class="motif footer-mark" [name]="template().motif" />
+  </div>
+</div>

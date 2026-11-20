@@ -1,0 +1,31 @@
+@use '../section-base' as base;
+@include base.base;
+
+.rsvp {
+  display: grid;
+  gap: 18px;
+  justify-items: center;
+  max-width: 620px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+// The shared countdown reads these variables.
+.countdown {
+  --cd-bg: color-mix(in srgb, var(--band-accent) 16%, transparent);
+  --cd-border: var(--band-accent);
+  --cd-ink: var(--band-head);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+}
+
+.reply {
+  font-size: 14px;
+  font-style: italic;
+  color: var(--band-accent);
+}

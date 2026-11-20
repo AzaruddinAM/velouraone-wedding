@@ -1,0 +1,208 @@
+:host {
+  display: block;
+  min-width: 0;
+  container-type: inline-size;
+}
+
+.tile {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  height: 100%;
+  padding: 0.75rem;
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  color: var(--text);
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+
+    .hover-hint {
+      opacity: 1;
+    }
+  }
+}
+
+.preview {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  border-radius: var(--radius-md);
+  box-shadow: 0 1px 3px rgb(0 0 0 / 0.12);
+}
+
+.skeleton {
+  aspect-ratio: 5 / 7;
+  animation: pulse 1.4s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  50% { opacity: 0.6; }
+}
+
+.code,
+.flag {
+  position: absolute;
+  top: 0.6rem;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+.code {
+  left: 0.6rem;
+  background: rgb(0 0 0 / 0.65);
+  color: #fff;
+}
+
+.flag {
+  right: 0.6rem;
+  top: auto;
+  bottom: 0.6rem;
+  background: var(--gold);
+  color: #2a1a10;
+
+  &.new {
+    background: var(--rose);
+    color: #fff;
+  }
+}
+
+.hover-hint {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-content: center;
+  grid-auto-flow: column;
+  gap: 0.4rem;
+  align-items: center;
+  background: rgb(20 10 20 / 0.35);
+  color: #fff;
+  font-weight: 600;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.heart {
+  position: absolute;
+  top: 1.2rem;
+  right: 1.2rem;
+  display: grid;
+  place-items: center;
+  width: 2.3rem;
+  height: 2.3rem;
+  border: 0;
+  border-radius: 50%;
+  background: rgb(255 255 255 / 0.92);
+  color: var(--plum);
+  font-size: 1.05rem;
+  box-shadow: var(--shadow-sm);
+  cursor: pointer;
+  transition: transform 0.15s ease;
+
+  &:hover { transform: scale(1.1); }
+  &.active { color: var(--rose); }
+}
+
+.meta {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0 0.25rem;
+
+  h3 {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: 1.3rem;
+    line-height: 1.1;
+  }
+
+  p {
+    margin: 0.15rem 0 0;
+    font-size: 0.85rem;
+    color: var(--muted);
+  }
+}
+
+.swatches {
+  display: flex;
+  margin-top: 0.3rem;
+
+  span {
+    width: 1rem;
+    height: 1rem;
+    margin-left: -0.3rem;
+    border: 2px solid var(--surface);
+    border-radius: 50%;
+  }
+}
+
+.actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+  margin-top: auto;
+}
+
+// Compact tile when the grid is narrow (2 columns on phones).
+@container (max-width: 240px) {
+  .tile {
+    gap: 0.5rem;
+    padding: 0.5rem;
+  }
+
+  .heart {
+    top: 0.9rem;
+    right: 0.9rem;
+    width: 2rem;
+    height: 2rem;
+  }
+
+  .meta h3 {
+    font-size: 1.1rem;
+  }
+
+  .meta p {
+    font-size: 0.75rem;
+  }
+
+  .swatches,
+  .hover-hint {
+    display: none;
+  }
+
+  .actions {
+    grid-template-columns: 1fr;
+    gap: 0.4rem;
+
+    .btn {
+      padding: 0.45rem 0.5rem;
+    }
+  }
+}
+
+.feature-badge {
+  position: absolute;
+  top: 2.4rem;
+  left: 0.6rem;
+  padding: 0.15rem 0.55rem;
+  border-radius: 999px;
+  background: linear-gradient(135deg, var(--gold-light), var(--gold));
+  color: var(--plum-dark);
+  font-size: 0.68rem;
+  font-weight: 700;
+  box-shadow: 0 2px 6px rgb(0 0 0 / 0.2);
+}
+
+.feature-badge.three-d {
+  background: var(--brand-gradient);
+  color: #fff;
+  letter-spacing: 0.08em;
+}

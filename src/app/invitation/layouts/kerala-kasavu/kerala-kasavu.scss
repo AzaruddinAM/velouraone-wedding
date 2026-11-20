@@ -1,0 +1,99 @@
+@use '../layout-base' as base;
+@include base.base;
+
+// Kasavu border: a broad gold band with thin coloured pin-stripes
+// and a row of temple-tower triangles, like a Kerala set-saree.
+.kasavu {
+  position: relative;
+  flex-shrink: 0;
+  width: 100%;
+  height: 13cqw;
+  background:
+    linear-gradient(180deg,
+      transparent 0 1cqw,
+      var(--primary) 1cqw 1.6cqw,
+      transparent 1.6cqw 2.4cqw,
+      var(--accent) 2.4cqw 8.4cqw,
+      transparent 8.4cqw 9.2cqw,
+      var(--primary) 9.2cqw 9.8cqw,
+      transparent 9.8cqw);
+
+  .temple {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 9.8cqw;
+    height: 3cqw;
+    background: conic-gradient(from 135deg at 50% 0, var(--accent) 90deg, transparent 0) 0 0 / 4cqw 3cqw repeat-x;
+  }
+
+  &.bottom {
+    rotate: 180deg;
+  }
+}
+
+.content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.3cqw;
+  padding: 2cqw 11cqw;
+}
+
+.lamp {
+  width: 14cqw;
+}
+
+.opening {
+  font-size: 3cqw;
+  color: var(--primary);
+}
+
+.kasavu-name {
+  font-family: var(--f-heading);
+  font-size: 8.5cqw;
+  letter-spacing: 0.05em;
+}
+
+.amp {
+  font-size: 7cqw;
+}
+
+.muhurtham {
+  display: flex;
+  align-items: stretch;
+  gap: 4cqw;
+  margin: 2cqw 0;
+  padding: 2.4cqw 5cqw;
+  border-block: 0.4cqw double var(--accent);
+  color: var(--primary);
+
+  div {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4cqw;
+    font-family: var(--f-body);
+    font-size: 2.6cqw;
+  }
+
+  .label {
+    font-family: var(--f-heading);
+    font-size: 2.1cqw;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  strong {
+    font-family: var(--f-heading);
+    font-size: 4cqw;
+    font-weight: 400;
+  }
+
+  i {
+    width: 0.3cqw;
+    background: var(--accent);
+  }
+}

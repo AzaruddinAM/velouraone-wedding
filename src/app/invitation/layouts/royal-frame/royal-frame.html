@@ -1,0 +1,27 @@
+@let v = vm();
+<div class="layout">
+  <span class="frame outer"></span>
+  <span class="frame inner"></span>
+  @for (corner of corners; track corner) {
+    <app-motif [class]="'motif corner ' + corner" [name]="template().motif" />
+  }
+
+  <div class="content">
+    <app-motif class="motif crest" [name]="template().motif" />
+    <p class="opening">{{ v.opening }}</p>
+    @if (v.familyLine) {
+      <p class="family">{{ v.familyLine }}</p>
+    }
+    <p class="invite">{{ v.invitation }}</p>
+    <h2 class="names">{{ v.bride }}<span class="amp">&amp;</span>{{ v.groom }}</h2>
+    <div class="rule"></div>
+    <div class="date-row">
+      <span>{{ v.weekday }}</span>
+      <strong>{{ v.day }}</strong>
+      <span>{{ v.month }} {{ v.year }}</span>
+    </div>
+    <p class="time">at {{ v.time }}</p>
+    <p class="venue">{{ v.venue }}</p>
+    <p class="address">{{ v.address }}</p>
+  </div>
+</div>

@@ -1,0 +1,86 @@
+@use '../hero-base' as hero;
+@include hero.base;
+@include hero.nikah;
+
+// Two large geometric stars turning in opposite directions behind the medallion.
+.ring-star {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  opacity: 0.12;
+
+  &.one {
+    width: 900px;
+    margin: -450px 0 0 -450px;
+    animation: turn 80s linear infinite;
+  }
+
+  &.two {
+    width: 560px;
+    margin: -280px 0 0 -280px;
+    opacity: 0.18;
+    animation: turn 50s linear infinite reverse;
+  }
+}
+
+@keyframes turn {
+  to { transform: rotate(360deg); }
+}
+
+// A row of small stars along the top and bottom edges that pulse in sequence.
+.tiles {
+  position: absolute;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-around;
+  overflow: hidden;
+  color: var(--accent);
+  pointer-events: none;
+
+  &.top { top: 14px; }
+  &.bottom { bottom: 14px; }
+
+  app-motif {
+    flex-shrink: 0;
+    width: 34px;
+    opacity: 0.4;
+    animation: pulse 3s ease-in-out infinite;
+  }
+}
+
+@keyframes pulse {
+  50% { opacity: 1; transform: scale(1.15); }
+}
+
+$octagon: polygon(30% 0, 70% 0, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0 70%, 0 30%);
+
+.medallion {
+  width: min(420px, 82%);
+  aspect-ratio: 1;
+  padding: 5px;
+  clip-path: $octagon;
+  background: linear-gradient(135deg, var(--accent), var(--primary), var(--accent));
+  background-size: 300% 300%;
+  animation: shine 6s linear infinite;
+}
+
+@keyframes shine {
+  to { background-position: 300% 300%; }
+}
+
+.inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  height: 100%;
+  padding: 40px;
+  clip-path: $octagon;
+  background: var(--surface);
+
+  .names {
+    font-size: clamp(42px, 9cqw, 76px);
+  }
+}

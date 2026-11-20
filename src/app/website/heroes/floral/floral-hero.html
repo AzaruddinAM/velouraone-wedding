@@ -1,0 +1,19 @@
+@let v = vm();
+<app-motif class="motif bloom tl" [name]="template().motif" />
+<app-motif class="motif bloom br" [name]="template().motif" />
+<app-motif class="motif bud tr" [name]="template().motif" />
+<app-motif class="motif bud bl" [name]="template().motif" />
+
+<div class="hero">
+  <p class="kicker">{{ v.opening }}</p>
+  @if (v.familyLine) {
+    <p class="place">{{ v.familyLine }}</p>
+  }
+  <h1 class="names">{{ v.bride }}<span class="amp">&amp;</span>{{ v.groom }}</h1>
+  <div class="date-grid">
+    <span>{{ v.weekday }}</span>
+    <strong>{{ v.day }}<small>{{ v.month }} {{ v.year }}</small></strong>
+    <span>{{ v.time }}</span>
+  </div>
+  <p class="place">{{ v.venue }}</p>
+</div>

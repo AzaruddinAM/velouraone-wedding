@@ -1,0 +1,73 @@
+@use '../layout-base' as base;
+@include base.base;
+@include base.nikah;
+
+.layout {
+  background: radial-gradient(ellipse at 50% 35%, color-mix(in srgb, var(--accent) 22%, transparent), transparent 65%);
+}
+
+// Lanterns hang from the top edge and swing gently.
+.hang {
+  position: absolute;
+  top: 0;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transform-origin: top center;
+  animation: swing 3.2s ease-in-out infinite alternate;
+
+  .cord {
+    flex: 1;
+    width: 0.25cqw;
+    background: var(--accent);
+  }
+
+  .lamp {
+    color: var(--accent);
+    filter: drop-shadow(0 0 2cqw color-mix(in srgb, var(--accent) 80%, transparent));
+    animation: flicker 2.4s ease-in-out infinite;
+  }
+}
+
+@keyframes swing {
+  from { transform: rotate(-5deg); }
+  to { transform: rotate(5deg); }
+}
+
+@keyframes flicker {
+  0%, 100% { opacity: 1; }
+  45% { opacity: 0.82; }
+  55% { opacity: 0.95; }
+}
+
+.content {
+  position: relative;
+  z-index: 4;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.3cqw;
+  padding: 26cqw 15cqw 10cqw;
+}
+
+.names {
+  font-size: 10.5cqw;
+}
+
+.divider {
+  width: 7cqw;
+  animation: spin 18s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.time {
+  font-family: var(--f-body);
+  font-size: 2.8cqw;
+  color: var(--soft);
+}

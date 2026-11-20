@@ -1,0 +1,14 @@
+@let v = vm();
+<div class="hero">
+  <p class="kicker">{{ v.opening }}</p>
+  <div class="wreath">
+    @for (leaf of leaves; track leaf.transform) {
+      <span class="leaf" [style.transform]="leaf.transform"></span>
+    }
+    <app-motif class="motif tie" [name]="template().motif" />
+    <span class="initials">{{ v.brideInitial }}<i></i>{{ v.groomInitial }}</span>
+  </div>
+  <h1 class="names">{{ v.bride }} <span class="amp inline">&amp;</span> {{ v.groom }}</h1>
+  <p class="date">{{ v.weekday }} | {{ v.dateLong }} | {{ v.time }}</p>
+  <p class="place">{{ v.venue }}, {{ v.address }}</p>
+</div>

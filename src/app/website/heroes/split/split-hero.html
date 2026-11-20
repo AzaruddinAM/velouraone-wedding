@@ -1,0 +1,20 @@
+@let v = vm();
+<div class="split">
+  <div class="photo">
+    @if (v.photoUrl) {
+      <img [src]="v.photoUrl" alt="Couple photo" />
+    } @else {
+      <div class="placeholder">
+        <app-motif class="motif" [name]="template().motif" />
+        <span>{{ v.brideInitial }} &amp; {{ v.groomInitial }}</span>
+      </div>
+    }
+  </div>
+  <div class="text">
+    <p class="kicker">{{ v.opening }}</p>
+    <h1 class="names">{{ v.bride }}<span class="amp">&amp;</span>{{ v.groom }}</h1>
+    <div class="rule"></div>
+    <p class="date">{{ v.dateLong }} · {{ v.time }}</p>
+    <p class="place">{{ v.venue }}, {{ v.address }}</p>
+  </div>
+</div>

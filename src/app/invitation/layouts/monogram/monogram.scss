@@ -1,0 +1,79 @@
+@use '../layout-base' as base;
+@include base.base;
+
+.layout {
+  justify-content: center;
+  gap: 1.7cqw;
+  padding: 8cqw 10cqw;
+}
+
+.crest {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 62cqw;
+  aspect-ratio: 1;
+  margin-bottom: 1cqw;
+
+  .halo {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    opacity: 0.28;
+  }
+
+  .ring {
+    position: absolute;
+    inset: 15%;
+    border-radius: 50%;
+    border: 0.4cqw solid var(--accent);
+    outline: 0.2cqw solid var(--accent);
+    outline-offset: 1.2cqw;
+    background: var(--bg);
+  }
+}
+
+.letters {
+  position: relative;
+  display: flex;
+  align-items: center;
+  font-family: var(--f-script);
+  line-height: 1;
+  color: var(--primary);
+
+  .first {
+    font-size: 22cqw;
+    translate: 2cqw -2cqw;
+  }
+
+  .second {
+    font-size: 22cqw;
+    translate: -2cqw 3cqw;
+    color: var(--accent);
+  }
+}
+
+.caps-names {
+  font-family: var(--f-heading);
+  font-size: 5.6cqw;
+  font-weight: 400;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--primary);
+
+  .amp.inline {
+    display: inline;
+    margin: 0 1cqw;
+    font-size: 6cqw;
+    letter-spacing: 0;
+    text-transform: none;
+  }
+}
+
+.rule.wide {
+  width: 70%;
+}
+
+.date-line {
+  font-size: 2.6cqw;
+}

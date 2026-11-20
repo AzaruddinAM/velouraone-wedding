@@ -1,0 +1,31 @@
+@let v = vm();
+<div class="layout">
+  @for (star of stars; track $index) {
+    <span class="star" [style.left.%]="star.x" [style.top.%]="star.y" [style.width.cqw]="star.size"
+      [style.animation-delay.s]="star.delay"></span>
+  }
+
+  <div class="content">
+    <p class="opening">{{ v.opening }}</p>
+
+    <div class="orbit">
+      <span class="ring outer"></span>
+      <span class="ring"></span>
+      <app-motif class="motif moon" [name]="template().motif" />
+      <span class="planet"></span>
+      <div class="orbit-text">
+        <p class="invite small">{{ v.invitation }}</p>
+        <h2 class="names">{{ v.bride }}<span class="amp">&amp;</span>{{ v.groom }}</h2>
+      </div>
+    </div>
+
+    @if (v.familyLine) {
+      <p class="family">{{ v.familyLine }}</p>
+    }
+    <p class="date-line">{{ v.weekday }}, {{ v.dateLong }}</p>
+    <p class="time">{{ v.time }}</p>
+    <div class="rule"></div>
+    <p class="venue">{{ v.venue }}</p>
+    <p class="address">{{ v.address }}</p>
+  </div>
+</div>

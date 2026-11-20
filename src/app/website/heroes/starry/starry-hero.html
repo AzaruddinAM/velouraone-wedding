@@ -1,0 +1,15 @@
+@let v = vm();
+@for (star of stars; track $index) {
+  <span class="star" [style.left.%]="star.x" [style.top.%]="star.y" [style.width.px]="star.size"
+    [style.animation-delay.s]="star.delay"></span>
+}
+<span class="shooting" aria-hidden="true"></span>
+
+<div class="hero">
+  <app-motif class="motif moon" [name]="template().motif" />
+  <p class="kicker">{{ v.opening }}</p>
+  <h1 class="names">{{ v.bride }}<span class="amp">&amp;</span>{{ v.groom }}</h1>
+  <p class="date">{{ v.weekday }}, {{ v.dateLong }}</p>
+  <p class="place">{{ v.venue }}</p>
+  <app-countdown class="hero-countdown" [date]="v.isoDate" [time]="v.rawTime" />
+</div>

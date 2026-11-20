@@ -1,0 +1,30 @@
+@let t = template();
+<article
+  class="card"
+  [style]="themeVars()"
+  [attr.aria-label]="t.name + ' – ' + t.style + ' invitation for ' + vm().bride + ' and ' + vm().groom"
+>
+  <span [class]="'texture pattern-' + t.theme.pattern"></span>
+  @switch (t.layout) {
+    @case ('royal-frame') { <app-royal-frame-layout [vm]="vm()" [template]="t" /> }
+    @case ('arch-window') { <app-arch-window-layout [vm]="vm()" [template]="t" /> }
+    @case ('floral-corners') { <app-floral-corners-layout [vm]="vm()" [template]="t" /> }
+    @case ('modern-minimal') { <app-modern-minimal-layout [vm]="vm()" [template]="t" /> }
+    @case ('photo-split') { <app-photo-split-layout [vm]="vm()" [template]="t" /> }
+    @case ('temple-gate') { <app-temple-gate-layout [vm]="vm()" [template]="t" /> }
+    @case ('art-deco') { <app-art-deco-layout [vm]="vm()" [template]="t" /> }
+    @case ('celestial') { <app-celestial-layout [vm]="vm()" [template]="t" /> }
+    @case ('polaroid') { <app-polaroid-layout [vm]="vm()" [template]="t" /> }
+    @case ('botanical-wreath') { <app-botanical-wreath-layout [vm]="vm()" [template]="t" /> }
+    @case ('ribbon-scroll') { <app-ribbon-scroll-layout [vm]="vm()" [template]="t" /> }
+    @case ('bold-typo') { <app-bold-typo-layout [vm]="vm()" [template]="t" /> }
+    @case ('kerala-kasavu') { <app-kerala-kasavu-layout [vm]="vm()" [template]="t" /> }
+    @case ('monogram') { <app-monogram-layout [vm]="vm()" [template]="t" /> }
+    @case ('lantern-arch') { <app-lantern-arch-layout [vm]="vm()" [template]="t" /> }
+    @case ('girih-medallion') { <app-girih-medallion-layout [vm]="vm()" [template]="t" /> }
+    @case ('mosque-skyline') { <app-mosque-skyline-layout [vm]="vm()" [template]="t" /> }
+    @case ('mashrabiya-doors') { <app-mashrabiya-doors-layout [vm]="vm()" [template]="t" /> }
+    @case ('scratch-circles') { <app-scratch-circles-layout [vm]="vm()" [template]="t" [interactive]="interactive()" /> }
+    @case ('scratch-ticket') { <app-scratch-ticket-layout [vm]="vm()" [template]="t" [interactive]="interactive()" /> }
+  }
+</article>

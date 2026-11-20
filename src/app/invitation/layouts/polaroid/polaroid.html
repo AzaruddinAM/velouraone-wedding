@@ -1,0 +1,40 @@
+@let v = vm();
+<div class="layout">
+  @for (doodle of doodles; track $index) {
+    <app-motif class="motif doodle" [name]="template().motif"
+      [style.left.%]="doodle.x" [style.top.%]="doodle.y" [style.rotate.deg]="doodle.r" />
+  }
+
+  <p class="hello">{{ v.opening }}!</p>
+
+  <figure class="polaroid">
+    <span class="tape left"></span>
+    <span class="tape right"></span>
+    <div class="shot">
+      @if (v.photoUrl) {
+        <img [src]="v.photoUrl" alt="Couple photo" />
+      } @else {
+        <div class="placeholder">
+          <app-motif class="motif" [name]="template().motif" />
+          <span>your photo here</span>
+        </div>
+      }
+    </div>
+    <figcaption>{{ v.bride }} + {{ v.groom }}</figcaption>
+  </figure>
+
+  <p class="getting-married">are getting married!</p>
+
+  <div class="bottom">
+    <div class="stamp">
+      <span>{{ v.monthShort }}</span>
+      <strong>{{ v.day }}</strong>
+      <span>{{ v.year }}</span>
+    </div>
+    <div class="note">
+      <p>{{ v.weekday }} · {{ v.time }}</p>
+      <p class="venue">{{ v.venue }}</p>
+      <p class="address">{{ v.address }}</p>
+    </div>
+  </div>
+</div>

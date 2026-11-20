@@ -1,0 +1,27 @@
+@let v = vm();
+<div class="layout">
+  <div class="content">
+    <p class="opening">{{ v.opening }}</p>
+
+    <div class="wreath">
+      @for (leaf of leaves; track leaf.angle) {
+        <span class="leaf" [style.transform]="leaf.transform"></span>
+      }
+      <app-motif class="motif accent-top" [name]="template().motif" />
+      <div class="initials">
+        <span>{{ v.brideInitial }}</span>
+        <i></i>
+        <span>{{ v.groomInitial }}</span>
+      </div>
+    </div>
+
+    @if (v.familyLine) {
+      <p class="family">{{ v.familyLine }}</p>
+    }
+    <p class="invite">{{ v.invitation }}</p>
+    <h2 class="names">{{ v.bride }} <span class="amp inline">&amp;</span> {{ v.groom }}</h2>
+    <p class="date-line">{{ v.weekday }} | {{ v.dateLong }} | {{ v.time }}</p>
+    <p class="venue">{{ v.venue }}</p>
+    <p class="address">{{ v.address }}</p>
+  </div>
+</div>

@@ -1,0 +1,22 @@
+@let v = vm();
+<svg class="ogee" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+  <path d="M8 100 V42 C8 24 32 18 50 4 C68 18 92 24 92 42 V100" />
+</svg>
+
+<div class="hero stagger">
+  <app-motif class="motif crest" [name]="template().motif" />
+  <p class="arabic">{{ arabic() }}</p>
+  <p class="kicker">{{ v.opening }}</p>
+  <h1 class="names">{{ v.bride }}<span class="amp">&amp;</span>{{ v.groom }}</h1>
+  <div class="date-box">
+    <strong>{{ v.day }} {{ v.month }} {{ v.year }}</strong>
+    <span>{{ v.weekday }} · {{ v.time }}</span>
+  </div>
+  <p class="place">{{ v.venue }}, {{ v.address }}</p>
+</div>
+
+<!-- Carved lattice doors swing open on arrival -->
+<div class="doors" aria-hidden="true">
+  <span class="door left"><i class="knob"></i></span>
+  <span class="door right"><i class="knob"></i></span>
+</div>

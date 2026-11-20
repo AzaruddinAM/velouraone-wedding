@@ -1,0 +1,80 @@
+@use '../hero-base' as hero;
+@include hero.base;
+@include hero.nikah;
+
+:host {
+  background: linear-gradient(180deg, var(--bg) 0%, var(--surface) 65%, color-mix(in srgb, var(--accent) 40%, var(--surface)) 100%);
+  --particle: var(--primary);
+}
+
+.moon {
+  position: absolute;
+  top: 70px;
+  right: 12%;
+  z-index: 2;
+  width: clamp(70px, 13cqw, 130px);
+  color: var(--primary);
+  filter: drop-shadow(0 0 30px color-mix(in srgb, var(--primary) 70%, transparent));
+  animation: moonrise 3.4s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+@keyframes moonrise {
+  from { transform: translateY(260px) scale(0.8); opacity: 0; }
+}
+
+.shooting {
+  position: absolute;
+  top: 14%;
+  left: -20%;
+  z-index: 2;
+  width: 160px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--primary));
+  rotate: 16deg;
+  animation: shoot 7s ease-in 1.5s infinite;
+}
+
+@keyframes shoot {
+  0%, 72% { transform: translateX(0); opacity: 0; }
+  74% { opacity: 1; }
+  100% { transform: translateX(1500px); opacity: 0; }
+}
+
+.hero {
+  z-index: 4;
+  justify-content: flex-start;
+  padding: 120px 28px 240px;
+}
+
+.skyline {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 3;
+  width: 100%;
+  height: clamp(170px, 30cqw, 300px);
+
+  .far {
+    fill: color-mix(in srgb, var(--ink) 15%, var(--surface));
+    opacity: 0.6;
+  }
+
+  .near {
+    fill: color-mix(in srgb, #000 55%, var(--surface));
+  }
+
+  .crest,
+  .window {
+    fill: var(--accent);
+  }
+
+  .window {
+    animation: window-glow 3s ease-in-out infinite;
+  }
+}
+
+@keyframes window-glow {
+  0%, 100% { opacity: 0.45; }
+  50% { opacity: 1; }
+}

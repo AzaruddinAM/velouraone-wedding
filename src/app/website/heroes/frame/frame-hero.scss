@@ -1,0 +1,38 @@
+@use '../hero-base' as hero;
+@include hero.base;
+
+.border {
+  position: absolute;
+  z-index: 1;
+  pointer-events: none;
+
+  &.outer {
+    inset: 16px;
+    border: 3px solid var(--accent);
+  }
+
+  &.inner {
+    inset: 26px;
+    border: 1px solid var(--accent);
+    opacity: 0.7;
+  }
+}
+
+.corner {
+  position: absolute;
+  z-index: 1;
+  width: clamp(56px, 12cqw, 110px);
+
+  &.top-left { top: 8px; left: 8px; }
+  &.top-right { top: 8px; right: 8px; transform: scaleX(-1); }
+  &.bottom-left { bottom: 8px; left: 8px; transform: scaleY(-1); }
+  &.bottom-right { bottom: 8px; right: 8px; transform: scale(-1); }
+}
+
+.hero {
+  padding: 80px 48px;
+}
+
+.crest {
+  width: clamp(70px, 14cqw, 120px);
+}

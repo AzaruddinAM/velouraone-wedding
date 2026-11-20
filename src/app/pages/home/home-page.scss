@@ -1,0 +1,568 @@
+:host {
+  display: block;
+}
+
+// ---------- Hero ----------
+.hero {
+  position: relative;
+  overflow: hidden;
+  padding: 3.5rem 0 4rem;
+  background:
+    radial-gradient(circle at 70% 30%, rgb(148 51 214 / 0.1), transparent 45%),
+    radial-gradient(circle at 10% 90%, rgb(226 178 92 / 0.16), transparent 40%);
+}
+
+// Purple corner shapes with a gold edge – taken from the VelouraOne poster.
+.swoosh {
+  position: absolute;
+  z-index: 0;
+  border-radius: 50%;
+  background: var(--brand-gradient);
+  box-shadow: 0 0 0 10px var(--bg), 0 0 0 12px var(--gold);
+  pointer-events: none;
+
+  &.top {
+    top: -230px;
+    right: -170px;
+    width: 420px;
+    height: 420px;
+    opacity: 0.95;
+  }
+
+  &.bottom {
+    bottom: -240px;
+    left: -220px;
+    width: 420px;
+    height: 420px;
+    opacity: 0.85;
+  }
+
+  @media (max-width: 720px) {
+    &.top { top: -230px; right: -210px; width: 300px; height: 300px; }
+    &.bottom { display: none; }
+  }
+}
+
+.hero-grid {
+  position: relative;
+  z-index: 1;
+}
+
+.brand-lines {
+  display: grid;
+  gap: 0.15rem;
+
+  .slogan {
+    margin: 0;
+    font-size: 0.82rem;
+    font-weight: 600;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--plum-dark);
+  }
+
+  .motto {
+    margin: 0;
+    font-family: var(--font-script);
+    font-size: 1.7rem;
+    color: var(--plum);
+  }
+}
+
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1.05fr 1fr;
+  gap: 3rem;
+  align-items: center;
+
+  @media (max-width: 960px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.hero-copy {
+  display: grid;
+  gap: 1.25rem;
+
+  h1 {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: clamp(2.2rem, 5vw, 3.7rem);
+    font-weight: 600;
+    line-height: 1.08;
+    color: var(--plum-dark);
+
+    em {
+      font-family: var(--font-script);
+      font-size: 1.15em;
+      font-style: normal;
+      font-weight: 600;
+      background: var(--brand-gradient);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+  }
+}
+
+.lead {
+  margin: 0;
+  max-width: 34rem;
+  font-size: 1.1rem;
+  color: var(--muted);
+}
+
+.try {
+  max-width: 30rem;
+  padding: 1rem 1.1rem;
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  box-shadow: var(--shadow-sm);
+}
+
+.try-title {
+  margin: 0 0 0.6rem;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.cta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.hero-cards {
+  position: relative;
+  height: 560px;
+
+  @media (max-width: 960px) {
+    height: 440px;
+  }
+
+  @media (max-width: 520px) {
+    height: 340px;
+  }
+}
+
+.hero-card {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: min(300px, 46%);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  box-shadow: var(--shadow-lg);
+  transition: transform 0.35s ease, z-index 0s;
+
+  &.pos-0 { transform: translate(-125%, -46%) rotate(-9deg); }
+  &.pos-1 { z-index: 2; transform: translate(-50%, -54%); }
+  &.pos-2 { transform: translate(25%, -46%) rotate(9deg); }
+
+  &:hover {
+    z-index: 3;
+    transform: translate(var(--hx, -50%), -58%) rotate(0) scale(1.03);
+  }
+
+  &.pos-0:hover { --hx: -115%; }
+  &.pos-2:hover { --hx: 15%; }
+}
+
+.hero-label {
+  position: absolute;
+  left: 50%;
+  bottom: 0.6rem;
+  translate: -50% 0;
+  padding: 0.2rem 0.7rem;
+  border-radius: 999px;
+  background: rgb(0 0 0 / 0.6);
+  color: #fff;
+  font-size: 0.75rem;
+  white-space: nowrap;
+}
+
+// ---------- Stats ----------
+.stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  margin-top: -1.5rem;
+  padding: 1.5rem;
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  box-shadow: var(--shadow-md);
+  text-align: center;
+
+  @media (max-width: 640px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  div {
+    display: grid;
+  }
+
+  strong {
+    font-family: var(--font-display);
+    font-size: 2.2rem;
+    color: var(--plum);
+  }
+
+  span {
+    font-size: 0.85rem;
+    color: var(--muted);
+  }
+}
+
+// ---------- Sections ----------
+.section {
+  padding-top: 5rem;
+}
+
+.narrow {
+  max-width: 760px;
+}
+
+.section-head {
+  margin-bottom: 2rem;
+
+  h2 {
+    margin: 0.35rem 0 0;
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 4vw, 2.8rem);
+    font-weight: 500;
+  }
+
+  &.row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  &.center {
+    text-align: center;
+  }
+}
+
+.steps {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.25rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  @media (max-width: 900px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (max-width: 520px) {
+    grid-template-columns: 1fr;
+  }
+
+  li {
+    padding: 1.5rem;
+    border-radius: var(--radius-lg);
+    background: var(--surface);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .num {
+    display: grid;
+    place-items: center;
+    width: 2.6rem;
+    height: 2.6rem;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--plum), var(--rose));
+    color: #fff;
+    font-weight: 700;
+  }
+
+  h3 {
+    margin: 1rem 0 0.4rem;
+    font-family: var(--font-display);
+    font-size: 1.45rem;
+  }
+
+  p {
+    margin: 0;
+    color: var(--muted);
+  }
+}
+
+.categories {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+  gap: 1rem;
+}
+
+.category {
+  position: relative;
+  display: grid;
+  gap: 0.3rem;
+  min-height: 9.5rem;
+  padding: 1.25rem;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  background: var(--c-bg);
+  color: var(--c-fg);
+  text-decoration: none;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.2s ease;
+
+  &::after {
+    content: '';
+    position: absolute;
+    right: -2.5rem;
+    bottom: -2.5rem;
+    width: 7rem;
+    height: 7rem;
+    border-radius: 50%;
+    border: 0.6rem solid var(--c-accent);
+    opacity: 0.4;
+  }
+
+  &:hover {
+    transform: translateY(-3px);
+  }
+
+  strong {
+    font-family: var(--font-display);
+    font-size: 1.6rem;
+  }
+
+  span {
+    font-size: 0.88rem;
+    opacity: 0.85;
+  }
+
+  small {
+    margin-top: auto;
+    font-weight: 600;
+    color: var(--c-accent);
+  }
+}
+
+.faq {
+  display: grid;
+  gap: 0.75rem;
+
+  details {
+    padding: 1rem 1.25rem;
+    border-radius: var(--radius-md);
+    background: var(--surface);
+    box-shadow: var(--shadow-sm);
+  }
+
+  summary {
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  p {
+    margin: 0.6rem 0 0;
+    color: var(--muted);
+  }
+}
+
+.cta-band {
+  display: grid;
+  justify-items: center;
+  gap: 0.75rem;
+  margin-top: 5rem;
+  padding: 3rem 1.5rem;
+  border-radius: var(--radius-lg);
+  background: var(--brand-gradient);
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.12), 0 0 0 4px var(--bg), 0 0 0 6px var(--gold);
+  color: #fff;
+  text-align: center;
+
+  h2 {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: clamp(1.9rem, 4vw, 2.6rem);
+    font-weight: 500;
+  }
+
+  p {
+    margin: 0 0 0.5rem;
+    opacity: 0.9;
+  }
+}
+
+// ---------- Product chooser ----------
+.products {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+
+  @media (max-width: 860px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.product {
+  position: relative;
+  display: grid;
+  grid-template-columns: 0.8fr 1fr;
+  gap: 1.25rem;
+  align-items: center;
+  padding: 1.25rem;
+  border: 2px solid transparent;
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  box-shadow: var(--shadow-sm);
+  color: var(--text);
+  text-decoration: none;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+
+  &:hover {
+    transform: translateY(-4px);
+    border-color: var(--rose);
+    box-shadow: var(--shadow-lg);
+  }
+
+  &.featured {
+    background: linear-gradient(160deg, #fff, var(--cream));
+  }
+
+  @media (max-width: 480px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.product-preview {
+  overflow: hidden;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+}
+
+.product-text {
+  display: grid;
+  gap: 0.6rem;
+  justify-items: start;
+
+  h3 {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: 2rem;
+    font-weight: 500;
+    line-height: 1;
+  }
+
+  p {
+    margin: 0;
+    color: var(--muted);
+  }
+
+  ul {
+    display: grid;
+    gap: 0.25rem;
+    margin: 0 0 0.4rem;
+    padding-left: 1.1rem;
+    font-size: 0.9rem;
+  }
+}
+
+.ribbon {
+  padding: 0.15rem 0.6rem;
+  border-radius: 999px;
+  background: var(--rose);
+  color: #fff;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.cta-band .closing {
+  font-family: var(--font-script);
+  font-size: clamp(1.5rem, 4vw, 2.1rem);
+  color: var(--gold-light);
+}
+
+// ---------- Nikah collection ----------
+.nikah {
+  position: relative;
+  margin-top: 5rem;
+  padding: 4rem 0;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 15% 0%, rgb(226 178 92 / 0.25), transparent 40%),
+    radial-gradient(circle at 90% 100%, rgb(148 51 214 / 0.35), transparent 45%),
+    linear-gradient(160deg, #0b1a3a, #2a0b4d 60%, #0d3b2f);
+  color: #f3ecff;
+
+  // Faint repeating 8-point stars
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      conic-gradient(from 45deg, rgb(226 178 92 / 0.08) 0 25%, transparent 0 50%, rgb(226 178 92 / 0.08) 0 75%, transparent 0) 0 0 / 46px 46px;
+    mask: linear-gradient(180deg, #000, transparent 70%);
+  }
+
+  .container {
+    position: relative;
+  }
+}
+
+.nikah-head {
+  display: grid;
+  justify-items: center;
+  gap: 0.6rem;
+  margin-bottom: 2.25rem;
+  text-align: center;
+
+  .arabic {
+    margin: 0;
+    font-family: 'Amiri', serif;
+    font-size: clamp(1.6rem, 4vw, 2.3rem);
+    color: var(--gold-light);
+  }
+
+  .eyebrow {
+    color: var(--gold);
+  }
+
+  h2 {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 4.5vw, 3rem);
+    font-weight: 600;
+    color: #fff;
+  }
+
+  p {
+    margin: 0;
+    max-width: 44rem;
+    color: #d9cdea;
+  }
+}
+
+.nikah-cta {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.6rem;
+  margin-top: 0.6rem;
+}
+
+.btn-ghost-light {
+  border-color: rgb(255 255 255 / 0.4);
+  background: transparent;
+  color: #fff;
+
+  &:hover {
+    border-color: var(--gold);
+  }
+}
+
+// ---------- 3D collection ----------
+.three-d-lead {
+  max-width: 40rem;
+  margin: 0.6rem 0 0;
+  color: var(--muted);
+}
