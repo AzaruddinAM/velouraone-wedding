@@ -84,6 +84,21 @@ Upload **everything inside `dist/velouraone-wedding/browser/`** to the web root 
 The included `.htaccess` (Apache/cPanel) sends every route to `index.html`, so links like
 `/websites/w7-the-wedding-issue` work after a refresh. On Nginx, use `try_files $uri $uri/ /index.html;`.
 
+## Automatic deploy (GitHub Actions → Hostinger)
+
+Every push to `main` builds the site and uploads it to **https://invitations.velouraone.in** over FTP (`.github/workflows/deploy.yml`). You can also run it by hand: **Actions → Deploy to invitations.velouraone.in → Run workflow**.
+
+Add these once in GitHub under **Settings → Secrets and variables → Actions → New repository secret**:
+
+| Secret | Where to find it (hPanel → Files → FTP Accounts) |
+| --- | --- |
+| `FTP_SERVER` | FTP host or IP |
+| `FTP_USERNAME` | FTP username |
+| `FTP_PASSWORD` | FTP password |
+| `FTP_SERVER_DIR` | Folder of the subdomain, ending in `/`. Use `/` if the FTP account opens straight into it, otherwise e.g. `/domains/velouraone.in/public_html/invitations/` |
+
+Uploads use encrypted FTPS. If Hostinger refuses FTPS, add a repository **variable** `FTP_PROTOCOL` = `ftp`. Only changed files are uploaded after the first deploy.
+
 ## Where to change things
 
 | What | File |

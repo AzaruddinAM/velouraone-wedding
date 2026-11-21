@@ -1,0 +1,91 @@
+# Builds the Angular site and uploads it to Hostinger (https://invitations.velouraone.in)
+# every time `main` is pushed. It can also be started by hand from the Actions tab.
+#
+# Required repository secrets (Settings → Secrets and variables → Actions):
+#   FTP_SERVER      FTP host from hPanel → Files → FTP Accounts (e.g. ftp.velouraone.in or the server IP)
+#   FTP_USERNAME    FTP username (e.g. u123456789.invitations)
+#   FTP_PASSWORD    FTP password
+#   FTP_SERVER_DIR  Folder of the subdomain on the server, ending with "/".
+#                   "/" if the FTP account opens straight into the subdomain folder,
+#                   otherwise e.g. "/domains/velouraone.in/public_html/invitations/"
+#
+# Optional repository variable:
+#   FTP_PROTOCOL    "ftps" (default, encrypted) or "ftp" if FTPS is not available
+
+name: Deploy to invitations.velouraone.in
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# Never run two deploys at the same time; a newer push waits for the running one.
+concurrency:
+  group: deploy-invitations
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build Angular site
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build for production
+        run: npm run build -- --configuration production
+
+      - name: Check the build output
+        run: |
+          test -f dist/velouraone-wedding/browser/index.html
+          test -f dist/velouraone-wedding/browser/.htaccess
+          echo "Files to upload:" && find dist/velouraone-wedding/browser -type f | wc -l
+
+      - name: Keep the build for the deploy job
+        uses: actions/upload-artifact@v4
+        with:
+          name: site
+          path: dist/velouraone-wedding/browser/
+          include-hidden-files: true # keeps .htaccess (needed so /websites/... links work on refresh)
+          retention-days: 7
+
+  deploy:
+    name: Upload to Hostinger
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: production
+      url: https://invitations.velouraone.in/
+    steps:
+      - name: Download the build
+        uses: actions/download-artifact@v4
+        with:
+          name: site
+          path: site
+
+      - name: Upload over FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          protocol: ${{ vars.FTP_PROTOCOL || 'ftps' }}
+          local-dir: ./site/
+          server-dir: ${{ secrets.FTP_SERVER_DIR }}
+          # Only changed files are uploaded; files removed from the build are removed from the server.
+          # The action keeps track of this in .ftp-deploy-sync-state.json on the server.
+          dangerous-clean-slate: false
+          log-level: standard
+          timeout: 120000
