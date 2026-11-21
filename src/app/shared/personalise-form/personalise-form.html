@@ -39,6 +39,25 @@
         [value]="d.familyLine" (input)="setText('familyLine', $event)" />
     </label>
 
+    <div class="row two">
+      <label class="field">
+        <span>Groom's parents <small>(optional)</small></span>
+        <input type="text" maxlength="70" placeholder="Mr. … &amp; Mrs. …"
+          [value]="d.groomParents" (input)="setText('groomParents', $event)" />
+      </label>
+      <label class="field">
+        <span>Bride's parents <small>(optional)</small></span>
+        <input type="text" maxlength="70" placeholder="Mr. … &amp; Mrs. …"
+          [value]="d.brideParents" (input)="setText('brideParents', $event)" />
+      </label>
+    </div>
+
+    <label class="field">
+      <span>WhatsApp number for guest RSVPs <small>(optional, with country code)</small></span>
+      <input type="tel" maxlength="16" placeholder="e.g. 9198xxxxxxxx"
+        [value]="d.rsvpPhone" (input)="setText('rsvpPhone', $event)" />
+    </label>
+
     <div class="photo">
       <div class="photo-preview" [class.empty]="!d.photoUrl">
         @if (d.photoUrl) {

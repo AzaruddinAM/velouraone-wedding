@@ -1,0 +1,229 @@
+@let v = vm();
+@let t = template();
+@let s = style();
+<div [class]="'invite cards-' + s.cards + ' bd-' + s.backdrop">
+  @if (mode() === 'preview' || !opened()) {
+    <!-- ================= Opening screen ================= -->
+    <app-invite-gate [template]="t" [vm]="v" [interactive]="mode() === 'full'" (opened)="open()" />
+  } @else {
+    <!-- ================= Sticky header with menu ================= -->
+    <header class="bar">
+      <span class="mono">{{ v.brideInitial }}<em>&amp;</em>{{ v.groomInitial }}</span>
+      <span class="bar-names">{{ v.bride }} &amp; {{ v.groom }}</span>
+      <button type="button" class="menu-btn" [attr.aria-expanded]="menuOpen()" aria-label="Menu" (click)="menuOpen.set(!menuOpen())">
+        <i></i><i></i><i></i>
+      </button>
+    </header>
+    @if (menuOpen()) {
+      <nav class="menu" aria-label="Sections">
+        @for (item of menu; track item.id) {
+          <button type="button" (click)="goTo(item.id)">{{ item.label }}</button>
+        }
+      </nav>
+    }
+
+    <!-- Floating music + back-to-top (sticky so they stay inside preview frames) -->
+    <div class="floaters">
+      <button type="button" class="float music" [class.on]="music.playing()" (click)="music.toggle()"
+        [attr.aria-label]="music.playing() ? 'Pause music' : 'Play music'">
+        @if (music.playing()) {
+          <span class="bars"><i></i><i></i><i></i><i></i></span>
+        } @else {
+          ♫
+        }
+      </button>
+      <button type="button" class="float" aria-label="Back to top" (click)="goTo('home')">↑</button>
+    </div>
+
+    <!-- ================= Hero ================= -->
+    <section class="hero" data-invite="home">
+      <app-invite-backdrop [kind]="s.backdrop" [vm]="v" />
+      @if (s.particles !== 'none') {
+        <app-falling-particles [kind]="s.particles" [count]="16" />
+      }
+      <div class="hero-card">
+        @if (t.wording.arabic) {
+          <p class="arabic">{{ t.wording.arabic }}</p>
+          @if (t.wording.arabicMeaning) {
+            <p class="meaning">{{ t.wording.arabicMeaning }}</p>
+          }
+        } @else {
+          <p class="eyebrow">{{ v.opening }}</p>
+        }
+        <span class="tag">{{ isNikah() ? 'Nikah' : 'Wedding' }}</span>
+        <h1 class="person">{{ v.groom }}</h1>
+        @if (v.groomParents) {
+          <p class="parents">{{ v.groomParents }}</p>
+        }
+        <span class="amp">&amp;</span>
+        <h1 class="person">{{ v.bride }}</h1>
+        @if (v.brideParents) {
+          <p class="parents">{{ v.brideParents }}</p>
+        }
+        <p class="date-line">{{ v.weekday }}, {{ v.dateLong }}</p>
+      </div>
+      <span class="scroll-cue">Scroll<i></i></span>
+    </section>
+
+    <!-- ================= A glimpse of us (scratch photo) ================= -->
+    <section class="block" data-invite="glimpse" [appRevealOnScroll]="true">
+      <p class="eyebrow">A little surprise</p>
+      <h2 class="title">A glimpse of us</h2>
+      <p class="hint">Scratch the gold to see us</p>
+      <app-scratch-reveal class="glimpse" [interactive]="true" label="Scratch me ✦">
+        @if (v.photoUrl) {
+          <img [src]="v.photoUrl" alt="The couple" />
+        } @else {
+          <div class="glimpse-placeholder">
+            <app-motif [name]="t.motif" />
+            <p>{{ v.brideInitial }} &amp; {{ v.groomInitial }}</p>
+            <small>Your photo appears here</small>
+          </div>
+        }
+      </app-scratch-reveal>
+    </section>
+
+    <!-- ================= The day ================= -->
+    <section class="block" data-invite="event" [appRevealOnScroll]="true">
+      <div class="card event">
+        <p class="eyebrow">{{ mainEvent().main.name }}</p>
+        <p class="big-date">{{ v.weekday }}, {{ v.dateLong }}</p>
+        <p class="time">{{ mainEvent().main.time }}</p>
+        @if (isNikah()) {
+          <p class="insha">In sha Allah</p>
+        }
+        <span class="divider"><i></i><app-motif [name]="t.motif" /><i></i></span>
+        <p class="eyebrow">Venue</p>
+        <p class="venue">{{ v.venue }}</p>
+        <p class="address">{{ v.address }}</p>
+        <div class="actions">
+          <a class="pill" [href]="v.mapUrl" target="_blank" rel="noopener">↗ Directions</a>
+          <a class="pill" [href]="v.calendarUrl" target="_blank" rel="noopener">＋ Add to calendar</a>
+        </div>
+        @for (e of mainEvent().others; track e.name) {
+          <p class="also"><b>{{ e.name }}</b> · {{ e.date }} · {{ e.time }}</p>
+        }
+      </div>
+    </section>
+
+    <!-- ================= Countdown + welcome ================= -->
+    <section class="block" [appRevealOnScroll]="true">
+      <div class="seal-mono"><span>{{ v.brideInitial }}<em>&amp;</em>{{ v.groomInitial }}</span></div>
+      <p class="date-dots">{{ v.day }} · {{ v.monthNumber }} · {{ v.year }}</p>
+      <p class="eyebrow">Counting down</p>
+      <app-countdown class="count" [date]="v.isoDate" [time]="v.rawTime" />
+    </section>
+
+    <section class="block" [appRevealOnScroll]="true">
+      <p class="eyebrow">{{ v.familyLine || 'Together with our families' }}</p>
+      <h2 class="title">We welcome you</h2>
+      <p class="quote">“{{ welcomeMessage() }}”</p>
+    </section>
+
+    <!-- ================= Journey ================= -->
+    <section class="block" data-invite="journey" [appRevealOnScroll]="true">
+      <p class="eyebrow">Our journey</p>
+      <h2 class="title">{{ isNikah() ? 'Every journey begins with His blessings' : 'How it all began' }}</h2>
+      <ol class="timeline">
+        @for (m of v.story; track m.title) {
+          <li class="card">
+            <span class="year">{{ m.year }}</span>
+            <h3>{{ m.title }}</h3>
+            <p>{{ m.text }}</p>
+          </li>
+        }
+      </ol>
+    </section>
+
+    <!-- ================= Gallery ================= -->
+    <section class="block" data-invite="gallery" [appRevealOnScroll]="true">
+      <p class="eyebrow">Moments together</p>
+      <h2 class="title">Our memories</h2>
+      <div class="gallery">
+        @for (g of galleryTiles; track $index) {
+          <figure [class.tall]="g.tall">
+            @if (v.photoUrl) {
+              <img [src]="v.photoUrl" alt="" [style.object-position]="g.focus" [style.filter]="g.filter" />
+            } @else {
+              <span class="ph"><app-motif [name]="t.motif" /></span>
+            }
+          </figure>
+        }
+      </div>
+    </section>
+
+    <!-- ================= Families ================= -->
+    <section class="block" data-invite="family" [appRevealOnScroll]="true">
+      <p class="eyebrow">With blessings</p>
+      <h2 class="title">Our families</h2>
+      <div class="families">
+        <div class="card fam">
+          <p class="eyebrow">Groom</p>
+          <h3>{{ v.groom }}</h3>
+          <p class="of">Son of</p>
+          <p>{{ v.groomParents || 'Mr. & Mrs. …' }}</p>
+        </div>
+        <div class="card fam">
+          <p class="eyebrow">Bride</p>
+          <h3>{{ v.bride }}</h3>
+          <p class="of">Daughter of</p>
+          <p>{{ v.brideParents || 'Mr. & Mrs. …' }}</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= Venue map ================= -->
+    <section class="block" data-invite="venue" [appRevealOnScroll]="true">
+      <p class="eyebrow">Find us</p>
+      <h2 class="title">{{ v.venue }}</h2>
+      <div class="card map-card">
+        <iframe [src]="v.mapEmbedUrl | safeUrl" title="Venue map" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        <div class="map-foot">
+          <span>{{ v.address }}</span>
+          <a class="pill solid" [href]="v.mapUrl" target="_blank" rel="noopener">Directions →</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= RSVP ================= -->
+    <section class="block" data-invite="rsvp" [appRevealOnScroll]="true">
+      <p class="eyebrow">RSVP</p>
+      <h2 class="title">Will you join us?</h2>
+      <p class="quote small">Kindly let us know if you will be able to celebrate with us.</p>
+      <div class="actions">
+        <button type="button" class="pill solid" (click)="rsvp('yes')">✓ Joyfully accept</button>
+        <button type="button" class="pill" (click)="rsvp('no')">Regretfully decline</button>
+      </div>
+      @if (rsvpNote()) {
+        <p class="note">{{ rsvpNote() }}</p>
+      }
+    </section>
+
+    <!-- ================= Wishes wall ================= -->
+    <section class="block" data-invite="wishes" [appRevealOnScroll]="true">
+      <p class="eyebrow">{{ isNikah() ? 'Duas & wishes' : 'Wishes' }}</p>
+      <h2 class="title">Leave a {{ isNikah() ? 'dua' : 'wish' }} for us</h2>
+      <form class="card wish-form" (submit)="$event.preventDefault(); sendWish()">
+        <input type="text" maxlength="40" placeholder="Your name" [value]="wishName()" (input)="wishName.set(read($event))" />
+        <textarea rows="3" maxlength="240" placeholder="Your message" [value]="wishText()" (input)="wishText.set(read($event))"></textarea>
+        <button type="submit" class="pill solid" [disabled]="!wishName().trim() || !wishText().trim()">Send blessings</button>
+      </form>
+      <ul class="wishes">
+        @for (w of wishes(); track $index) {
+          <li class="card"><p>“{{ w.message }}”</p><b>— {{ w.name }}</b></li>
+        }
+      </ul>
+    </section>
+
+    <!-- ================= Closing ================= -->
+    <footer class="block closing">
+      <span class="divider"><i></i><app-motif [name]="t.motif" /><i></i></span>
+      <p class="eyebrow">With love</p>
+      <p class="sign">{{ v.bride }} &amp; {{ v.groom }}</p>
+      <p class="quote small">
+        {{ isNikah() ? 'May Allah bless this union with love, mercy and barakah.' : 'Thank you for being part of our story.' }}
+      </p>
+      <p class="date-dots">{{ v.weekday }} · {{ v.dateLong }}</p>
+    </footer>
+  }
+</div>

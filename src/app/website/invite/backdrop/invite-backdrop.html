@@ -1,0 +1,141 @@
+@let v = vm();
+@switch (kind()) {
+  <!-- ===================== Palace steps ===================== -->
+  @case ('palace') {
+    <svg class="art" viewBox="0 0 400 800" preserveAspectRatio="xMidYMax slice">
+      <defs>
+        <linearGradient [attr.id]="uid + 'sky'" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" style="stop-color: var(--surface)" />
+          <stop offset="1" style="stop-color: var(--bg)" />
+        </linearGradient>
+      </defs>
+      <rect width="400" height="800" [attr.fill]="'url(#' + uid + 'sky)'" />
+      <!-- Great pointed arch in the back wall -->
+      <path class="wall" d="M0 0 H400 V800 H0 Z M90 560 V300 C90 210 160 170 200 110 C240 170 310 210 310 300 V560 Z" fill-rule="evenodd" />
+      <path class="trim" d="M90 560 V300 C90 210 160 170 200 110 C240 170 310 210 310 300 V560" />
+      <path class="trim thin" d="M104 560 V304 C104 222 166 186 200 132 C234 186 296 222 296 304 V560" />
+      <!-- Pillars -->
+      <rect class="pillar" x="18" y="140" width="34" height="520" />
+      <rect class="pillar" x="348" y="140" width="34" height="520" />
+      <rect class="trim-fill" x="12" y="130" width="46" height="14" />
+      <rect class="trim-fill" x="342" y="130" width="46" height="14" />
+      <!-- Balustrade -->
+      <rect class="trim-fill" x="0" y="556" width="400" height="8" />
+      @for (b of balusters; track b) {
+        <rect class="baluster" [attr.x]="8 + b * 26.5" y="564" width="10" height="34" rx="5" />
+      }
+      <rect class="trim-fill" x="0" y="596" width="400" height="6" />
+      <!-- Curved staircase -->
+      @for (s of steps; track s) {
+        <ellipse class="step" [class.alt]="s % 2 === 1" cx="200" [attr.cy]="800 - s * 24" [attr.rx]="230 - s * 16" ry="26" />
+      }
+    </svg>
+    <!-- Floral garlands in the top corners and trailing vines -->
+    <svg class="garland left" viewBox="0 0 160 200">
+      @for (f of garland(); track $index) {
+        <circle [class]="'bloom t' + f.tone" [attr.cx]="f.x * 150" [attr.cy]="f.y * f.y * 190" [attr.r]="f.r" />
+      }
+    </svg>
+    <svg class="garland right" viewBox="0 0 160 200">
+      @for (f of garland(); track $index) {
+        <circle [class]="'bloom t' + f.tone" [attr.cx]="f.x * 150" [attr.cy]="f.y * f.y * 190" [attr.r]="f.r" />
+      }
+    </svg>
+  }
+
+  <!-- ===================== Garden arch ===================== -->
+  @case ('garden') {
+    <svg class="art" viewBox="0 0 400 800" preserveAspectRatio="xMidYMax slice">
+      <defs>
+        <linearGradient [attr.id]="uid + 'sky'" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" style="stop-color: var(--surface)" />
+          <stop offset="0.75" style="stop-color: var(--bg)" />
+          <stop offset="1" stop-color="#cfe0c3" />
+        </linearGradient>
+      </defs>
+      <rect width="400" height="800" [attr.fill]="'url(#' + uid + 'sky)'" />
+      <path class="hedge far" d="M0 560 Q40 520 80 556 T160 548 T240 556 T320 546 T400 556 V800 H0Z" />
+      <path class="hedge" d="M0 600 Q30 570 60 596 T120 590 T180 600 T240 588 T300 600 T360 590 T400 598 V800 H0Z" />
+      <path class="lawn" d="M0 640 H400 V800 H0Z" />
+      <path class="aisle" d="M170 640 L230 640 L300 800 L100 800Z" />
+      <!-- Arch posts -->
+      <rect class="post" x="44" y="460" width="10" height="190" />
+      <rect class="post" x="346" y="460" width="10" height="190" />
+      @for (b of archBlooms(); track $index) {
+        <circle [class]="'bloom t' + b.tone" [attr.cx]="b.x" [attr.cy]="b.y" [attr.r]="b.r" />
+      }
+      @for (b of archBlooms(); track $index) {
+        @if ($index % 3 === 0) {
+          <ellipse class="leafy" [attr.cx]="b.x + 9" [attr.cy]="b.y + 6" rx="9" ry="4" [attr.transform]="'rotate(' + ($index * 23) + ' ' + (b.x + 9) + ' ' + (b.y + 6) + ')'" />
+        }
+      }
+      <!-- String lights -->
+      <path class="wire" d="M0 120 Q100 170 200 130 T400 120" />
+      @for (b of bulbs; track $index) {
+        <circle class="bulb" [attr.cx]="b.x" [attr.cy]="b.y" r="3.2" [style.animation-delay.s]="b.delay" />
+      }
+    </svg>
+  }
+
+  <!-- ===================== Lantern night ===================== -->
+  @case ('lanterns') {
+    <div class="night"></div>
+    @for (l of lanterns; track $index) {
+      <span class="hang" [style.left.%]="l.x" [style.height.px]="l.len" [style.animation-delay.s]="l.delay">
+        <i class="cord"></i>
+        <app-motif class="lamp" name="lantern" [style.width.px]="l.size" />
+      </span>
+    }
+    <app-motif class="moon" name="crescent" />
+    <svg class="skyline" viewBox="0 0 400 140" preserveAspectRatio="xMidYMax slice">
+      <path d="M0 140 V96 H40 V70 Q55 46 70 70 V96 H120 V84 Q140 60 160 84 V140Z M240 140 V84 Q260 60 280 84 V96 H330 V70 Q345 46 360 70 V96 H400 V140Z" class="far" />
+      <path d="M126 140 V52 L132 34 L138 52 V140Z M262 140 V52 L268 34 L274 52 V140Z M150 140 V98 H168 Q168 60 200 46 Q232 60 232 98 H250 V140Z" class="near" />
+    </svg>
+  }
+
+  <!-- ===================== Emerald dome ===================== -->
+  @case ('dome') {
+    <div class="emerald"></div>
+    <div class="pattern">
+      @for (s of stars; track s) {
+        <app-motif name="star8" />
+      }
+    </div>
+    <svg class="dome-art" viewBox="0 0 400 420" preserveAspectRatio="xMidYMax meet">
+      <path class="dome-line" d="M40 420 V210 L46 160 L52 210 V420 M348 420 V210 L354 160 L360 210 V420" />
+      <path class="dome-line" d="M90 420 V300 H120 Q120 170 200 120 Q280 170 280 300 H310 V420" />
+      <path class="dome-line" d="M198 120 V90 H202 V120" />
+      <path class="dome-fill" d="M90 420 V300 H120 Q120 170 200 120 Q280 170 280 300 H310 V420Z" />
+      <path class="dome-line thin" d="M150 420 V360 Q150 330 200 316 Q250 330 250 360 V420" />
+    </svg>
+    <app-motif class="finial" name="crescent" />
+  }
+
+  <!-- ===================== Couple photo ===================== -->
+  @case ('photo') {
+    @if (v.photoUrl) {
+      <img class="photo" [src]="v.photoUrl" alt="" />
+    } @else {
+      <div class="photo placeholder">
+        @for (b of bokeh; track $index) {
+          <span [style.left.%]="b.x" [style.top.%]="b.y" [style.width.px]="b.s" [style.height.px]="b.s"></span>
+        }
+        <p class="watermark">{{ v.brideInitial }}<em>&amp;</em>{{ v.groomInitial }}</p>
+      </div>
+    }
+    <div class="photo-shade"></div>
+  }
+
+  <!-- ===================== Jaali lattice ===================== -->
+  @case ('jaali') {
+    <div class="jaali"></div>
+    <svg class="scallop" viewBox="0 0 400 800" preserveAspectRatio="xMidYMax slice">
+      <path class="frame" fill-rule="evenodd"
+        d="M0 0 H400 V800 H0Z M70 800 V330 Q70 300 92 292 Q96 262 124 254 Q132 226 162 222 Q176 196 200 190 Q224 196 238 222 Q268 226 276 254 Q304 262 308 292 Q330 300 330 330 V800Z" />
+      <path class="trim" d="M70 800 V330 Q70 300 92 292 Q96 262 124 254 Q132 226 162 222 Q176 196 200 190 Q224 196 238 222 Q268 226 276 254 Q304 262 308 292 Q330 300 330 330 V800" />
+    </svg>
+    @for (x of [18, 50, 82]; track x) {
+      <span class="tassel" [style.left.%]="x"><i></i></span>
+    }
+  }
+}

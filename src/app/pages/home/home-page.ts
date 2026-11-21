@@ -42,7 +42,7 @@ export class HomePage {
     this.catalog.ofKind('website').filter((d) => d.category === 'nikah').length;
 
   /** Real-time 3D Nikah websites (mosque, rings, crescent, lanterns). */
-  protected readonly threeDShowcase = this.pick(['w53', 'w57', 'w61', 'w55']);
+  protected readonly threeDShowcase = this.pick(['w63', 'w65', 'w67', 'w69']);
   protected readonly threeDCount = this.catalog.countWithFeature('website', '3d');
 
   protected readonly popularWebsites = this.catalog.popular('website', 4);

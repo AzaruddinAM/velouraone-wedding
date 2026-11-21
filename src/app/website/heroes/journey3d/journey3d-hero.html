@@ -1,0 +1,66 @@
+@let v = vm();
+@let o = opacities();
+<div class="sticky">
+  <app-three-scene
+    class="stage"
+    [kind]="sceneKind()"
+    [theme]="template().theme"
+    [live]="interactive()"
+    [journey]="true"
+    [progress]="progress()"
+  />
+  <span class="vignette" aria-hidden="true"></span>
+
+  <!-- 1 · Welcome -->
+  <section class="panel welcome" [style.opacity]="o[0]" [class.hidden]="o[0] === 0" aria-label="Welcome">
+    @if (arabicLine()) {
+      <p class="arabic">{{ arabicLine() }}</p>
+    }
+    <p class="kicker">{{ v.opening }}</p>
+    <h1 class="names">{{ v.bride }}<span class="amp">&amp;</span>{{ v.groom }}</h1>
+    @if (interactive()) {
+      <p class="cue"><span class="mouse" aria-hidden="true"></span> Scroll to walk in · drag to look around</p>
+    } @else {
+      <p class="cue">{{ v.weekday }} · {{ v.dateLong }}</p>
+    }
+  </section>
+
+  @if (interactive()) {
+    <!-- 2 · Invitation -->
+    <section class="panel card" [style.opacity]="o[1]" [class.hidden]="o[1] === 0" aria-label="Invitation">
+      @if (v.familyLine) {
+        <p class="family">{{ v.familyLine }}</p>
+      }
+      <p class="invite">{{ v.invitation }}</p>
+      <p class="names small">{{ v.bride }} <span class="amp inline">&amp;</span> {{ v.groom }}</p>
+    </section>
+
+    <!-- 3 · Date -->
+    <section class="panel card" [style.opacity]="o[2]" [class.hidden]="o[2] === 0" aria-label="Date">
+      <p class="kicker">Save the date</p>
+      <p class="big-date">{{ v.day }} <span>{{ v.month }}</span> {{ v.year }}</p>
+      <p class="date">{{ v.weekday }} · {{ v.time }}</p>
+      <app-countdown class="hero-countdown" [date]="v.isoDate" [time]="v.rawTime" />
+    </section>
+
+    <!-- 4 · Venue -->
+    <section class="panel card" [style.opacity]="o[3]" [class.hidden]="o[3] === 0" aria-label="Venue">
+      <p class="kicker">Join us at</p>
+      <p class="venue-name">{{ v.venue }}</p>
+      <p class="place">{{ v.address }}</p>
+      <a class="map" [href]="v.mapUrl" target="_blank" rel="noopener">Get directions</a>
+      <p class="cue">Keep scrolling for our story ↓</p>
+    </section>
+
+    <!-- Progress rail -->
+    <nav class="rail" aria-label="Journey chapters">
+      @for (c of chapters; track c.label; let i = $index) {
+        <button type="button" [class.active]="activeChapter() === i" (click)="goTo(i)" [attr.aria-label]="c.label">
+          <span>{{ c.label }}</span>
+        </button>
+      }
+    </nav>
+  }
+
+  <span class="badge-3d" aria-hidden="true">3D</span>
+</div>

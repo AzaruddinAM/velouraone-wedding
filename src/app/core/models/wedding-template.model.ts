@@ -55,10 +55,40 @@ export type WebsiteHero =
   | 'scratch'
   | 'petals'
   // Real-time 3D (WebGL) – the scene is chosen by `scene3d`
-  | 'scene3d';
+  | 'scene3d'
+  // Scroll-driven 3D walk-through of a realistic scene
+  | 'journey3d'
+  // Mobile-first invitation site with an opening screen and music (see `invite`)
+  | 'invite';
+
+/** How an Invite-series website opens. */
+export type InviteIntro = 'envelope' | 'welcome' | 'doors' | 'curtain' | 'scroll';
+/** Illustrated backdrop behind the Invite-series hero. */
+export type InviteBackdrop = 'palace' | 'garden' | 'lanterns' | 'dome' | 'photo' | 'jaali';
+/** Card look of the Invite-series sections. */
+export type InviteCards = 'glass' | 'framed' | 'editorial';
+
+export interface InviteStyle {
+  readonly intro: InviteIntro;
+  readonly backdrop: InviteBackdrop;
+  readonly cards: InviteCards;
+  /** Gentle looping particles over the hero. */
+  readonly particles: 'petal' | 'spark' | 'star' | 'none';
+}
 
 /** 3D scenes available to the `scene3d` hero. */
-export type Scene3DKind = 'mosque' | 'lanterns' | 'rings' | 'girih' | 'crescent';
+export type Scene3DKind =
+  | 'mosque'
+  | 'lanterns'
+  | 'rings'
+  | 'girih'
+  | 'crescent'
+  // Realistic environments (used by the 3D journey hero)
+  | 'garden'
+  | 'palace'
+  | 'beach'
+  | 'hall'
+  | 'cake';
 
 /** How the website's content sections look. */
 export type SectionStyle = 'classic' | 'cards' | 'editorial' | 'bold';
@@ -184,8 +214,10 @@ export interface WebsiteTemplate extends DesignBase {
   readonly hero: WebsiteHero;
   readonly sectionStyle: SectionStyle;
   readonly events: readonly WebsiteEvent[];
-  /** Which 3D scene to show when `hero` is `scene3d`. */
+  /** Which 3D scene to show when `hero` is `scene3d` or `journey3d`. */
   readonly scene3d?: Scene3DKind;
+  /** Invite-series settings (when `hero` is `invite`). */
+  readonly invite?: InviteStyle;
 }
 
 export type WeddingDesign = WeddingTemplate | WebsiteTemplate;

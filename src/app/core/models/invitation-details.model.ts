@@ -9,6 +9,12 @@ export interface InvitationDetails {
   venue: string;
   address: string;
   familyLine: string;
+  /** e.g. "Mr. Abdul Rahman & Mrs. Fathima" (shown as "Son of …"). */
+  groomParents: string;
+  /** e.g. "Mr. Ibrahim Kutty & Mrs. Safiya" (shown as "Daughter of …"). */
+  brideParents: string;
+  /** Couple's WhatsApp number for guest RSVPs (digits, with country code). Optional. */
+  rsvpPhone: string;
   /** Resized couple photo as a data URL, or null. */
   photoUrl: string | null;
 }
@@ -21,6 +27,9 @@ export const SAMPLE_DETAILS: Readonly<InvitationDetails> = {
   venue: 'The Grand Palace Convention Centre',
   address: 'MG Road, Kochi, Kerala',
   familyLine: 'Together with their families',
+  groomParents: 'Mr. Rajesh Menon & Mrs. Lakshmi Menon',
+  brideParents: 'Mr. Suresh Nair & Mrs. Deepa Nair',
+  rsvpPhone: '',
   photoUrl: null,
 };
 

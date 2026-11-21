@@ -1,4 +1,4 @@
-import { Component, DestroyRef, ElementRef, afterRenderEffect, inject, input, signal, viewChild } from '@angular/core';
+import { Component, DestroyRef, ElementRef, afterRenderEffect, effect, inject, input, signal, untracked, viewChild } from '@angular/core';
 import type { Scene3DKind, TemplateTheme } from '../../core/models/wedding-template.model';
 import type { LiveStage } from './three-runtime';
 
@@ -35,6 +35,10 @@ export class ThreeScene {
   readonly kind = input.required<Scene3DKind>();
   readonly theme = input.required<TemplateTheme>();
   readonly live = input(false);
+  /** Scroll-driven walk-through (journey hero) instead of a framed subject. */
+  readonly journey = input(false);
+  /** Journey progress 0 → 1 (from the page scroll). */
+  readonly progress = input(0);
 
   private readonly host = inject<ElementRef<HTMLElement>>(ElementRef).nativeElement;
   private readonly snapshotCanvas = viewChild<ElementRef<HTMLCanvasElement>>('snapshot');
@@ -49,13 +53,19 @@ export class ThreeScene {
       const kind = this.kind();
       const theme = this.theme();
       const live = this.live();
+      const journey = this.journey();
       const canvas = this.snapshotCanvas()?.nativeElement;
-      void this.render(kind, theme, live, canvas);
+      void this.render(kind, theme, live, journey, canvas);
+    });
+    // Scroll progress only moves the camera – it never rebuilds the scene.
+    effect(() => {
+      const progress = this.progress();
+      this.stage?.setProgress(progress);
     });
     inject(DestroyRef).onDestroy(() => this.teardown());
   }
 
-  private async render(kind: Scene3DKind, theme: TemplateTheme, live: boolean, canvas?: HTMLCanvasElement): Promise<void> {
+  private async render(kind: Scene3DKind, theme: TemplateTheme, live: boolean, journey: boolean, canvas?: HTMLCanvasElement): Promise<void> {
     const run = ++this.generation;
     this.teardown();
     try {
@@ -63,9 +73,10 @@ export class ThreeScene {
       if (run !== this.generation) return; // a newer request superseded this one
       const palette = { bg: theme.bg, surface: theme.surface, ink: theme.ink, primary: theme.primary, accent: theme.accent };
       if (live) {
-        this.stage = runtime.createLiveStage(this.host, kind, palette);
+        this.stage = runtime.createLiveStage(this.host, kind, palette, { journey });
+        this.stage.setProgress(untracked(this.progress));
       } else if (canvas) {
-        runtime.snapshotTo(canvas, kind, palette);
+        runtime.snapshotTo(canvas, kind, palette, { journey });
       }
       this.failed.set(false);
     } catch (error) {

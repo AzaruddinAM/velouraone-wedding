@@ -22,7 +22,9 @@ import { MosqueHero } from '../heroes/mosque/mosque-hero';
 import { PetalsHero } from '../heroes/petals/petals-hero';
 import { ScratchHero } from '../heroes/scratch/scratch-hero';
 import { Scene3dHero } from '../heroes/scene3d/scene3d-hero';
+import { Journey3dHero } from '../heroes/journey3d/journey3d-hero';
 import { RevealOnScroll } from '../reveal-on-scroll.directive';
+import { InviteSite } from '../invite/invite-site/invite-site';
 import { CoupleSection } from '../sections/couple/couple-section';
 import { EventsSection } from '../sections/events/events-section';
 import { FooterSection } from '../sections/footer/footer-section';
@@ -47,7 +49,7 @@ type SectionId = 'welcome' | 'couple' | 'story' | 'events' | 'gallery' | 'venue'
   imports: [
     ArchHero, CurtainHero, EditorialHero, FloralHero, FrameHero, FullbleedHero, KasavuHero,
     MarqueeHero, PolaroidHero, SealHero, SplitHero, StarryHero, ToranHero, WreathHero,
-    LanternHero, MosqueHero, DoorsHero, GirihHero, ScratchHero, PetalsHero, Scene3dHero, RevealOnScroll,
+    LanternHero, MosqueHero, DoorsHero, GirihHero, ScratchHero, PetalsHero, Scene3dHero, Journey3dHero, RevealOnScroll, InviteSite,
     WelcomeSection, CoupleSection, StorySection, EventsSection, GallerySection, VenueSection, RsvpSection, FooterSection,
   ],
   templateUrl: './wedding-website.html',

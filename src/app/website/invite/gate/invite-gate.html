@@ -1,0 +1,105 @@
+@let v = vm();
+@let t = template();
+<div
+  [class]="'gate intro-' + intro()"
+  [class.opening]="opening()"
+  [class.clickable]="interactive()"
+  [attr.role]="interactive() ? 'button' : null"
+  [attr.tabindex]="interactive() ? 0 : null"
+  [attr.aria-label]="interactive() ? 'Open the invitation' : null"
+  (click)="open()"
+  (keydown.enter)="open()"
+  (keydown.space)="open()"
+>
+  @switch (intro()) {
+    <!-- =============== Wax-sealed envelope =============== -->
+    @case ('envelope') {
+      <p class="invited">You are cordially invited</p>
+      <div class="envelope">
+        <div class="paper">
+          <app-motif class="corner tl" [name]="t.motif" />
+          <app-motif class="corner tr" [name]="t.motif" />
+          <app-motif class="corner bl" [name]="t.motif" />
+          <app-motif class="corner br" [name]="t.motif" />
+          <p class="initials">{{ v.brideInitial }}<i></i>{{ v.groomInitial }}</p>
+          <span class="rule"></span>
+          <p class="when">{{ v.day }} {{ v.month }} {{ v.year }}</p>
+        </div>
+        <div class="flap"></div>
+        <div class="seal"><span>{{ v.brideInitial }}{{ v.groomInitial }}</span></div>
+      </div>
+      <p class="tap">Tap to open</p>
+    }
+
+    <!-- =============== Verse welcome screen =============== -->
+    @case ('welcome') {
+      <app-invite-backdrop class="dim" [kind]="t.invite?.backdrop ?? 'dome'" [vm]="v" />
+      <div class="welcome-card">
+        <span class="mono">{{ v.brideInitial }}<em>&amp;</em>{{ v.groomInitial }}</span>
+        @if (t.wording.arabic) {
+          <p class="arabic">{{ t.wording.arabic }}</p>
+        }
+        <h1 class="names">{{ v.bride }} <span>&amp;</span> {{ v.groom }}</h1>
+        <p class="sub">{{ isNikah() ? 'Nikah Invitation' : 'Wedding Invitation' }}</p>
+        @if (isNikah()) {
+          <blockquote>
+            “And of His signs is that He created for you mates from among yourselves, that you may find tranquillity in them;
+            and He placed between you affection and mercy.”
+            <cite>Surah Ar-Rum 30:21</cite>
+          </blockquote>
+        } @else {
+          <blockquote>
+            “Two hearts, one promise, and a lifetime of beautiful days ahead.”
+          </blockquote>
+        }
+        <span class="open-btn">Open Invitation</span>
+        <p class="music-note">♫ Opens with soft background music</p>
+      </div>
+    }
+
+    <!-- =============== Carved doors =============== -->
+    @case ('doors') {
+      <div class="doorway">
+        <div class="door left"><span class="panel top"></span><span class="panel bottom"></span><i class="ring"></i></div>
+        <div class="door right"><span class="panel top"></span><span class="panel bottom"></span><i class="ring"></i></div>
+        <div class="plaque">
+          <app-motif class="plaque-motif" [name]="t.motif" />
+          <p class="names">{{ v.bride }} <span>&amp;</span> {{ v.groom }}</p>
+          <p class="when">{{ v.day }} · {{ v.monthNumber }} · {{ v.year }}</p>
+        </div>
+      </div>
+      <p class="tap">Tap to open the doors</p>
+    }
+
+    <!-- =============== Velvet curtains =============== -->
+    @case ('curtain') {
+      <div class="stage-light"></div>
+      <div class="sign">
+        <p class="invited">The wedding of</p>
+        <p class="names">{{ v.bride }} <span>&amp;</span> {{ v.groom }}</p>
+        <p class="when">{{ v.weekday }}, {{ v.dateLong }}</p>
+      </div>
+      <div class="drape left"><i class="tie"></i></div>
+      <div class="drape right"><i class="tie"></i></div>
+      <div class="valance"></div>
+      <div class="curtain-tag"><b>{{ v.brideInitial }} &amp; {{ v.groomInitial }}</b><small>{{ v.day }}.{{ v.monthNumber }}.{{ v.year }}</small></div>
+      <p class="tap">Tap to raise the curtain</p>
+    }
+
+    <!-- =============== Parchment scroll =============== -->
+    @case ('scroll') {
+      <div class="scroll-title"><b>{{ v.bride }} &amp; {{ v.groom }}</b><small>{{ isNikah() ? 'Nikah invitation' : 'Wedding invitation' }}</small></div>
+      <div class="scroll-wrap">
+        <span class="rod top"></span>
+        <div class="sheet">
+          <p class="invited">{{ isNikah() ? 'Bismillah' : 'Save the date' }}</p>
+          <p class="names">{{ v.bride }} <span>&amp;</span> {{ v.groom }}</p>
+          <p class="when">{{ v.dateLong }}</p>
+        </div>
+        <span class="rod bottom"></span>
+        <span class="ribbon"><b>{{ v.brideInitial }}{{ v.groomInitial }}</b></span>
+      </div>
+      <p class="tap">Tap to unroll</p>
+    }
+  }
+</div>

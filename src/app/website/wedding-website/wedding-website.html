@@ -1,6 +1,10 @@
 @let t = template();
 @let v = vm();
 <div [class]="'site s-' + t.sectionStyle + ' pattern-' + t.theme.pattern" [style]="themeVars()">
+  @if (t.invite) {
+    <!-- Invite series: its own mobile-first layout with an opening screen and music -->
+    <app-invite-site [template]="t" [details]="details()" [mode]="mode()" />
+  } @else {
   <nav class="site-nav">
     <span class="mono">{{ v.brideInitial }} <em>&amp;</em> {{ v.groomInitial }}</span>
     @if (mode() === 'full') {
@@ -37,6 +41,7 @@
       @case ('girih') { <app-girih-hero [vm]="v" [template]="t" /> }
       @case ('scratch') { <app-scratch-hero [vm]="v" [template]="t" [interactive]="mode() === 'full'" /> }
       @case ('petals') { <app-petals-hero [vm]="v" [template]="t" /> }
+      @case ('journey3d') { <app-journey3d-hero [vm]="v" [template]="t" [interactive]="mode() === 'full'" /> }
       @case ('scene3d') { <app-scene3d-hero [vm]="v" [template]="t" [interactive]="mode() === 'full'" /> }
     }
   </div>
@@ -56,5 +61,6 @@
         }
       </div>
     }
+  }
   }
 </div>

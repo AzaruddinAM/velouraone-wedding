@@ -2,6 +2,8 @@ import { WebsiteEvent, WebsiteTemplate } from '../core/models/wedding-template.m
 import { FONT, WORDING } from './design-tokens';
 import { NIKAH_WEBSITES } from './nikah-websites.data';
 import { NIKAH_3D_WEBSITES } from './nikah-3d-websites.data';
+import { JOURNEY_3D_WEBSITES } from './journey-3d-websites.data';
+import { INVITE_WEBSITES } from './invite-websites.data';
 
 /* ------------------------------------------------------------------ */
 /*  Default schedule per ceremony style                                */
@@ -263,4 +265,8 @@ export const WEDDING_WEBSITES: readonly WebsiteTemplate[] = [
   ...NIKAH_WEBSITES,
   // Nikah 3D collection (WebGL) – see nikah-3d-websites.data.ts
   ...NIKAH_3D_WEBSITES,
+  // 3D Journey collection (scroll to walk through) – see journey-3d-websites.data.ts
+  ...JOURNEY_3D_WEBSITES,
+  // Invite series (opening screen, music, wishes wall) – see invite-websites.data.ts
+  ...INVITE_WEBSITES,
 ];

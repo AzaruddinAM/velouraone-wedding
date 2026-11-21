@@ -1,0 +1,244 @@
+:host {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.art {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+// Flower tones shared by palace garlands and the garden arch.
+.bloom {
+  &.t0 { fill: #ffffff; }
+  &.t1 { fill: #f3c9d2; }
+  &.t2 { fill: var(--primary); opacity: 0.45; }
+  &.t3 { fill: #f8e3c0; }
+  stroke: rgb(0 0 0 / 0.06);
+  stroke-width: 1;
+}
+
+// ----- Palace -----------------------------------------------------------------
+.wall { fill: color-mix(in srgb, var(--surface) 82%, #fff); }
+.pillar { fill: color-mix(in srgb, var(--surface) 70%, #fff); stroke: color-mix(in srgb, var(--accent) 45%, transparent); }
+.trim { fill: none; stroke: var(--accent); stroke-width: 3; opacity: 0.75; }
+.trim.thin { stroke-width: 1.2; }
+.trim-fill { fill: color-mix(in srgb, var(--accent) 60%, #fff); }
+.baluster { fill: color-mix(in srgb, var(--surface) 60%, #fff); stroke: color-mix(in srgb, var(--accent) 35%, transparent); }
+.step {
+  fill: color-mix(in srgb, var(--bg) 70%, #fff);
+  stroke: color-mix(in srgb, var(--accent) 30%, transparent);
+  &.alt { fill: color-mix(in srgb, var(--surface) 80%, #fff); }
+}
+
+.garland {
+  position: absolute;
+  top: -8px;
+  width: 44%;
+  max-width: 260px;
+  animation: sway 6s ease-in-out infinite alternate;
+
+  &.left { left: -12px; transform-origin: top left; }
+  &.right { right: -12px; transform: scaleX(-1); transform-origin: top right; animation-delay: -3s; }
+}
+
+@keyframes sway {
+  to { rotate: 1.5deg; }
+}
+
+// ----- Garden -----------------------------------------------------------------
+.hedge { fill: #5d8a4b; &.far { fill: #86ab72; } }
+.lawn { fill: #9cbc85; }
+.aisle { fill: color-mix(in srgb, var(--surface) 70%, #fff); opacity: 0.9; }
+.post { fill: color-mix(in srgb, var(--accent) 70%, #fff); }
+.leafy { fill: #5d8a4b; }
+.wire { fill: none; stroke: #6b5a48; stroke-width: 1; }
+.bulb {
+  fill: #ffe3a3;
+  filter: drop-shadow(0 0 4px #ffcf70);
+  animation: twinkle 2.4s ease-in-out infinite;
+}
+
+@keyframes twinkle {
+  50% { opacity: 0.45; }
+}
+
+// ----- Lantern night ------------------------------------------------------------
+.night {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 50% 20%, color-mix(in srgb, var(--accent) 25%, transparent), transparent 60%),
+    linear-gradient(180deg, var(--bg), var(--surface));
+}
+
+.hang {
+  position: absolute;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transform-origin: top center;
+  animation: swing 3.4s ease-in-out infinite alternate;
+
+  .cord { flex: 1; width: 1.5px; background: var(--accent); }
+  .lamp { color: var(--accent); filter: drop-shadow(0 0 14px var(--accent)); }
+}
+
+@keyframes swing {
+  from { rotate: -6deg; }
+  to { rotate: 6deg; }
+}
+
+.moon {
+  position: absolute;
+  top: 12%;
+  right: 8%;
+  width: 70px;
+  color: var(--primary);
+  filter: drop-shadow(0 0 22px var(--primary));
+}
+
+.skyline {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 22%;
+
+  .far { fill: color-mix(in srgb, var(--surface) 60%, #000); opacity: 0.6; }
+  .near { fill: color-mix(in srgb, var(--bg) 40%, #000); }
+}
+
+// ----- Emerald dome ---------------------------------------------------------------
+.emerald {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 50% 30%, color-mix(in srgb, var(--accent) 30%, transparent), transparent 55%),
+    linear-gradient(180deg, var(--surface), var(--bg));
+}
+
+.pattern {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  align-content: start;
+  gap: 18px;
+  padding: 20px;
+  color: var(--accent);
+  opacity: 0.1;
+}
+
+.dome-art {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 55%;
+}
+
+.dome-line { fill: none; stroke: var(--accent); stroke-width: 2.4; &.thin { stroke-width: 1.4; } }
+.dome-fill { fill: color-mix(in srgb, var(--accent) 12%, transparent); }
+
+.finial {
+  position: absolute;
+  bottom: 52%;
+  left: 50%;
+  width: 34px;
+  translate: -50% 0;
+  color: var(--accent);
+  filter: drop-shadow(0 0 10px var(--accent));
+}
+
+// ----- Couple photo ---------------------------------------------------------------
+.photo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  animation: kenburns 22s ease-in-out infinite alternate;
+}
+
+@keyframes kenburns {
+  to { transform: scale(1.12) translate(-2%, -2%); }
+}
+
+.placeholder {
+  background: linear-gradient(160deg, var(--surface), var(--bg));
+
+  span {
+    position: absolute;
+    border-radius: 50%;
+    background: radial-gradient(circle, color-mix(in srgb, var(--accent) 55%, transparent), transparent 70%);
+    opacity: 0.55;
+  }
+}
+
+.watermark {
+  position: absolute;
+  top: 26%;
+  width: 100%;
+  margin: 0;
+  text-align: center;
+  font-family: var(--f-script);
+  font-size: 140px;
+  color: color-mix(in srgb, var(--accent) 35%, transparent);
+
+  em { font-style: normal; font-size: 0.5em; }
+}
+
+.photo-shade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgb(0 0 0 / 0.25), rgb(0 0 0 / 0.1) 35%, rgb(0 0 0 / 0.65));
+}
+
+// ----- Jaali lattice ---------------------------------------------------------------
+.jaali {
+  position: absolute;
+  inset: 0;
+  background:
+    repeating-linear-gradient(45deg, transparent 0 14px, color-mix(in srgb, var(--accent) 30%, transparent) 14px 16px),
+    repeating-linear-gradient(-45deg, transparent 0 14px, color-mix(in srgb, var(--accent) 30%, transparent) 14px 16px),
+    radial-gradient(circle, color-mix(in srgb, var(--accent) 40%, transparent) 0 3px, transparent 4px) 0 0 / 21.2px 21.2px,
+    linear-gradient(180deg, var(--surface), var(--bg));
+}
+
+.scallop {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+
+  .frame { fill: color-mix(in srgb, var(--surface) 92%, #fff); opacity: 0.9; }
+  .trim { fill: none; stroke: var(--accent); stroke-width: 3; }
+}
+
+.tassel {
+  position: absolute;
+  top: 0;
+  width: 2px;
+  height: 90px;
+  background: var(--accent);
+  animation: swing 4s ease-in-out infinite alternate;
+  transform-origin: top center;
+
+  i {
+    position: absolute;
+    bottom: -18px;
+    left: -7px;
+    width: 16px;
+    height: 22px;
+    border-radius: 50% 50% 20% 20%;
+    background: linear-gradient(var(--accent), var(--primary));
+  }
+}

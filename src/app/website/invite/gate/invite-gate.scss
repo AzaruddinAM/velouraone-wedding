@@ -1,0 +1,521 @@
+:host {
+  display: block;
+}
+
+.gate {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 22px;
+  height: var(--hero-h, 100svh);
+  overflow: hidden;
+  outline: none;
+  text-align: center;
+
+  &.clickable { cursor: pointer; }
+}
+
+p { margin: 0; }
+
+.tap {
+  position: relative;
+  z-index: 3;
+  font: 600 13px var(--f-body);
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: #fff;
+  animation: pulse 1.8s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  50% { opacity: 0.45; }
+}
+
+.opening .tap { opacity: 0; transition: opacity 0.3s; }
+
+.names {
+  font-family: var(--f-script);
+  font-weight: 400;
+  line-height: 1.1;
+  color: var(--primary);
+
+  span { color: var(--accent); }
+}
+
+.invited {
+  font: 600 12px var(--f-heading);
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--soft);
+}
+
+.when {
+  font: 600 13px var(--f-heading);
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+
+// ======================= Envelope ==========================================
+.gate.intro-envelope {
+  background:
+    radial-gradient(circle at 50% 40%, color-mix(in srgb, var(--accent) 45%, #fff 10%), transparent 70%),
+    linear-gradient(180deg, color-mix(in srgb, var(--accent) 80%, #000), color-mix(in srgb, var(--accent) 55%, #000));
+}
+
+.envelope {
+  position: relative;
+  width: min(340px, 84%);
+  aspect-ratio: 3 / 4.2;
+  perspective: 1200px;
+  filter: drop-shadow(0 30px 40px rgb(0 0 0 / 0.35));
+}
+
+.paper {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 0 24px 30px;
+  border-radius: 6px;
+  background:
+    radial-gradient(circle at 30% 20%, rgb(255 255 255 / 0.6), transparent 50%),
+    color-mix(in srgb, var(--bg) 70%, #fff);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--accent) 50%, transparent), inset 0 0 0 7px transparent,
+    inset 0 0 0 8px color-mix(in srgb, var(--accent) 35%, transparent);
+
+}
+
+// "You are cordially invited" sits above the envelope, in light type.
+.gate.intro-envelope > .invited {
+  position: relative;
+  z-index: 3;
+  color: rgb(255 255 255 / 0.92);
+  letter-spacing: 0.34em;
+}
+
+.corner {
+  position: absolute;
+  width: 44px;
+  color: var(--accent);
+  opacity: 0.8;
+
+  &.tl { top: 12px; left: 12px; }
+  &.tr { top: 12px; right: 12px; transform: scaleX(-1); }
+  &.bl { bottom: 12px; left: 12px; transform: scaleY(-1); }
+  &.br { bottom: 12px; right: 12px; transform: scale(-1); }
+}
+
+.initials {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  font-family: var(--f-heading);
+  font-size: 46px;
+  color: var(--primary);
+
+  i { width: 1px; height: 54px; background: var(--accent); }
+}
+
+.rule {
+  width: 90px;
+  height: 1px;
+  background: var(--accent);
+}
+
+// The V-shaped flap folds up and back when opened.
+.flap {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 52%;
+  transform-origin: top center;
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--bg) 60%, #fff), color-mix(in srgb, var(--bg) 85%, var(--accent)));
+  filter: drop-shadow(0 4px 4px rgb(0 0 0 / 0.15));
+  transition: transform 1s cubic-bezier(0.6, 0, 0.3, 1) 0.35s;
+}
+
+.seal {
+  position: absolute;
+  top: 52%;
+  left: 50%;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 78px;
+  aspect-ratio: 1;
+  translate: -50% -50%;
+  border-radius: 46% 54% 50% 50% / 52% 48% 52% 48%;
+  background: radial-gradient(circle at 35% 30%, color-mix(in srgb, var(--accent) 50%, #fff), color-mix(in srgb, var(--accent) 85%, #000) 70%);
+  box-shadow: 0 6px 14px rgb(0 0 0 / 0.35), inset 0 0 0 5px rgb(255 255 255 / 0.15);
+  transition: transform 0.45s ease, opacity 0.45s ease;
+
+  span {
+    font: 600 20px var(--f-heading);
+    color: rgb(255 255 255 / 0.9);
+    text-shadow: 0 1px 2px rgb(0 0 0 / 0.4);
+  }
+}
+
+.envelope:not(.x) .seal { animation: seal-glow 2.4s ease-in-out infinite; }
+
+@keyframes seal-glow {
+  50% { box-shadow: 0 6px 14px rgb(0 0 0 / 0.35), 0 0 0 10px color-mix(in srgb, var(--accent) 25%, transparent); }
+}
+
+.opening.intro-envelope {
+  .seal { transform: scale(1.5); opacity: 0; animation: none; }
+  .flap { transform: rotateX(180deg); }
+  .envelope { animation: lift 0.8s ease-in 1s forwards; }
+}
+
+@keyframes lift {
+  to { transform: translateY(-40px) scale(1.06); opacity: 0; }
+}
+
+// ======================= Welcome ===========================================
+.gate.intro-welcome { background: var(--bg); }
+
+.dim::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgb(0 0 0 / 0.45), rgb(0 0 0 / 0.6));
+}
+
+.welcome-card {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  justify-items: center;
+  gap: 14px;
+  max-width: 460px;
+  padding: 0 26px;
+  color: #fff;
+  transition: opacity 0.7s ease, transform 0.7s ease;
+
+  .mono {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 84px;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: color-mix(in srgb, var(--bg) 85%, #fff);
+    color: var(--primary);
+    font: 400 24px var(--f-script);
+    white-space: nowrap;
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 70%, transparent);
+
+    em { font-style: normal; font-size: 0.6em; color: var(--accent); }
+  }
+
+  .arabic { font-family: 'Amiri', serif; font-size: 24px; color: var(--accent); }
+  .names { font-size: clamp(48px, 13cqw, 72px); color: #fff; span { color: var(--accent); } }
+  .sub { font: 600 13px var(--f-body); letter-spacing: 0.3em; text-transform: uppercase; }
+
+  blockquote {
+    margin: 6px 0;
+    font: italic 17px/1.55 var(--f-body);
+
+    cite { display: block; margin-top: 8px; font: 600 12px var(--f-body); letter-spacing: 0.15em; font-style: normal; color: var(--accent); }
+  }
+}
+
+.open-btn {
+  padding: 16px 38px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, color-mix(in srgb, var(--accent) 70%, #fff), var(--accent));
+  color: color-mix(in srgb, var(--accent) 20%, #000);
+  font: 700 17px var(--f-body);
+  box-shadow: 0 10px 24px rgb(0 0 0 / 0.3);
+  animation: breathe 2.4s ease-in-out infinite;
+}
+
+@keyframes breathe {
+  50% { transform: scale(1.04); }
+}
+
+.music-note { font-size: 13px; opacity: 0.85; }
+
+.opening .welcome-card { opacity: 0; transform: translateY(-20px) scale(0.97); }
+
+// ======================= Doors =============================================
+.gate.intro-doors {
+  background: linear-gradient(180deg, color-mix(in srgb, var(--primary) 45%, #000), color-mix(in srgb, var(--primary) 25%, #000));
+}
+
+.doorway {
+  position: relative;
+  width: min(360px, 88%);
+  aspect-ratio: 3 / 4.4;
+  perspective: 1400px;
+  border-radius: 180px 180px 0 0;
+  background: radial-gradient(circle at 50% 40%, color-mix(in srgb, var(--accent) 60%, #fff), var(--accent));
+  box-shadow: 0 0 0 10px color-mix(in srgb, var(--accent) 50%, #000), 0 30px 60px rgb(0 0 0 / 0.5);
+  overflow: hidden;
+}
+
+.door {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 50%;
+  background:
+    linear-gradient(90deg, rgb(0 0 0 / 0.15), transparent 20%, transparent 80%, rgb(0 0 0 / 0.2)),
+    linear-gradient(180deg, color-mix(in srgb, var(--primary) 85%, #3a2010), color-mix(in srgb, var(--primary) 60%, #000));
+  transition: transform 1.6s cubic-bezier(0.6, 0, 0.25, 1) 0.1s;
+
+  &.left { left: 0; transform-origin: left center; border-right: 2px solid rgb(0 0 0 / 0.35); }
+  &.right { right: 0; transform-origin: right center; }
+
+  .panel {
+    position: absolute;
+    left: 16%;
+    right: 16%;
+    border: 3px solid color-mix(in srgb, var(--accent) 70%, transparent);
+    box-shadow: inset 0 0 0 6px rgb(0 0 0 / 0.15);
+
+    &.top { top: 18%; height: 30%; border-radius: 60px 60px 4px 4px; }
+    &.bottom { top: 56%; height: 34%; border-radius: 4px; }
+  }
+
+  .ring {
+    position: absolute;
+    top: 52%;
+    width: 22px;
+    height: 22px;
+    border: 3px solid var(--accent);
+    border-radius: 50%;
+  }
+
+  &.left .ring { right: 10px; }
+  &.right .ring { left: 10px; }
+}
+
+.plaque {
+  position: absolute;
+  top: 6%;
+  left: 50%;
+  z-index: 2;
+  display: grid;
+  justify-items: center;
+  gap: 4px;
+  width: 74%;
+  padding: 12px 10px;
+  translate: -50% 0;
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--bg) 88%, #fff);
+  box-shadow: 0 0 0 2px var(--accent), 0 8px 20px rgb(0 0 0 / 0.35);
+  transition: opacity 0.4s ease;
+
+  .plaque-motif { width: 28px; color: var(--accent); }
+  .names { font-size: 30px; }
+  .when { font-size: 11px; }
+}
+
+.opening.intro-doors {
+  .plaque { opacity: 0; }
+  .door.left { transform: rotateY(-105deg); }
+  .door.right { transform: rotateY(105deg); }
+}
+
+// ======================= Curtains ==========================================
+.gate.intro-curtain {
+  background: radial-gradient(ellipse at 50% 30%, color-mix(in srgb, var(--accent) 35%, #1a0f14), #0d080b 75%);
+}
+
+.stage-light {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 70%;
+  height: 100%;
+  translate: -50% 0;
+  background: radial-gradient(ellipse at 50% 0%, rgb(255 236 190 / 0.35), transparent 65%);
+}
+
+.sign {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: 8px;
+  padding: 26px 30px;
+  border: 2px solid var(--accent);
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--bg) 92%, #fff);
+  box-shadow: 0 20px 40px rgb(0 0 0 / 0.5);
+
+  .names { font-size: 44px; }
+}
+
+// Deep velvet in every palette (light palettes would otherwise give pale curtains).
+$velvet: color-mix(in srgb, var(--bg) 35%, #4a0a1c);
+
+.drape {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  z-index: 2;
+  width: 51%;
+  background:
+    repeating-linear-gradient(90deg, rgb(0 0 0 / 0.35) 0 10px, rgb(255 255 255 / 0.08) 10px 26px, rgb(0 0 0 / 0.25) 26px 38px),
+    $velvet;
+  box-shadow: 0 0 40px rgb(0 0 0 / 0.6);
+  transition: transform 1.5s cubic-bezier(0.7, 0, 0.2, 1);
+
+  &.left { left: 0; }
+  &.right { right: 0; }
+
+  .tie {
+    position: absolute;
+    top: 55%;
+    width: 18px;
+    height: 54px;
+    border-radius: 8px 8px 40% 40%;
+    background: linear-gradient(var(--accent), color-mix(in srgb, var(--accent) 55%, #000));
+  }
+
+  &.left .tie { right: -6px; }
+  &.right .tie { left: -6px; }
+}
+
+.valance {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 3;
+  height: 58px;
+  background:
+    radial-gradient(circle at 50% 0, $velvet 0 30px, transparent 31px) 0 14px / 64px 44px repeat-x,
+    linear-gradient($velvet, $velvet) 0 0 / 100% 22px no-repeat;
+  border-bottom: 3px solid var(--accent);
+}
+
+.gate.intro-curtain .tap { position: absolute; bottom: 9%; z-index: 4; }
+
+// Gold monogram tag hanging where the curtains meet.
+.curtain-tag {
+  position: absolute;
+  top: 34%;
+  left: 50%;
+  z-index: 4;
+  display: grid;
+  place-items: center;
+  gap: 2px;
+  padding: 14px 18px;
+  translate: -50% 0;
+  border: 2px solid var(--accent);
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--accent) 25%, #120a0e);
+  color: #fff;
+  box-shadow: 0 12px 30px rgb(0 0 0 / 0.5);
+  transition: opacity 0.4s ease;
+
+  b { font: 400 34px var(--f-script); white-space: nowrap; }
+  small { font: 600 11px var(--f-body); letter-spacing: 0.25em; text-transform: uppercase; color: var(--accent); }
+}
+
+.opening .curtain-tag { opacity: 0; }
+
+// Names above the closed scroll.
+.scroll-title {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  gap: 6px;
+  margin-bottom: 18px;
+  color: #fff;
+
+  b { font: 400 46px var(--f-script); line-height: 1.1; }
+  small { font: 600 12px var(--f-body); letter-spacing: 0.3em; text-transform: uppercase; color: var(--accent); }
+}
+
+.opening .scroll-title { opacity: 0; transition: opacity 0.4s ease; }
+
+.opening.intro-curtain {
+  .drape.left { transform: translateX(-96%); }
+  .drape.right { transform: translateX(96%); }
+}
+
+// ======================= Scroll ============================================
+.gate.intro-scroll {
+  background:
+    radial-gradient(circle at 50% 45%, color-mix(in srgb, var(--accent) 30%, transparent), transparent 60%),
+    linear-gradient(180deg, color-mix(in srgb, var(--primary) 50%, #1a1008), color-mix(in srgb, var(--primary) 30%, #000));
+}
+
+.scroll-wrap {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: min(320px, 82%);
+}
+
+.rod {
+  position: relative;
+  z-index: 2;
+  width: 112%;
+  height: 26px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, color-mix(in srgb, var(--accent) 60%, #fff), color-mix(in srgb, var(--accent) 80%, #3a2010));
+  box-shadow: 0 6px 12px rgb(0 0 0 / 0.4);
+}
+
+.sheet {
+  display: grid;
+  align-content: center;
+  gap: 10px;
+  width: 100%;
+  height: 70px;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 20% 20%, rgb(255 255 255 / 0.4), transparent 50%),
+    linear-gradient(90deg, rgb(120 80 40 / 0.18), transparent 12%, transparent 88%, rgb(120 80 40 / 0.18)),
+    color-mix(in srgb, var(--bg) 75%, #f3e3c3);
+  transition: height 1.2s cubic-bezier(0.5, 0, 0.2, 1);
+
+  > * { opacity: 0; transition: opacity 0.5s ease 0.6s; }
+  .names { font-size: 42px; }
+}
+
+.ribbon {
+  position: absolute;
+  top: 50%;
+  z-index: 3;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 20px;
+  translate: 0 -50%;
+  background: color-mix(in srgb, var(--primary) 80%, #000);
+  transition: opacity 0.3s ease;
+
+  b {
+    display: grid;
+    place-items: center;
+    width: 56px;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 30%, color-mix(in srgb, var(--accent) 50%, #fff), var(--accent));
+    color: #fff;
+    font: 600 16px var(--f-heading);
+    box-shadow: 0 4px 10px rgb(0 0 0 / 0.4);
+  }
+}
+
+.opening.intro-scroll {
+  .ribbon { opacity: 0; }
+  .sheet { height: 300px; > * { opacity: 1; } }
+  .scroll-wrap { animation: lift 0.6s ease-in 1.5s forwards; }
+}

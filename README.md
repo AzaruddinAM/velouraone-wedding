@@ -5,7 +5,7 @@ An Angular 22 site that sells two products, which share the same features:
 | Product | Designs | Pages |
 | --- | --- | --- |
 | **Invitation Cards**: a single e-invite image | 54 · `V1 Wedding` … `V54 Wedding` | `/templates`, `/templates/:slug`, demo `/demo/:slug` |
-| **Invitation Websites**: a full scrolling wedding website | 62 · `W1 Wedding Website` … `W62 Wedding Website` | `/websites`, `/websites/:slug`, demo `/site/:slug` |
+| **Invitation Websites**: a full scrolling wedding website | 92 · `W1 Wedding Website` … `W92 Wedding Website` | `/websites`, `/websites/:slug`, demo `/site/:slug` |
 
 Every invitation website has these sections: hero, invitation, bride & groom, love story, events schedule, photo gallery, venue with map link, countdown with RSVP, and footer with hashtag.
 There are 14 hero styles and 4 section looks (classic, cards, editorial, bold). Each website has its own colours, fonts and ornaments, and it adapts to phone and desktop.
@@ -19,11 +19,41 @@ There are 14 hero styles and 4 section looks (classic, cards, editorial, bold). 
 - Scratching uses `src/app/shared/scratch-reveal`: a canvas foil that works with a finger or mouse and bursts into confetti once about half is scratched off.
 - The galleries have quick filters, **✨ Animated** and **🪙 Scratch & reveal**, also available as links such as `/websites?feature=scratch`.
 
+### Invite series (opening screen + music)
+
+10 mobile-first invitation websites (**W83–W92**, in `src/app/data/invite-websites.data.ts`). Each design uses a different pair of opening screen and backdrop, so no two look alike:
+
+| Design | Opening | Backdrop | Card style |
+| --- | --- | --- | --- |
+| W83 Ivory Envelope | Wax-sealed envelope | Palace steps | Framed |
+| W84 Emerald Verse | Verse welcome screen | Emerald dome | Glass |
+| W85 Blush Garden Doors | Carved doors | Garden arch | Framed |
+| W86 Midnight Curtain | Velvet curtains | Lantern night | Glass |
+| W87 Photo Story Nikah | Verse welcome screen | Couple photo | Editorial |
+| W88 Jaali Scroll | Parchment scroll | Jaali lattice | Framed |
+| W89 Jasmine Envelope | Wax-sealed envelope | Garden arch | Editorial |
+| W90 Royal Maroon Doors | Carved doors | Emerald dome | Glass |
+| W91 Lilac Lantern Scroll | Parchment scroll | Lantern night | Glass |
+| W92 Golden Curtain Photo | Velvet curtains | Couple photo | Framed |
+
+Every Invite design includes original background music (generated in the browser, no audio files: `website/invite/ambient-music.ts`), parents' names, a scratch-to-reveal photo, an event card with **Directions** and **Add to calendar**, a countdown, the couple's journey, a gallery, families, an embedded Google Map, **RSVP on WhatsApp** (to the couple's own number, if they give one), a duas & wishes wall, a sticky menu and back-to-top.
+
+Code: `src/app/website/invite/` (opening screens in `gate/`, backdrops in `backdrop/`, the page in `invite-site/`).
+
+### 3D Journey collection (scroll to walk through)
+
+20 websites (**W63–W82**, in `src/app/data/journey-3d-websites.data.ts`) open with a full-screen 3D scene that stays pinned while the guest scrolls. The camera walks through the scene in four chapters (welcome, invitation, date, venue), and guests can **drag to look around**.
+
+- **Realistic environments** (`src/app/website/three/scenes/`): wedding garden aisle, Mughal palace courtyard, beach mandap at sunset, reception hall with chandeliers, and a wedding cake close-up. The mosque, lanterns, rings, girih and crescent scenes also have walk-through routes.
+- Soft shadows, a glow on lamps and candles, sky backgrounds, and animated waves, drapes and fountains.
+- The hero is in `src/app/website/heroes/journey3d`; each scene defines its camera route in its `journey` field.
+- The gallery filter **🧊 3D** lists all 30 3D designs.
+
 ### Nikah 3D collection (real-time WebGL)
 
 10 websites (**W53–W62**, in `src/app/data/nikah-3d-websites.data.ts`) open with a live 3D scene built in Three.js: a golden-domed **mosque**, floating brass **lanterns**, interlocked yellow- and rose-gold **rings** with a diamond, Islamic **girih stars**, and a **crescent** moon with orbiting lanterns. The scene follows the mouse or the tilt of a phone.
 
-- Scenes are in `src/app/website/three/three-runtime.ts` and the hero is in `src/app/website/heroes/scene3d`.
+- Scenes are in `src/app/website/three/scenes/` (engine: `three-runtime.ts`, shared helpers: `scene-kit.ts`), and the hero is in `src/app/website/heroes/scene3d`.
 - Three.js loads **only when a 3D design is on screen** (a separate ~125 KB compressed file), so the rest of the site stays fast.
 - Gallery thumbnails are still images drawn by one shared renderer, so the gallery never opens dozens of 3D views at once.
 - Devices without 3D support (WebGL) see a soft gradient instead.

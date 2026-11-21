@@ -1,0 +1,238 @@
+@use '../hero-base' as hero;
+@include hero.base;
+@include hero.nikah;
+
+// In thumbnails the hero is one screen tall; on the website it is several
+// screens tall so scrolling has distance to "walk" through the scene.
+:host {
+  min-height: var(--hero-h, 100svh);
+  overflow: visible;
+  background: var(--bg);
+}
+
+:host(.live) {
+  height: calc(var(--hero-h, 100svh) * 4.2);
+}
+
+.sticky {
+  position: sticky;
+  top: 0;
+  height: var(--hero-h, 100svh);
+  overflow: hidden;
+}
+
+.stage {
+  position: absolute;
+  inset: 0;
+}
+
+.vignette {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at center, transparent 55%, rgb(0 0 0 / 0.35) 100%),
+    linear-gradient(180deg, transparent 50%, rgb(0 0 0 / 0.45) 100%);
+}
+
+// ----- Chapter panels -----------------------------------------------------
+.panel {
+  position: absolute;
+  left: 50%;
+  bottom: 56px;
+  z-index: 2;
+  display: grid;
+  justify-items: center;
+  gap: 10px;
+  width: min(560px, calc(100% - 40px));
+  translate: -50% 0;
+  text-align: center;
+  transition: opacity 0.25s linear;
+
+  &.hidden {
+    visibility: hidden;
+  }
+
+  @container site (min-width: 900px) {
+    left: 7%;
+    translate: none;
+    justify-items: start;
+    text-align: left;
+  }
+}
+
+// The welcome panel sits directly on the scene with glowing type.
+.welcome {
+  color: #fff;
+
+  .kicker,
+  .names,
+  .names .amp,
+  .cue,
+  .arabic {
+    color: #fff;
+    text-shadow: 0 2px 18px rgb(0 0 0 / 0.55);
+  }
+
+  .names {
+    font-size: clamp(54px, 12cqw, 120px);
+  }
+}
+
+// The other chapters are frosted-glass cards for easy reading.
+.card {
+  padding: 26px 30px;
+  border: 1px solid color-mix(in srgb, var(--accent) 45%, transparent);
+  border-radius: 22px;
+  background: color-mix(in srgb, var(--bg) 72%, transparent);
+  backdrop-filter: blur(14px) saturate(1.2);
+  box-shadow: 0 20px 50px rgb(0 0 0 / 0.3);
+}
+
+.family {
+  font-family: var(--f-body);
+  font-size: 17px;
+  font-style: italic;
+  color: var(--soft);
+}
+
+.invite {
+  font-family: var(--f-body);
+  font-size: clamp(17px, 3.2cqw, 22px);
+  line-height: 1.5;
+  color: var(--ink);
+}
+
+.names.small {
+  font-size: clamp(40px, 8cqw, 64px);
+
+  .amp.inline {
+    display: inline;
+  }
+}
+
+.big-date {
+  font-family: var(--f-heading);
+  font-size: clamp(42px, 9cqw, 76px);
+  line-height: 1;
+  color: var(--primary);
+
+  span {
+    font-family: var(--f-script);
+    color: var(--accent);
+  }
+}
+
+.venue-name {
+  font-family: var(--f-heading);
+  font-size: clamp(24px, 5cqw, 36px);
+  color: var(--primary);
+}
+
+.map {
+  padding: 10px 22px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--bg);
+  font: 600 14px var(--f-body);
+  text-decoration: none;
+}
+
+.cue {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  color: var(--soft);
+}
+
+.mouse {
+  position: relative;
+  width: 18px;
+  height: 28px;
+  border: 2px solid currentColor;
+  border-radius: 999px;
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 5px;
+    left: 50%;
+    width: 3px;
+    height: 6px;
+    translate: -50% 0;
+    border-radius: 2px;
+    background: currentColor;
+    animation: wheel 1.5s ease-in-out infinite;
+  }
+}
+
+@keyframes wheel {
+  60% { transform: translateY(8px); opacity: 0; }
+}
+
+// ----- Progress rail --------------------------------------------------------
+.rail {
+  position: absolute;
+  top: 50%;
+  right: 18px;
+  z-index: 3;
+  display: grid;
+  gap: 14px;
+  translate: 0 -50%;
+
+  button {
+    position: relative;
+    width: 12px;
+    height: 12px;
+    padding: 0;
+    border: 2px solid #fff;
+    border-radius: 50%;
+    background: transparent;
+    box-shadow: 0 0 8px rgb(0 0 0 / 0.4);
+    cursor: pointer;
+    transition: transform 0.2s ease, background 0.2s ease;
+
+    &.active {
+      background: var(--accent);
+      border-color: var(--accent);
+      transform: scale(1.35);
+    }
+
+    span {
+      position: absolute;
+      right: 22px;
+      top: 50%;
+      translate: 0 -50%;
+      padding: 3px 9px;
+      border-radius: 999px;
+      background: rgb(0 0 0 / 0.55);
+      color: #fff;
+      font: 500 11px var(--f-body);
+      white-space: nowrap;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+
+    &:hover span,
+    &.active span {
+      opacity: 1;
+    }
+  }
+}
+
+.badge-3d {
+  position: absolute;
+  top: 74px;
+  right: 18px;
+  z-index: 3;
+  padding: 4px 12px;
+  border: 1px solid #fff;
+  border-radius: 999px;
+  background: rgb(0 0 0 / 0.35);
+  backdrop-filter: blur(6px);
+  color: #fff;
+  font: 700 12px var(--f-body);
+  letter-spacing: 0.25em;
+}
