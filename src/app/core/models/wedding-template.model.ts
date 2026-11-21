@@ -88,7 +88,21 @@ export type Scene3DKind =
   | 'palace'
   | 'beach'
   | 'hall'
-  | 'cake';
+  | 'cake'
+  // Venue series (walk-throughs that end at an invitation panel with the names)
+  | 'moonstairs'
+  | 'portal'
+  | 'floraldoor'
+  | 'gothic'
+  | 'pearl'
+  | 'storybook'
+  | 'mirrorhall'
+  | 'grotto'
+  | 'gallery'
+  | 'velvet'
+  | 'arcade'
+  | 'theatre'
+  | 'ballroom';
 
 /** How the website's content sections look. */
 export type SectionStyle = 'classic' | 'cards' | 'editorial' | 'bold';
@@ -218,6 +232,8 @@ export interface WebsiteTemplate extends DesignBase {
   readonly scene3d?: Scene3DKind;
   /** Invite-series settings (when `hero` is `invite`). */
   readonly invite?: InviteStyle;
+  /** Venue series: the 3D scene itself carries the invitation (names on a panel). */
+  readonly venue3d?: boolean;
 }
 
 export type WeddingDesign = WeddingTemplate | WebsiteTemplate;

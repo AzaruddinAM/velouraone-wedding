@@ -4,7 +4,22 @@ import { TEMPLATE_CATEGORIES } from '../../data/design-tokens';
 import { WEDDING_TEMPLATES } from '../../data/wedding-templates.data';
 import { WEDDING_WEBSITES } from '../../data/wedding-websites.data';
 
-export type TemplateSort = 'number' | 'popular' | 'newest';
+export type TemplateSort = 'featured' | 'number' | 'popular' | 'newest';
+
+/**
+ * How eye-catching a design is, for the default 'featured' order:
+ * 3D venue walk-throughs, then 3D journeys, other 3D, invite series, animated, the rest.
+ */
+export function appeal(d: WeddingDesign): number {
+  if (d.kind === 'website') {
+    if (d.venue3d) return 6;
+    if (d.hero === 'journey3d') return 5;
+    if (d.threeD) return 4;
+    if (d.invite) return 3;
+  } else if (d.threeD) return 4;
+  if (d.animated) return 2;
+  return d.scratch ? 1 : 0;
+}
 
 export interface TemplateQuery {
   kind: DesignKind;
@@ -44,7 +59,12 @@ export class TemplateCatalogService {
   }
 
   popular(kind: DesignKind, limit = 8): WeddingDesign[] {
-    return this.ofKind(kind).filter((d) => d.popular).slice(0, limit);
+    // Most attractive (3D) favourites first.
+    const num = (d: WeddingDesign) => Number(d.id.slice(1));
+    return this.ofKind(kind)
+      .filter((d) => d.popular)
+      .sort((a, b) => appeal(b) - appeal(a) || num(b) - num(a))
+      .slice(0, limit);
   }
 
   /** Does the design have the given feature (animated / scratch)? */
@@ -74,6 +94,9 @@ export class TemplateCatalogService {
     switch (sort) {
       case 'popular':
         return result.sort((a, b) => Number(!!b.popular) - Number(!!a.popular) || num(a) - num(b));
+      case 'featured':
+        // 3D & most attractive first; popular ones lead each group, then the newest.
+        return result.sort((a, b) => appeal(b) - appeal(a) || Number(!!b.popular) - Number(!!a.popular) || num(b) - num(a));
       case 'newest':
         return result.sort((a, b) => Number(!!b.isNew) - Number(!!a.isNew) || num(b) - num(a));
       default:

@@ -236,3 +236,40 @@
   font: 700 12px var(--f-body);
   letter-spacing: 0.25em;
 }
+
+// ----- Venue series: the 3D scene carries the invitation ---------------------
+// Cards become slim captions at the bottom so the panel in the scene stays visible.
+:host(.venue) {
+  .card {
+    gap: 4px;
+    padding: 12px 18px;
+    width: min(380px, calc(100% - 40px));
+    border-radius: 16px;
+  }
+
+  .place,
+  .card .cue {
+    display: none;
+  }
+
+  .map {
+    padding: 7px 16px;
+    font-size: 13px;
+  }
+
+  .card.in-scene {
+    display: none;
+  }
+
+  .big-date {
+    font-size: clamp(30px, 6cqw, 46px);
+  }
+
+  .venue-name {
+    font-size: clamp(20px, 4cqw, 26px);
+  }
+
+  .hero-countdown {
+    scale: 0.85;
+  }
+}

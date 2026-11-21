@@ -5,7 +5,7 @@ An Angular 22 site that sells two products, which share the same features:
 | Product | Designs | Pages |
 | --- | --- | --- |
 | **Invitation Cards**: a single e-invite image | 54 · `V1 Wedding` … `V54 Wedding` | `/templates`, `/templates/:slug`, demo `/demo/:slug` |
-| **Invitation Websites**: a full scrolling wedding website | 92 · `W1 Wedding Website` … `W92 Wedding Website` | `/websites`, `/websites/:slug`, demo `/site/:slug` |
+| **Invitation Websites**: a full scrolling wedding website | 105 · `W1 Wedding Website` … `W105 Wedding Website` | `/websites`, `/websites/:slug`, demo `/site/:slug` |
 
 Every invitation website has these sections: hero, invitation, bride & groom, love story, events schedule, photo gallery, venue with map link, countdown with RSVP, and footer with hashtag.
 There are 14 hero styles and 4 section looks (classic, cards, editorial, bold). Each website has its own colours, fonts and ornaments, and it adapts to phone and desktop.
@@ -18,6 +18,30 @@ There are 14 hero styles and 4 section looks (classic, cards, editorial, bold). 
 - **Websites W35–W52** (`src/app/data/nikah-websites.data.ts`): lantern, mosque moonrise, opening doors, girih geometry, **scratch-to-reveal** coins, and falling petals. Their sections fade in as guests scroll.
 - Scratching uses `src/app/shared/scratch-reveal`: a canvas foil that works with a finger or mouse and bursts into confetti once about half is scratched off.
 - The galleries have quick filters, **✨ Animated** and **🪙 Scratch & reveal**, also available as links such as `/websites?feature=scratch`.
+
+### Venue series (cinematic 3D walk-through to a named invitation)
+
+13 websites (**W93–W105**, in `src/app/data/venue-3d-websites.data.ts`). Each one walks the guest through a dressed 3D venue and ends at an invitation panel **inside the scene** that shows the couple's own names, date, time and venue (drawn live from the personalise form). Scenes open, part or move as the guest scrolls:
+
+| Design | Scene | What moves |
+| --- | --- | --- |
+| W93 Moonlit Palace Stairs | Candle-lit stairs to a domed pavilion | Velvet curtains part |
+| W94 Through the Portal | Flower-lit tunnel into a mountain valley | Fly-through |
+| W95 Lilac Garden Door | Flower arch, wooden doors, garden path | Doors swing open |
+| W96 Rose Cathedral Corridor | Burgundy pointed arches, candles, roses | Candle flicker |
+| W97 Pearl & Satin | Rippling satin, pearl strands, gold rings | Satin waves |
+| W98 Storybook Waterfall | Waterfall, river, wooden bridge, clouds | Water flows |
+| W99 Champagne Mirror Aisle | Mirror floor, drapes, black signboards | Real reflections |
+| W100 Floral Grotto Lake | White flower arches over still water | Real reflections |
+| W101 Spotlight Easel Gallery | Carved gateway, spot-lit easels | Spotlights |
+| W102 Olive Velvet Arches | Curtained arches, floating monogram | Monogram floats |
+| W103 Moonlight Arcade Nikah | Globe lamps, polished arcade | The couple walk ahead |
+| W104 Velvet Theatre Envelope | Red stage, black-and-gold envelope | Curtains part, envelope opens, card rises |
+| W105 Ivory Ballroom Gate | Floral aisle, chandeliers, ribboned gate | Couple walk, gate opens |
+
+Code: scenes in `src/app/website/three/scenes/venues-a.ts` and `venues-b.ts`, shared pieces (drapes, arches, mirror floors, couple figures, named panels) in `venue-kit.ts`.
+
+Galleries now sort **3D & most attractive first** by default (venue series → 3D journeys → other 3D → invite series → animated → the rest).
 
 ### Invite series (opening screen + music)
 

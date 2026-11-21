@@ -1,5 +1,6 @@
 import { Component, DestroyRef, ElementRef, afterNextRender, computed, inject, signal } from '@angular/core';
 import { Countdown } from '../../../shared/countdown/countdown';
+import type { SceneLabels } from '../../three/three-runtime';
 import { ThreeScene } from '../../three/three-scene';
 import { WebsitePartBase } from '../../website-part.base';
 
@@ -22,7 +23,7 @@ const FADE = 0.05;
   imports: [ThreeScene, Countdown],
   templateUrl: './journey3d-hero.html',
   styleUrl: './journey3d-hero.scss',
-  host: { '[class.live]': 'interactive()' },
+  host: { '[class.live]': 'interactive()', '[class.venue]': 'venue()' },
 })
 export class Journey3dHero extends WebsitePartBase {
   private readonly host = inject<ElementRef<HTMLElement>>(ElementRef).nativeElement;
@@ -32,6 +33,28 @@ export class Journey3dHero extends WebsitePartBase {
   protected readonly sceneKind = computed(() => this.template().scene3d ?? 'garden');
   /** Only Nikah designs carry an Arabic line. */
   protected readonly arabicLine = computed(() => this.template().wording.arabic ?? '');
+  /** Venue series: the invitation is written inside the 3D scene itself. */
+  protected readonly venue = computed(() => !!this.template().venue3d);
+  /** Names, date and venue drawn onto the scene's invitation panel. */
+  protected readonly labels = computed<SceneLabels | undefined>(() => {
+    if (!this.venue()) return undefined;
+    const v = this.vm();
+    const t = this.template();
+    return {
+      bride: v.bride,
+      groom: v.groom,
+      initials: v.brideInitial + ' & ' + v.groomInitial,
+      opening: v.opening,
+      invitation: v.invitation,
+      date: v.weekday + ', ' + v.dateLong,
+      time: v.time,
+      venue: v.venue,
+      arabic: t.wording.arabic,
+      fontScript: t.theme.fontScript,
+      fontHeading: t.theme.fontHeading,
+      fontBody: t.theme.fontBody,
+    };
+  });
 
   /** Opacity of each chapter panel for the current scroll position. */
   protected readonly opacities = computed(() => {

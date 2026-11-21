@@ -25,8 +25,10 @@ import { buildGarden } from './scenes/garden';
 import { buildHall } from './scenes/hall';
 import { buildCrescent, buildGirih, buildLanterns, buildMosque, buildRings } from './scenes/islamic';
 import { buildPalace } from './scenes/palace';
+import { buildFloralDoor, buildGothicCorridor, buildMirrorHall, buildMoonStairs, buildPearlSatin, buildPortal, buildStorybook } from './scenes/venues-a';
+import { buildEaselGallery, buildGrotto, buildIvoryBallroom, buildMoonArcade, buildTheatre, buildVelvetArches } from './scenes/venues-b';
 
-export type { ScenePalette } from './scene-kit';
+export type { SceneLabels, ScenePalette } from './scene-kit';
 
 export interface StageOptions {
   /** Scroll-driven walk-through with drag-to-look (journey hero). */
@@ -50,6 +52,19 @@ const BUILDERS: Record<Scene3DKind, (p: ScenePalette) => BuiltScene> = {
   beach: buildBeach,
   hall: buildHall,
   cake: buildCake,
+  moonstairs: buildMoonStairs,
+  portal: buildPortal,
+  floraldoor: buildFloralDoor,
+  gothic: buildGothicCorridor,
+  pearl: buildPearlSatin,
+  storybook: buildStorybook,
+  mirrorhall: buildMirrorHall,
+  grotto: buildGrotto,
+  gallery: buildEaselGallery,
+  velvet: buildVelvetArches,
+  arcade: buildMoonArcade,
+  theatre: buildTheatre,
+  ballroom: buildIvoryBallroom,
 };
 
 // ---------------------------------------------------------------------------
@@ -108,15 +123,18 @@ function createWorld(renderer: THREE.WebGLRenderer, kind: Scene3DKind, palette: 
   const sky = built.sky ?? [palette.bg, palette.surface, palette.bg];
   if (journey) {
     scene.background = skyTexture(sky);
-    scene.fog = new THREE.Fog(sky[2], 55, 180);
+    // Keep pale skies just under the bloom threshold (only lamps and candles should glow).
+    scene.backgroundIntensity = 0.82;
+    const [near, far] = built.light?.fog ?? [55, 180];
+    scene.fog = new THREE.Fog(sky[2], near, far);
   } else {
     scene.fog = new THREE.Fog(palette.bg, 26, 62);
   }
 
   // Journey scenes are full environments: less flat fill light, a stronger sun → depth and contrast.
-  scene.add(journey ? new THREE.HemisphereLight(sky[1], '#2a2620', 0.45) : new THREE.HemisphereLight('#ffffff', palette.bg, 0.7));
+  scene.add(journey ? new THREE.HemisphereLight(sky[1], '#2a2620', 0.45 * (built.light?.hemi ?? 1)) : new THREE.HemisphereLight('#ffffff', palette.bg, 0.7));
   if (journey) scene.environmentIntensity = 0.45;
-  const key = new THREE.DirectionalLight('#fff3e0', journey ? 2.6 : 1.8);
+  const key = new THREE.DirectionalLight('#fff3e0', (journey ? 2.6 : 1.8) * (built.light?.key ?? 1));
   key.position.set(6, 12, 8);
   const rim = new THREE.DirectionalLight(palette.primary, 1.1);
   rim.position.set(-6, 3, -5);
@@ -193,7 +211,8 @@ function enableShadows(renderer: THREE.WebGLRenderer, world: World): void {
   });
 }
 
-function disposeScene(scene: THREE.Scene): void {
+function disposeScene(scene: THREE.Scene, built?: BuiltScene): void {
+  built?.dispose?.();
   (scene.background as THREE.Texture | null)?.dispose?.();
   scene.traverse((object) => {
     const mesh = object as THREE.Mesh;
@@ -233,8 +252,8 @@ export function createLiveStage(host: HTMLElement, kind: Scene3DKind, palette: S
     composer = new EffectComposer(renderer);
     composer.addPass(new RenderPass(scene, camera));
     // High threshold: only lamps, candles and fairy lights glow – not the bright sky.
-    bloom = new UnrealBloomPass(new THREE.Vector2(1, 1), 0.4, 0.5, 0.97);
-    renderer.toneMappingExposure = 1.0;
+    bloom = new UnrealBloomPass(new THREE.Vector2(1, 1), 0.4, 0.5, built.light?.bloom ?? 0.97);
+    renderer.toneMappingExposure = built.light?.exposure ?? 1.0;
     composer.addPass(bloom);
     composer.addPass(new OutputPass());
   }
@@ -304,11 +323,13 @@ export function createLiveStage(host: HTMLElement, kind: Scene3DKind, palette: S
     const delta = timer.getDelta();
     if (!visible) return;
     const t = timer.getElapsed();
-    built.update(t, delta);
+    // Time-based easing: same speed on slow phones and fast screens.
+    if (route) shownProgress += (progress - shownProgress) * (1 - Math.exp(-Math.min(delta, 0.5) * 4.5));
+    built.update(t, delta, route ? smooth(Math.max(0, Math.min(1, shownProgress))) : 0);
 
     if (route) {
       // Ease towards the scroll position, then follow the route.
-      shownProgress += (progress - shownProgress) * 0.08;
+
       const p = smooth(Math.max(0, Math.min(1, shownProgress)));
       route.positions.getPointAt(p, position);
       route.targets.getPointAt(p, target);
@@ -349,7 +370,7 @@ export function createLiveStage(host: HTMLElement, kind: Scene3DKind, palette: S
       window.removeEventListener('pointerup', onPointerUp);
       window.removeEventListener('deviceorientation', onOrientation);
       composer?.dispose();
-      disposeScene(scene);
+      disposeScene(scene, built);
       renderer.dispose();
       renderer.forceContextLoss();
       renderer.domElement.remove();
@@ -381,9 +402,10 @@ export function snapshotTo(
 
   const world = createWorld(sharedRenderer, kind, palette, journey);
   const { scene, camera, built } = world;
-  built.update(time, 0);
+  built.update(time, 0, 0);
   const route = journey ? routeFor(built) : null;
   if (route) {
+    sharedRenderer.toneMappingExposure = built.light?.exposure ?? 1.0;
     frameJourney(camera, width, height);
     camera.position.copy(route.positions.getPointAt(0));
     camera.lookAt(route.targets.getPointAt(0));
@@ -397,5 +419,6 @@ export function snapshotTo(
   const ctx = target.getContext('2d');
   ctx?.clearRect(0, 0, target.width, target.height);
   ctx?.drawImage(sharedRenderer.domElement, 0, 0, target.width, target.height);
-  disposeScene(scene);
+  sharedRenderer.toneMappingExposure = 1.1;
+  disposeScene(scene, built);
 }

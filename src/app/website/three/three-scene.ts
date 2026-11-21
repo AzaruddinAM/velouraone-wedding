@@ -1,6 +1,6 @@
 import { Component, DestroyRef, ElementRef, afterRenderEffect, effect, inject, input, signal, untracked, viewChild } from '@angular/core';
 import type { Scene3DKind, TemplateTheme } from '../../core/models/wedding-template.model';
-import type { LiveStage } from './three-runtime';
+import type { LiveStage, SceneLabels } from './three-runtime';
 
 /**
  * Real-time 3D scene (Three.js).
@@ -39,6 +39,8 @@ export class ThreeScene {
   readonly journey = input(false);
   /** Journey progress 0 → 1 (from the page scroll). */
   readonly progress = input(0);
+  /** Couple's details for scenes that show a 3D invitation panel. */
+  readonly labels = input<SceneLabels | undefined>(undefined);
 
   private readonly host = inject<ElementRef<HTMLElement>>(ElementRef).nativeElement;
   private readonly snapshotCanvas = viewChild<ElementRef<HTMLCanvasElement>>('snapshot');
@@ -54,8 +56,9 @@ export class ThreeScene {
       const theme = this.theme();
       const live = this.live();
       const journey = this.journey();
+      const labels = this.labels();
       const canvas = this.snapshotCanvas()?.nativeElement;
-      void this.render(kind, theme, live, journey, canvas);
+      void this.render(kind, theme, live, journey, canvas, labels);
     });
     // Scroll progress only moves the camera – it never rebuilds the scene.
     effect(() => {
@@ -65,13 +68,13 @@ export class ThreeScene {
     inject(DestroyRef).onDestroy(() => this.teardown());
   }
 
-  private async render(kind: Scene3DKind, theme: TemplateTheme, live: boolean, journey: boolean, canvas?: HTMLCanvasElement): Promise<void> {
+  private async render(kind: Scene3DKind, theme: TemplateTheme, live: boolean, journey: boolean, canvas?: HTMLCanvasElement, labels?: SceneLabels): Promise<void> {
     const run = ++this.generation;
     this.teardown();
     try {
       const runtime = await import('./three-runtime');
       if (run !== this.generation) return; // a newer request superseded this one
-      const palette = { bg: theme.bg, surface: theme.surface, ink: theme.ink, primary: theme.primary, accent: theme.accent };
+      const palette = { bg: theme.bg, surface: theme.surface, ink: theme.ink, primary: theme.primary, accent: theme.accent, labels };
       if (live) {
         this.stage = runtime.createLiveStage(this.host, kind, palette, { journey });
         this.stage.setProgress(untracked(this.progress));

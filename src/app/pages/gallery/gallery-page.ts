@@ -44,7 +44,7 @@ export class GalleryPage {
   );
 
   protected readonly search = signal('');
-  protected readonly sort = signal<TemplateSort>('number');
+  protected readonly sort = signal<TemplateSort>('featured');
 
   /** Local state that resets whenever the URL query param changes. */
   protected readonly selectedCategory = linkedSignal<CategoryFilter>(() => {
@@ -75,6 +75,7 @@ export class GalleryPage {
   );
 
   protected readonly sortOptions = computed<{ value: TemplateSort; label: string }[]>(() => [
+    { value: 'featured', label: '3D & most attractive first' },
     { value: 'number', label: `${this.product().codePrefix}1 → ${this.product().codePrefix}${this.total()}` },
     { value: 'popular', label: 'Most popular' },
     { value: 'newest', label: 'Newest' },

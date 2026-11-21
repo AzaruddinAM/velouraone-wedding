@@ -11,13 +11,36 @@ export interface ScenePalette {
   readonly ink: string;
   readonly primary: string;
   readonly accent: string;
+  /** Couple's details, written onto 3D invitation panels (venue scenes). */
+  readonly labels?: SceneLabels;
+}
+
+/** Text shown on the 3D invitation panels of the venue scenes. */
+export interface SceneLabels {
+  readonly bride: string;
+  readonly groom: string;
+  readonly initials: string;
+  readonly opening: string;
+  readonly invitation: string;
+  readonly date: string;
+  readonly time: string;
+  readonly venue: string;
+  readonly arabic?: string;
+  readonly fontScript: string;
+  readonly fontHeading: string;
+  readonly fontBody: string;
 }
 
 export interface BuiltScene {
   readonly root: THREE.Object3D;
   readonly cameraPosition: THREE.Vector3;
   readonly cameraTarget: THREE.Vector3;
-  update(time: number, delta: number): void;
+  /** progress = journey scroll position (0 → 1): doors open, curtains part… */
+  update(time: number, delta: number, progress: number): void;
+  /** Lighting overrides for dark interiors (multipliers of the defaults). */
+  readonly light?: { readonly key?: number; readonly hemi?: number; readonly exposure?: number; readonly fog?: readonly [near: number, far: number]; readonly bloom?: number };
+  /** Extra clean-up (mirror render targets…). */
+  dispose?(): void;
   /** Camera route for the scroll-driven 3D journey (positions and look-at targets). */
   readonly journey?: { readonly positions: THREE.Vector3[]; readonly targets: THREE.Vector3[] };
   /** Opaque sky for journey scenes (environment scenes are not transparent). */

@@ -7,7 +7,7 @@ import * as THREE from 'three';
 import { mergeGeometries } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
 import { BuiltScene, ScenePalette, blossoms, glow, gold, ground, seeded, v3 } from '../scene-kit';
 
-function chandelier(p: ScenePalette): THREE.Group {
+export function chandelier(p: ScenePalette): THREE.Group {
   const group = new THREE.Group();
   const brass = gold(p, 0.2);
   const crystal = new THREE.MeshPhysicalMaterial({ color: '#ffffff', metalness: 0, roughness: 0, transmission: 0.9, ior: 1.9, thickness: 0.2 });

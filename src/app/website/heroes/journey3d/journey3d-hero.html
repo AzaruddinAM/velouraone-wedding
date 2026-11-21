@@ -8,6 +8,7 @@
     [live]="interactive()"
     [journey]="true"
     [progress]="progress()"
+    [labels]="labels()"
   />
   <span class="vignette" aria-hidden="true"></span>
 
@@ -26,8 +27,8 @@
   </section>
 
   @if (interactive()) {
-    <!-- 2 · Invitation -->
-    <section class="panel card" [style.opacity]="o[1]" [class.hidden]="o[1] === 0" aria-label="Invitation">
+    <!-- 2 · Invitation (venue designs show it on the 3D panel instead) -->
+    <section class="panel card" [class.in-scene]="venue()" [style.opacity]="o[1]" [class.hidden]="o[1] === 0" aria-label="Invitation">
       @if (v.familyLine) {
         <p class="family">{{ v.familyLine }}</p>
       }
