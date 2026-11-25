@@ -18,6 +18,7 @@ import { OutputPass } from 'three/examples/jsm/postprocessing/OutputPass.js';
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
 import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js';
 import type { Scene3DKind } from '../../core/models/wedding-template.model';
+import { hdri, hdriEnvironment } from './assets';
 import { BuiltScene, ScenePalette } from './scene-kit';
 import { buildBeach } from './scenes/beach';
 import { buildCake } from './scenes/cake';
@@ -26,6 +27,7 @@ import { buildHall } from './scenes/hall';
 import { buildCrescent, buildGirih, buildLanterns, buildMosque, buildRings } from './scenes/islamic';
 import { buildPalace } from './scenes/palace';
 import { buildFloralDoor, buildGothicCorridor, buildMirrorHall, buildMoonStairs, buildPearlSatin, buildPortal, buildStorybook } from './scenes/venues-a';
+import { buildRealBallroom, buildRealBay, buildRealCake, buildRealEsplanade, buildRealGallery, buildRealLanternNight, buildRealLounge, buildRealTerrace } from './scenes/realistic';
 import { buildEaselGallery, buildGrotto, buildIvoryBallroom, buildMoonArcade, buildTheatre, buildVelvetArches } from './scenes/venues-b';
 
 export type { SceneLabels, ScenePalette } from './scene-kit';
@@ -65,6 +67,14 @@ const BUILDERS: Record<Scene3DKind, (p: ScenePalette) => BuiltScene> = {
   arcade: buildMoonArcade,
   theatre: buildTheatre,
   ballroom: buildIvoryBallroom,
+  realballroom: buildRealBallroom,
+  realterrace: buildRealTerrace,
+  reallantern: buildRealLanternNight,
+  realesplanade: buildRealEsplanade,
+  realbay: buildRealBay,
+  reallounge: buildRealLounge,
+  realcake: buildRealCake,
+  realgallery: buildRealGallery,
 };
 
 // ---------------------------------------------------------------------------
@@ -113,6 +123,8 @@ interface World {
   camera: THREE.PerspectiveCamera;
   built: BuiltScene;
   key: THREE.DirectionalLight;
+  /** Resolves when GLB models and HDR lighting are in place. */
+  loaded: Promise<void>;
 }
 
 function createWorld(renderer: THREE.WebGLRenderer, kind: Scene3DKind, palette: ScenePalette, journey: boolean): World {
@@ -144,7 +156,23 @@ function createWorld(renderer: THREE.WebGLRenderer, kind: Scene3DKind, palette: 
   const camera = new THREE.PerspectiveCamera(journey ? 55 : 42, 1, 0.1, 400);
   camera.position.copy(built.cameraPosition);
   camera.lookAt(built.cameraTarget);
-  return { scene, camera, built, key };
+
+  // Realistic scenes: real HDR photo for image-based lighting (and as the backdrop).
+  const light = built.hdri;
+  const hdriReady = light
+    ? hdriEnvironment(renderer, light.name).then(async (env) => {
+        scene.environment = env;
+        scene.environmentIntensity = light.envIntensity ?? 1;
+        if (light.background) {
+          scene.background = await hdri(light.name);
+          scene.backgroundBlurriness = light.blur ?? 0;
+          scene.backgroundIntensity = light.backgroundIntensity ?? 1;
+          scene.backgroundRotation.y = scene.environmentRotation.y = light.rotation ?? 0;
+        }
+      })
+    : Promise.resolve();
+  const loaded = Promise.all([built.ready, hdriReady]).then(() => undefined);
+  return { scene, camera, built, key, loaded };
 }
 
 /**
@@ -193,7 +221,9 @@ function enableShadows(renderer: THREE.WebGLRenderer, world: World): void {
   renderer.shadowMap.type = THREE.PCFSoftShadowMap;
   const { key } = world;
   key.castShadow = true;
-  key.shadow.mapSize.set(2048, 2048);
+  // Phones get a smaller shadow map (same look, far less GPU work).
+  const shadowSize = Math.min(window.innerWidth, window.innerHeight) < 700 ? 1024 : 2048;
+  key.shadow.mapSize.set(shadowSize, shadowSize);
   const s = key.shadow.camera;
   s.left = -18;
   s.right = 18;
@@ -213,13 +243,22 @@ function enableShadows(renderer: THREE.WebGLRenderer, world: World): void {
 
 function disposeScene(scene: THREE.Scene, built?: BuiltScene): void {
   built?.dispose?.();
-  (scene.background as THREE.Texture | null)?.dispose?.();
+  const background = scene.background as THREE.Texture | null;
+  if (!background?.userData?.['shared']) background?.dispose?.();
   scene.traverse((object) => {
+    // Cached GLB parts (shared between scenes) stay alive.
+    if (object.userData['shared']) {
+      // Shared model parts may carry a per-scene material copy (e.g. the softened mirror).
+      const own = (object as THREE.Mesh).material as THREE.Material | undefined;
+      if (own?.userData?.['perScene']) own.dispose();
+      return;
+    }
     const mesh = object as THREE.Mesh;
     mesh.geometry?.dispose();
     const material = mesh.material as THREE.Material | THREE.Material[] | undefined;
     for (const m of Array.isArray(material) ? material : material ? [material] : []) {
-      (m as THREE.MeshBasicMaterial).map?.dispose();
+      const map = (m as THREE.MeshBasicMaterial).map;
+      if (!map?.userData?.['shared']) map?.dispose();
       m.dispose();
     }
   });
@@ -251,12 +290,15 @@ export function createLiveStage(host: HTMLElement, kind: Scene3DKind, palette: S
     enableShadows(renderer, world);
     composer = new EffectComposer(renderer);
     composer.addPass(new RenderPass(scene, camera));
-    // High threshold: only lamps, candles and fairy lights glow – not the bright sky.
-    bloom = new UnrealBloomPass(new THREE.Vector2(1, 1), 0.4, 0.5, built.light?.bloom ?? 0.97);
+    // High threshold (HDR values above 1.5): only lamps, candles and fairy lights glow –
+    // never sunlit white chairs, flowers or marble (that used to wash bright scenes out).
+    bloom = new UnrealBloomPass(new THREE.Vector2(1, 1), 0.4, 0.5, built.light?.bloom ?? 1.5);
     renderer.toneMappingExposure = built.light?.exposure ?? 1.0;
     composer.addPass(bloom);
     composer.addPass(new OutputPass());
   }
+  // Models arrive a moment later: give them shadows too.
+  void world.loaded.then(() => journey && enableShadows(renderer, world)).catch((error) => console.warn('3D assets failed to load', error));
 
   let base = built.cameraPosition.clone();
   const pointer = { x: 0, y: 0 };
@@ -318,6 +360,30 @@ export function createLiveStage(host: HTMLElement, kind: Scene3DKind, palette: S
   const forward = new THREE.Vector3();
   const up = new THREE.Vector3(0, 1, 0);
 
+  // Adaptive resolution: if frames get slow (older phones), render slightly fewer pixels.
+  const maxRatio = renderer.getPixelRatio();
+  // Never drop below 1.5× on sharp screens, so lettering on the invitation panels stays crisp.
+  const minRatio = Math.min(maxRatio, 1.5);
+  let slowFrames = 0;
+  let fastFrames = 0;
+  const adaptResolution = (delta: number) => {
+    if (delta <= 0 || delta > 0.5) return; // tab switches, first frame
+    if (delta > 1 / 38) slowFrames++;
+    else if (delta < 1 / 55) fastFrames++;
+    const ratio = renderer.getPixelRatio();
+    if (slowFrames > 45 && ratio > 1) {
+      setRatio(Math.max(minRatio, ratio - 0.25));
+    } else if (fastFrames > 240 && ratio < maxRatio) {
+      setRatio(Math.min(maxRatio, ratio + 0.25));
+    } else return;
+    slowFrames = fastFrames = 0;
+  };
+  const setRatio = (ratio: number) => {
+    renderer.setPixelRatio(ratio);
+    composer?.setPixelRatio(ratio);
+    resize();
+  };
+
   renderer.setAnimationLoop((timestamp) => {
     timer.update(timestamp);
     const delta = timer.getDelta();
@@ -354,6 +420,7 @@ export function createLiveStage(host: HTMLElement, kind: Scene3DKind, palette: S
 
     if (composer) composer.render();
     else renderer.render(scene, camera);
+    adaptResolution(delta);
   });
 
   return {
@@ -380,14 +447,27 @@ export function createLiveStage(host: HTMLElement, kind: Scene3DKind, palette: S
 
 let sharedRenderer: THREE.WebGLRenderer | null = null;
 
-/** Draws one still frame of the scene into `target` (a 2D canvas) using a single shared renderer. */
-export function snapshotTo(
+/** Thumbnails are drawn one at a time, in idle moments, so a gallery full of 3D designs scrolls smoothly. */
+let snapshotQueue: Promise<void> = Promise.resolve();
+const idle = () =>
+  new Promise<void>((resolve) =>
+    'requestIdleCallback' in window ? requestIdleCallback(() => resolve(), { timeout: 400 }) : setTimeout(resolve, 16),
+  );
+
+/** Draws one still frame of the scene into the target 2D canvas using a single shared renderer. */
+export function snapshotTo(...args: Parameters<typeof renderSnapshot>): Promise<void> {
+  const job = snapshotQueue.then(idle).then(() => (args[0].isConnected ? renderSnapshot(...args) : undefined));
+  snapshotQueue = job.catch(() => undefined);
+  return job;
+}
+
+function renderSnapshot(
   target: HTMLCanvasElement,
   kind: Scene3DKind,
   palette: ScenePalette,
   options: StageOptions = {},
   time = 2.4,
-): void {
+): Promise<void> {
   const journey = !!options.journey;
   const width = Math.max(1, Math.round(target.clientWidth));
   const height = Math.max(1, Math.round(target.clientHeight));
@@ -397,28 +477,31 @@ export function snapshotTo(
     sharedRenderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, preserveDrawingBuffer: true });
     configureRenderer(sharedRenderer);
   }
-  sharedRenderer.setPixelRatio(ratio);
-  sharedRenderer.setSize(width, height, false);
-
-  const world = createWorld(sharedRenderer, kind, palette, journey);
+  const renderer = sharedRenderer;
+  const world = createWorld(renderer, kind, palette, journey);
   const { scene, camera, built } = world;
-  built.update(time, 0, 0);
-  const route = journey ? routeFor(built) : null;
-  if (route) {
-    sharedRenderer.toneMappingExposure = built.light?.exposure ?? 1.0;
-    frameJourney(camera, width, height);
-    camera.position.copy(route.positions.getPointAt(0));
-    camera.lookAt(route.targets.getPointAt(0));
-  } else {
-    frameHero(camera, built, width, height);
-  }
-  sharedRenderer.render(scene, camera);
+  // Wait for models / HDR light (realistic scenes) before taking the picture.
+  return world.loaded.catch(() => undefined).then(() => {
+    renderer.setPixelRatio(ratio);
+    renderer.setSize(width, height, false);
+    built.update(time, 0, 0);
+    const route = journey ? routeFor(built) : null;
+    if (route) {
+      renderer.toneMappingExposure = built.light?.exposure ?? 1.0;
+      frameJourney(camera, width, height);
+      camera.position.copy(route.positions.getPointAt(0));
+      camera.lookAt(route.targets.getPointAt(0));
+    } else {
+      frameHero(camera, built, width, height);
+    }
+    renderer.render(scene, camera);
 
-  target.width = Math.round(width * ratio);
-  target.height = Math.round(height * ratio);
-  const ctx = target.getContext('2d');
-  ctx?.clearRect(0, 0, target.width, target.height);
-  ctx?.drawImage(sharedRenderer.domElement, 0, 0, target.width, target.height);
-  sharedRenderer.toneMappingExposure = 1.1;
-  disposeScene(scene, built);
+    target.width = Math.round(width * ratio);
+    target.height = Math.round(height * ratio);
+    const ctx = target.getContext('2d');
+    ctx?.clearRect(0, 0, target.width, target.height);
+    ctx?.drawImage(renderer.domElement, 0, 0, target.width, target.height);
+    renderer.toneMappingExposure = 1.1;
+    disposeScene(scene, built);
+  });
 }

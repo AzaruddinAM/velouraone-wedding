@@ -24,15 +24,17 @@ interface CountdownPart {
     }
   `,
   styles: `
-    .countdown { display: flex; justify-content: center; gap: 0.6rem; }
+    :host { display: block; max-width: 100%; }
+    /* Four equal columns that shrink with the space available – never wider than the card (RSVP on small phones). */
+    .countdown { display: grid; grid-template-columns: repeat(4, minmax(0, 4.6rem)); justify-content: center; gap: clamp(0.3rem, 2vw, 0.6rem); }
     /* Parents can theme it with --cd-bg / --cd-border / --cd-ink. */
     .unit {
-      display: grid; min-width: 4.2rem; padding: 0.6rem 0.4rem; text-align: center;
+      display: grid; min-width: 0; padding: 0.6rem 0.2rem; text-align: center;
       border-radius: 0.8rem; background: var(--cd-bg, rgb(255 255 255 / 0.14)); backdrop-filter: blur(6px);
       border: 1px solid var(--cd-border, rgb(255 255 255 / 0.25)); color: var(--cd-ink, inherit);
     }
-    strong { font-size: 1.6rem; line-height: 1.1; font-variant-numeric: tabular-nums; }
-    span { font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.85; }
+    strong { font-size: clamp(1.15rem, 5.5vw, 1.6rem); line-height: 1.1; font-variant-numeric: tabular-nums; }
+    span { font-size: clamp(0.58rem, 2.6vw, 0.7rem); letter-spacing: 0.08em; text-transform: uppercase; opacity: 0.85; overflow: hidden; text-overflow: ellipsis; }
     .married { text-align: center; font-size: 1.2rem; }
   `,
 })

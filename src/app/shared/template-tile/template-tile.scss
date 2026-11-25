@@ -44,27 +44,24 @@
   50% { opacity: 0.6; }
 }
 
-.code,
+// Badges row under the design name (nothing floats over the preview).
+.badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-top: 0.45rem;
+
+  &:empty {
+    display: none;
+  }
+}
+
 .flag {
-  position: absolute;
-  top: 0.6rem;
-  padding: 0.2rem 0.6rem;
+  padding: 0.15rem 0.55rem;
   border-radius: 999px;
-  font-size: 0.72rem;
+  font-size: 0.68rem;
   font-weight: 600;
   letter-spacing: 0.04em;
-}
-
-.code {
-  left: 0.6rem;
-  background: rgb(0 0 0 / 0.65);
-  color: #fff;
-}
-
-.flag {
-  right: 0.6rem;
-  top: auto;
-  bottom: 0.6rem;
   background: var(--gold);
   color: #2a1a10;
 
@@ -90,9 +87,6 @@
 }
 
 .heart {
-  position: absolute;
-  top: 1.2rem;
-  right: 1.2rem;
   display: grid;
   place-items: center;
   width: 2.3rem;
@@ -131,6 +125,18 @@
   }
 }
 
+.info {
+  min-width: 0;
+}
+
+// Heart above the colour swatches, on the right of the name.
+.side {
+  display: grid;
+  justify-items: end;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
 .swatches {
   display: flex;
   margin-top: 0.3rem;
@@ -159,8 +165,6 @@
   }
 
   .heart {
-    top: 0.9rem;
-    right: 0.9rem;
     width: 2rem;
     height: 2rem;
   }
@@ -189,16 +193,13 @@
 }
 
 .feature-badge {
-  position: absolute;
-  top: 2.4rem;
-  left: 0.6rem;
   padding: 0.15rem 0.55rem;
   border-radius: 999px;
   background: linear-gradient(135deg, var(--gold-light), var(--gold));
   color: var(--plum-dark);
   font-size: 0.68rem;
   font-weight: 700;
-  box-shadow: 0 2px 6px rgb(0 0 0 / 0.2);
+  box-shadow: 0 1px 3px rgb(0 0 0 / 0.15);
 }
 
 .feature-badge.three-d {

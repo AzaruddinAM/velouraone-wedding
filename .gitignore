@@ -42,3 +42,6 @@ __screenshots__/
 # System files
 .DS_Store
 Thumbs.db
+
+# Raw downloaded 3D sources (compressed copies live in public/3d)
+/assets-src

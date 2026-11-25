@@ -2,6 +2,7 @@ import { Component, inject } from '@angular/core';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { filter, map } from 'rxjs';
+import { SeoService } from './core/services/seo.service';
 import { WhatsappOrderService } from './core/services/whatsapp-order.service';
 import { Icon } from './shared/icon/icon';
 import { OrderDialog } from './shared/order-dialog/order-dialog';
@@ -30,6 +31,7 @@ export class App {
   );
 
   constructor() {
+    inject(SeoService).start();
     this.handleScrolling();
   }
 

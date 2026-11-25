@@ -221,6 +221,8 @@ export interface PanelStyle {
   /** Which lines to draw. */
   readonly layout?: 'full' | 'names' | 'monogram' | 'events';
   readonly border?: boolean;
+  /** Soft glow behind the letters (text written straight onto mirror glass stays readable). */
+  readonly halo?: string;
 }
 
 const FALLBACK: SceneLabels = {
@@ -258,6 +260,30 @@ function drawPanel(canvas: HTMLCanvasElement, labels: SceneLabels, style: PanelS
   ctx.clearRect(0, 0, W, H);
   if (style.paper !== 'glass') {
     ctx.fillStyle = style.paper;
+    ctx.fillRect(0, 0, W, H);
+  } else if (style.halo) {
+    // Smoked / painted mirror (like a wedding welcome mirror): the glass is tinted in the design's
+    // own colour, strongest behind the lettering and fading towards the frame so the reflection
+    // still shows. Light lettering always gets a dark tint and dark lettering a light one.
+    const tint = new THREE.Color(style.halo);
+    const rgb = `${Math.round(tint.r * 255)},${Math.round(tint.g * 255)},${Math.round(tint.b * 255)}`;
+    // A dark tint behind light lettering must hide bright reflections (lamps, chandeliers), so it is deeper.
+    const darkTint = tint.r * 0.2126 + tint.g * 0.7152 + tint.b * 0.0722 < 0.35;
+    const [inner, middle, outer] = darkTint ? [0.94, 0.88, 0.62] : [0.8, 0.66, 0.4];
+    const radial = ctx.createRadialGradient(W / 2, H * 0.52, W * 0.1, W / 2, H * 0.52, Math.max(W, H) * 0.62);
+    radial.addColorStop(0, `rgba(${rgb},${inner})`);
+    radial.addColorStop(0.65, `rgba(${rgb},${middle})`);
+    radial.addColorStop(1, `rgba(${rgb},${outer})`);
+    ctx.fillStyle = radial;
+    ctx.fillRect(0, 0, W, H);
+    // A faint diagonal sheen keeps it reading as glass.
+    const sheen = ctx.createLinearGradient(0, 0, W, H * 0.6);
+    sheen.addColorStop(0, 'rgba(255,255,255,0)');
+    sheen.addColorStop(0.42, 'rgba(255,255,255,0.07)');
+    sheen.addColorStop(0.5, 'rgba(255,255,255,0.13)');
+    sheen.addColorStop(0.58, 'rgba(255,255,255,0.05)');
+    sheen.addColorStop(1, 'rgba(255,255,255,0)');
+    ctx.fillStyle = sheen;
     ctx.fillRect(0, 0, W, H);
   } else {
     const gradient = ctx.createLinearGradient(0, 0, W, H);
@@ -302,11 +328,19 @@ function drawPanel(canvas: HTMLCanvasElement, labels: SceneLabels, style: PanelS
   const line = (text: string, font: string, color: string, gap: number) => {
     ctx.font = font;
     ctx.fillStyle = color;
-    // A thin outline in the same colour thickens the strokes so text stays legible when the panel is small on screen.
+    // A hairline outline in the same colour gives thin script strokes enough weight to read on small screens.
     ctx.strokeStyle = color;
     ctx.lineJoin = 'round';
-    ctx.lineWidth = Math.max(1, parseFloat(font.replace(/^italic /, '')) * 0.045);
+    ctx.lineWidth = Math.max(1, parseFloat(font.replace(/^italic /, '')) * 0.03);
     for (const l of wrap(ctx, text, W * 0.74)) {
+      if (style.halo) {
+        // Soft glow BEHIND the letters (mirror glass), then the letters again on top, perfectly sharp.
+        ctx.save();
+        ctx.shadowColor = style.halo;
+        ctx.shadowBlur = W * 0.025;
+        ctx.fillText(l, cx, y);
+        ctx.restore();
+      }
       ctx.strokeText(l, cx, y);
       ctx.fillText(l, cx, y);
       y += gap;
@@ -341,7 +375,8 @@ function drawPanel(canvas: HTMLCanvasElement, labels: SceneLabels, style: PanelS
   }
   if (labels.arabic) line(labels.arabic, `${unit * 6.5}px 'Aref Ruqaa', serif`, style.accent, unit * 9);
   if (layout !== 'names') line(labels.opening.toUpperCase(), `${unit * 3.8}px ${labels.fontHeading}`, style.ink, unit * 5.6);
-  y += unit * 3;
+  // Room for the tall script capitals of the names below.
+  y += unit * 7;
   line(labels.bride, `${unit * 14}px ${labels.fontScript}`, style.accent, unit * 11);
   line('&', `${unit * 7}px ${labels.fontScript}`, style.ink, unit * 10);
   line(labels.groom, `${unit * 14}px ${labels.fontScript}`, style.accent, unit * 13);
@@ -370,12 +405,14 @@ export function invitationPanel(
 ): THREE.Mesh {
   const labels = p.labels ?? FALLBACK;
   const canvas = document.createElement('canvas');
-  canvas.width = 900;
-  canvas.height = Math.round((900 * h) / w);
+  canvas.width = PANEL_PX;
+  canvas.height = Math.round((PANEL_PX * h) / w);
   drawPanel(canvas, labels, style, arch);
   const texture = new THREE.CanvasTexture(canvas);
   texture.colorSpace = THREE.SRGBColorSpace;
-  texture.anisotropy = 4;
+  texture.anisotropy = 16; // clamped to what the GPU supports
+  texture.minFilter = THREE.LinearMipmapLinearFilter;
+  texture.magFilter = THREE.LinearFilter;
   if (typeof document !== 'undefined' && document.fonts) {
     const fonts = [labels.fontScript, labels.fontHeading, labels.fontBody].map((f) => `40px ${f}`);
     void Promise.all(fonts.map((f) => document.fonts.load(f).catch(() => null))).then(() => {
@@ -385,11 +422,36 @@ export function invitationPanel(
   }
   const material =
     style.paper === 'glass'
-      ? new THREE.MeshBasicMaterial({ map: texture, transparent: true, depthWrite: false, side: THREE.DoubleSide })
+      ? new THREE.MeshBasicMaterial({ map: texture, transparent: true, depthWrite: false, toneMapped: false, side: THREE.DoubleSide })
       : // Evenly lit like a backlit sign, kept just under the bloom threshold so text never blows out.
         new THREE.MeshBasicMaterial({ map: texture, color: '#f2f2f2', toneMapped: false, transparent: style.paper.startsWith('rgba'), side: THREE.DoubleSide });
+  sharpenText(material);
   const shape = arch === 'rect' ? rectShape(w, h) : archOf(arch, w, h);
   return shapeMesh(shape, material);
+}
+
+/**
+ * Panel texture width: sharp on high-density phone screens (the panel can fill most of the
+ * screen at the end of a walk-through) while keeping GPU memory reasonable.
+ */
+const PANEL_PX = Math.round(Math.min(1536, Math.max(1024, 640 * (typeof window === 'undefined' ? 1 : window.devicePixelRatio || 1))));
+
+/**
+ * Text stays crisp when the panel is drawn smaller than its texture: the GPU is asked to
+ * prefer the sharper mipmap level (a small negative LOD bias) instead of blending in a
+ * half-resolution copy, which is what made the lettering look soft.
+ */
+function sharpenText(material: THREE.MeshBasicMaterial): void {
+  material.onBeforeCompile = (shader) => {
+    shader.fragmentShader = shader.fragmentShader.replace(
+      '#include <map_fragment>',
+      `#ifdef USE_MAP
+        vec4 sampledDiffuseColor = texture2D( map, vMapUv, -0.85 );
+        diffuseColor *= sampledDiffuseColor;
+      #endif`,
+    );
+  };
+  material.customProgramCacheKey = () => 'invitation-panel-sharp';
 }
 
 function rectShape(w: number, h: number): THREE.Shape {

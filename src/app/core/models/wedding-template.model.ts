@@ -102,7 +102,16 @@ export type Scene3DKind =
   | 'velvet'
   | 'arcade'
   | 'theatre'
-  | 'ballroom';
+  | 'ballroom'
+  // Realistic series (real HDR light, PBR surfaces, GLB furniture & chandeliers)
+  | 'realballroom'
+  | 'realterrace'
+  | 'reallantern'
+  | 'realesplanade'
+  | 'realbay'
+  | 'reallounge'
+  | 'realcake'
+  | 'realgallery';
 
 /** How the website's content sections look. */
 export type SectionStyle = 'classic' | 'cards' | 'editorial' | 'bold';
@@ -234,6 +243,8 @@ export interface WebsiteTemplate extends DesignBase {
   readonly invite?: InviteStyle;
   /** Venue series: the 3D scene itself carries the invitation (names on a panel). */
   readonly venue3d?: boolean;
+  /** Realistic series: real-world HDR lighting and 3D models. */
+  readonly realistic?: boolean;
 }
 
 export type WeddingDesign = WeddingTemplate | WebsiteTemplate;

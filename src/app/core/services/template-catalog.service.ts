@@ -8,10 +8,11 @@ export type TemplateSort = 'featured' | 'number' | 'popular' | 'newest';
 
 /**
  * How eye-catching a design is, for the default 'featured' order:
- * 3D venue walk-throughs, then 3D journeys, other 3D, invite series, animated, the rest.
+ * realistic 3D (real light & models), 3D venue walk-throughs, then 3D journeys, other 3D, invite series, animated, the rest.
  */
 export function appeal(d: WeddingDesign): number {
   if (d.kind === 'website') {
+    if (d.realistic) return 7;
     if (d.venue3d) return 6;
     if (d.hero === 'journey3d') return 5;
     if (d.threeD) return 4;

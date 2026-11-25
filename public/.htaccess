@@ -7,3 +7,35 @@
   RewriteCond %{REQUEST_FILENAME} !-d
   RewriteRule . /index.html [L]
 </IfModule>
+
+# ----- Speed: compress text files (JS, CSS, HTML, SVG, XML, JSON, 3D lighting) -----
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css text/plain text/xml application/javascript application/json application/xml image/svg+xml
+  <FilesMatch "\.(hdr|gltf)$">
+    SetOutputFilter DEFLATE
+  </FilesMatch>
+</IfModule>
+
+# ----- Speed: let browsers keep files ---------------------------------------------
+<IfModule mod_expires.c>
+  ExpiresActive On
+  # Hashed build files never change under the same name.
+  ExpiresByType application/javascript "access plus 1 year"
+  ExpiresByType text/css "access plus 1 year"
+  # 3D models, lighting and textures.
+  ExpiresByType model/gltf-binary "access plus 30 days"
+  ExpiresByType image/webp "access plus 30 days"
+  ExpiresByType image/png "access plus 30 days"
+  ExpiresByType image/svg+xml "access plus 30 days"
+  # Pages always revalidate so new designs show up straight away.
+  ExpiresByType text/html "access plus 0 seconds"
+</IfModule>
+<IfModule mod_headers.c>
+  <FilesMatch "\.(glb|hdr|webp)$">
+    Header set Cache-Control "public, max-age=2592000"
+  </FilesMatch>
+  <FilesMatch "^index\.html$">
+    Header set Cache-Control "no-cache"
+  </FilesMatch>
+</IfModule>
+AddType model/gltf-binary .glb

@@ -36,7 +36,7 @@ export function buildMoonStairs(p: ScenePalette): BuiltScene {
 
   root.add(ground(160, '#cdb995', 0.6));
   root.add(starField(500, 140, '#ffffff', 0.55, 4));
-  const moon = new THREE.Mesh(new THREE.SphereGeometry(3.2, 32, 32), glow('#fff4d6', 1.6));
+  const moon = new THREE.Mesh(new THREE.SphereGeometry(3.2, 32, 32), glow('#fff4d6', 2.4));
   moon.position.set(-22, 30, -80);
   const moonHalo = halo('#fff1cc', 26);
   moonHalo.position.copy(moon.position).add(v3(0, 0, -1));

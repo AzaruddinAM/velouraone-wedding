@@ -79,7 +79,7 @@ export class ThreeScene {
         this.stage = runtime.createLiveStage(this.host, kind, palette, { journey });
         this.stage.setProgress(untracked(this.progress));
       } else if (canvas) {
-        runtime.snapshotTo(canvas, kind, palette, { journey });
+        await runtime.snapshotTo(canvas, kind, palette, { journey });
       }
       this.failed.set(false);
     } catch (error) {

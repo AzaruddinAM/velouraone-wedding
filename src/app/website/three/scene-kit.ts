@@ -4,6 +4,7 @@
  * Only loaded lazily together with the 3D runtime.
  */
 import * as THREE from 'three';
+import type { HdriName } from './assets';
 
 export interface ScenePalette {
   readonly bg: string;
@@ -41,6 +42,18 @@ export interface BuiltScene {
   readonly light?: { readonly key?: number; readonly hemi?: number; readonly exposure?: number; readonly fog?: readonly [near: number, far: number]; readonly bloom?: number };
   /** Extra clean-up (mirror render targets…). */
   dispose?(): void;
+  /** Resolves when async assets (GLB models) are in the scene. */
+  readonly ready?: Promise<unknown>;
+  /** Real-world HDR photo used for lighting and, optionally, as the visible backdrop. */
+  readonly hdri?: {
+    readonly name: HdriName;
+    readonly background?: boolean;
+    readonly blur?: number;
+    readonly backgroundIntensity?: number;
+    readonly envIntensity?: number;
+    /** Turns the backdrop (radians) so the best part of the photo is ahead. */
+    readonly rotation?: number;
+  };
   /** Camera route for the scroll-driven 3D journey (positions and look-at targets). */
   readonly journey?: { readonly positions: THREE.Vector3[]; readonly targets: THREE.Vector3[] };
   /** Opaque sky for journey scenes (environment scenes are not transparent). */

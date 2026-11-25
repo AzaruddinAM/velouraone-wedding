@@ -6,42 +6,45 @@
     } @placeholder {
       <div class="skeleton" [style.background]="t.theme.bg"></div>
     }
-    <span class="code">{{ t.code }}</span>
-    @if (t.threeD) {
-      <span class="feature-badge three-d">🧊 3D</span>
-    } @else if (t.scratch) {
-      <span class="feature-badge">🪙 Scratch</span>
-    } @else if (t.animated) {
-      <span class="feature-badge">✨ Animated</span>
-    }
-    @if (t.isNew) {
-      <span class="flag new">New</span>
-    } @else if (t.popular) {
-      <span class="flag">Popular</span>
-    }
     <span class="hover-hint"><app-icon name="eye" /> Preview</span>
   </a>
 
-  <button
-    type="button"
-    class="heart"
-    [class.active]="isShortlisted()"
-    [attr.aria-pressed]="isShortlisted()"
-    [attr.aria-label]="isShortlisted() ? 'Remove from shortlist' : 'Add to shortlist'"
-    (click)="toggleShortlist()"
-  >
-    <app-icon [name]="isShortlisted() ? 'heart-filled' : 'heart'" />
-  </button>
-
+  <!-- Badges and the heart sit below the preview so they never cover the design. -->
   <div class="meta">
-    <div>
+    <div class="info">
       <h3>{{ t.name }}</h3>
       <p>{{ t.style }} · {{ catalog.categoryLabel(t.category) }}</p>
+      <div class="badges">
+        @if (t.threeD) {
+          <span class="feature-badge three-d">🧊 3D</span>
+        } @else if (t.scratch) {
+          <span class="feature-badge">🪙 Scratch</span>
+        } @else if (t.animated) {
+          <span class="feature-badge">✨ Animated</span>
+        }
+        @if (t.isNew) {
+          <span class="flag new">New</span>
+        } @else if (t.popular) {
+          <span class="flag">Popular</span>
+        }
+      </div>
     </div>
-    <div class="swatches" aria-hidden="true">
-      <span [style.background]="t.theme.bg"></span>
-      <span [style.background]="t.theme.primary"></span>
-      <span [style.background]="t.theme.accent"></span>
+    <div class="side">
+      <button
+        type="button"
+        class="heart"
+        [class.active]="isShortlisted()"
+        [attr.aria-pressed]="isShortlisted()"
+        [attr.aria-label]="isShortlisted() ? 'Remove from shortlist' : 'Add to shortlist'"
+        (click)="toggleShortlist()"
+      >
+        <app-icon [name]="isShortlisted() ? 'heart-filled' : 'heart'" />
+      </button>
+      <div class="swatches" aria-hidden="true">
+        <span [style.background]="t.theme.bg"></span>
+        <span [style.background]="t.theme.primary"></span>
+        <span [style.background]="t.theme.accent"></span>
+      </div>
     </div>
   </div>
 

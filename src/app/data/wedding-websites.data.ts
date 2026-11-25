@@ -5,6 +5,7 @@ import { NIKAH_3D_WEBSITES } from './nikah-3d-websites.data';
 import { JOURNEY_3D_WEBSITES } from './journey-3d-websites.data';
 import { INVITE_WEBSITES } from './invite-websites.data';
 import { VENUE_3D_WEBSITES } from './venue-3d-websites.data';
+import { REALISTIC_3D_WEBSITES } from './realistic-3d-websites.data';
 
 /* ------------------------------------------------------------------ */
 /*  Default schedule per ceremony style                                */
@@ -272,4 +273,6 @@ export const WEDDING_WEBSITES: readonly WebsiteTemplate[] = [
   ...INVITE_WEBSITES,
   // Venue series (cinematic 3D walk-through to a named invitation) – see venue-3d-websites.data.ts
   ...VENUE_3D_WEBSITES,
+  // Realistic series (real HDR light, PBR surfaces, CC0 GLB models) – see realistic-3d-websites.data.ts
+  ...REALISTIC_3D_WEBSITES,
 ];

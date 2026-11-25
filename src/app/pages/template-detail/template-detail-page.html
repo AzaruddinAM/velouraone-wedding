@@ -24,14 +24,14 @@
             @if (device() === 'phone') {
               <div class="phone">
                 <span class="notch" aria-hidden="true"></span>
-                <app-scaled-frame [designWidth]="390" [designHeight]="800" [scrollable]="true">
+                <app-scaled-frame data-nosnippet [designWidth]="390" [designHeight]="800" [scrollable]="true">
                   <app-wedding-website [template]="t" [details]="details()" heroHeight="744px" />
                 </app-scaled-frame>
               </div>
             } @else {
               <div class="laptop">
                 <div class="laptop-bar" aria-hidden="true"><i></i><i></i><i></i></div>
-                <app-scaled-frame [designWidth]="1280" [designHeight]="820" [scrollable]="true">
+                <app-scaled-frame data-nosnippet [designWidth]="1280" [designHeight]="820" [scrollable]="true">
                   <app-wedding-website [template]="t" [details]="details()" heroHeight="764px" />
                 </app-scaled-frame>
               </div>
