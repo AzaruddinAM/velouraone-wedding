@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { CategoryInfo, DesignFeature, DesignKind, TemplateCategory, WeddingDesign } from '../models/wedding-template.model';
 import { TEMPLATE_CATEGORIES } from '../../data/design-tokens';
+import { priceOf } from '../constants/pricing.constants';
 import { WEDDING_TEMPLATES } from '../../data/wedding-templates.data';
 import { WEDDING_WEBSITES } from '../../data/wedding-websites.data';
 
-export type TemplateSort = 'featured' | 'number' | 'popular' | 'newest';
+export type TemplateSort = 'featured' | 'number' | 'popular' | 'newest' | 'price-asc' | 'price-desc';
 
 /**
  * How eye-catching a design is, for the default 'featured' order:
@@ -98,6 +99,10 @@ export class TemplateCatalogService {
       case 'featured':
         // 3D & most attractive first; popular ones lead each group, then the newest.
         return result.sort((a, b) => appeal(b) - appeal(a) || Number(!!b.popular) - Number(!!a.popular) || num(b) - num(a));
+      case 'price-asc':
+        return result.sort((a, b) => priceOf(a) - priceOf(b) || num(a) - num(b));
+      case 'price-desc':
+        return result.sort((a, b) => priceOf(b) - priceOf(a) || num(b) - num(a));
       case 'newest':
         return result.sort((a, b) => Number(!!b.isNew) - Number(!!a.isNew) || num(b) - num(a));
       default:

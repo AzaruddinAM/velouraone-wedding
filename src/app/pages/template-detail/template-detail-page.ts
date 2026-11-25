@@ -1,4 +1,5 @@
 import { Component, computed, inject, input, signal } from '@angular/core';
+import { formatPrice, priceOf } from '../../core/constants/pricing.constants';
 import { RouterLink } from '@angular/router';
 import { SITE_HOST } from '../../core/constants/brand.constants';
 import { PRODUCTS, demoLink, detailLink } from '../../core/constants/products.constants';
@@ -64,6 +65,11 @@ export class TemplateDetailPage {
   protected readonly related = computed(() => {
     const t = this.template();
     return t ? this.catalog.related(t) : [];
+  });
+  /** e.g. ₹1,399 */
+  protected readonly price = computed(() => {
+    const t = this.template();
+    return t ? formatPrice(priceOf(t)) : '';
   });
   protected readonly isShortlisted = computed(() => {
     const t = this.template();

@@ -37,6 +37,8 @@ import { Icon, IconName } from '../../shared/icon/icon';
           <ul>
             <li><a routerLink="/templates">Invitation Cards (V1–V{{ catalog.total('card') }})</a></li>
             <li><a routerLink="/websites">Invitation Websites (W1–W{{ catalog.total('website') }})</a></li>
+            <li><a routerLink="/prices">Prices</a></li>
+            <li><a routerLink="/admin" rel="nofollow">Admin</a></li>
             @for (category of catalog.categories.slice(0, 4); track category.id) {
               <li><a routerLink="/websites" [queryParams]="{ category: category.id }">{{ category.label }} websites</a></li>
             }

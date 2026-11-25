@@ -4,5 +4,9 @@ Allow: /
 # Full-screen live demos repeat the design pages; the design pages are the ones to index.
 Disallow: /demo/
 Disallow: /site/
+# Admin area, couples' private websites and the API stay out of search results.
+Disallow: /admin
+Disallow: /i/
+Disallow: /api/
 
 Sitemap: https://invitations.velouraone.in/sitemap.xml

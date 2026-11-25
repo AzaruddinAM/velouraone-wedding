@@ -22,6 +22,7 @@
           <dl class="summary">
             <div><dt>Product</dt><dd>{{ products[t.kind].label }}</dd></div>
             <div><dt>Template</dt><dd>{{ t.name }} – {{ t.style }} ({{ t.code }})</dd></div>
+            <div><dt>Price</dt><dd><strong>{{ price() }}</strong></dd></div>
             <div><dt>Couple</dt><dd>{{ d.bride }} &amp; {{ d.groom }}</dd></div>
             <div><dt>Date</dt><dd>{{ prettyDate() }}</dd></div>
             <div><dt>Venue</dt><dd>{{ d.venue }}</dd></div>

@@ -22,6 +22,7 @@
       <a [routerLink]="products.website.basePath" routerLinkActive="active">
         Websites <span class="new-pill">New</span>
       </a>
+      <a routerLink="/prices" routerLinkActive="active">Prices</a>
       <a [routerLink]="shortlistPath()" [queryParams]="{ shortlist: 'true' }" class="shortlist-link">
         <app-icon name="heart" /> Shortlist
         @if (shortlist.count()) {

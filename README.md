@@ -98,6 +98,32 @@ npm install
 npm start          # http://localhost:4200
 ```
 
+## Prices
+
+All prices live in `src/app/core/constants/pricing.constants.ts` (maximum ₹1,999). Tiles, design pages, the `/prices` page, the "Price" sorts and the WhatsApp order message all read from it. New designs are priced automatically by their series.
+
+## Admin: sign in and generate couples' websites
+
+`/admin` (small "Admin" link in the footer, hidden from search engines). After signing in, pick a design, fill in the couple's details and photo, and press **Generate website**. The couple's site is published at `/i/<names>-<code>` (e.g. `/i/fathima-rayan-4jke8`), ready to copy or send on WhatsApp. Generated sites can be listed, opened and deleted.
+
+The secure part is PHP in `server/` (copied next to the site on deploy):
+
+- Password stored only as an **Argon2id hash** (GitHub secret) – never in the code or the repository.
+- **5 wrong attempts → 15-minute lock** per IP (plus a global limit); generic error message and a random delay.
+- Session cookie: **HttpOnly, Secure, SameSite=Strict**, renewed at sign-in, 30-minute idle timeout, 8-hour maximum.
+- **CSRF token + same-origin check** on every change; audit log of all sign-ins.
+- Couple photos are validated and **re-saved as clean JPEGs**; the uploads folder can never run scripts; private data files are blocked and can't be downloaded.
+
+**Set up the admin login (once):**
+
+```bash
+npm run admin:password
+```
+
+It asks for a username and password (hidden), then prints two values. Add them on GitHub → Settings → Secrets and variables → Actions as `ADMIN_USERNAME` and `ADMIN_PASSWORD_HASH`. The next deploy switches the admin login on.
+
+**Test locally:** run `npm run api` (PHP on port 4301) and `npm start`; the dev server forwards `/api` to PHP. `npm run admin:password -- --test` creates a throw-away local test login in `admin-test-login.local.txt` (git-ignored).
+
 ## Build & host (invitations.velouraone.in)
 
 ```bash

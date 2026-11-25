@@ -1,6 +1,7 @@
 import { Component, ElementRef, computed, effect, inject, signal, viewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { BRAND } from '../../core/constants/brand.constants';
+import { formatPrice, priceOf } from '../../core/constants/pricing.constants';
 import { InvitationDraftService } from '../../core/services/invitation-draft.service';
 import { WhatsappOrderService } from '../../core/services/whatsapp-order.service';
 import { dataUrlToFile } from '../../core/utils/image.utils';
@@ -37,6 +38,10 @@ export class OrderDialog {
   protected readonly notes = signal('');
   protected readonly shareMessage = signal('');
 
+  protected readonly price = computed(() => {
+    const t = this.orders.activeTemplate();
+    return t ? formatPrice(priceOf(t)) : '';
+  });
   protected readonly prettyDate = computed(() => {
     const d = this.details();
     const date = parseLocalDate(d.date);

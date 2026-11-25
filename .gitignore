@@ -45,3 +45,12 @@ Thumbs.db
 
 # Raw downloaded 3D sources (compressed copies live in public/3d)
 /assets-src
+
+# Admin: local test login and data created at runtime (never committed)
+/server/api/_config.local.php
+/server/api/_config.php
+/server/api/_data/*
+!/server/api/_data/.htaccess
+/server/uploads/*
+!/server/uploads/.htaccess
+/admin-test-login.local.txt

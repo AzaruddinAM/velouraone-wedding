@@ -1,0 +1,136 @@
+@if (checking()) {
+  <div class="center"><p class="muted">Checking your session…</p></div>
+} @else if (!signedIn()) {
+  <!-- ============ Sign in ============ -->
+  <div class="center">
+    <form class="login" (ngSubmit)="signIn()" autocomplete="on">
+      <span class="lock" aria-hidden="true">🔒</span>
+      <h1>Admin sign in</h1>
+      <p class="muted">For VelouraOne staff only.</p>
+
+      <label>
+        Username
+        <input name="username" [(ngModel)]="username" autocomplete="username" required autocapitalize="off" spellcheck="false" />
+      </label>
+      <label>
+        Password
+        <span class="pw">
+          <input
+            name="password"
+            [type]="showPassword() ? 'text' : 'password'"
+            [(ngModel)]="password"
+            autocomplete="current-password"
+            required
+          />
+          <button type="button" class="show" (click)="showPassword.set(!showPassword())" [attr.aria-label]="showPassword() ? 'Hide password' : 'Show password'">
+            <app-icon name="eye" />
+          </button>
+        </span>
+      </label>
+
+      @if (error()) {
+        <p class="error" role="alert">{{ error() }}</p>
+      }
+      <button type="submit" class="btn btn-primary btn-lg" [disabled]="busy() || !username || !password">
+        {{ busy() ? 'Signing in…' : 'Sign in' }}
+      </button>
+      <p class="fine">After 5 wrong attempts sign-in is locked for 15 minutes. Every attempt is logged.</p>
+    </form>
+  </div>
+} @else {
+  <!-- ============ Dashboard ============ -->
+  <div class="container dash">
+    <header class="top">
+      <div>
+        <span class="eyebrow">Admin</span>
+        <h1>Generate a wedding website</h1>
+      </div>
+      <button type="button" class="btn btn-ghost" (click)="signOut()">Sign out</button>
+    </header>
+
+    <div class="grid">
+      <section class="panel">
+        <h2>1 · Choose the design</h2>
+        <label class="pick">
+          <span class="sr-only">Design</span>
+          <select [ngModel]="designSlug()" (ngModelChange)="designSlug.set($event)" name="design">
+            @for (g of groups; track g.label) {
+              <optgroup [label]="g.label">
+                @for (d of g.designs; track d.id) {
+                  <option [value]="d.slug">{{ d.code }} · {{ d.style }}</option>
+                }
+              </optgroup>
+            }
+          </select>
+        </label>
+        @if (design(); as d) {
+          <p class="muted small">{{ d.description }} <strong>{{ price() }}</strong></p>
+        }
+
+        <div class="head2">
+          <h2>2 · Couple's details</h2>
+          <button type="button" class="btn btn-link btn-sm" (click)="startFresh()">Start fresh</button>
+        </div>
+        <app-personalise-form />
+
+        <div class="generate">
+          <button type="button" class="btn btn-whatsapp btn-lg" (click)="generate()" [disabled]="generating() || !design()">
+            <app-icon name="rocket" /> {{ generating() ? 'Generating…' : 'Generate website' }}
+          </button>
+          @if (listError()) {
+            <p class="error" role="alert">{{ listError() }}</p>
+          }
+        </div>
+
+        @if (result(); as r) {
+          <div class="result" role="status">
+            <p><strong>Website ready for {{ r.couple }}</strong></p>
+            <a class="link" [href]="r.url" target="_blank" rel="noopener">{{ r.url }}</a>
+            <div class="row">
+              <button type="button" class="btn btn-ghost btn-sm" (click)="copy(r.url)">{{ copied() ? 'Copied ✓' : 'Copy link' }}</button>
+              <a class="btn btn-ghost btn-sm" [href]="r.url" target="_blank" rel="noopener">Open</a>
+              <a class="btn btn-whatsapp btn-sm" [href]="shareLink(r.url, r.couple)" target="_blank" rel="noopener">
+                <app-icon name="whatsapp" /> Send to couple
+              </a>
+            </div>
+          </div>
+        }
+      </section>
+
+      <section class="panel preview">
+        <h2>Live preview</h2>
+        @if (design(); as d) {
+          <div class="phone">
+            <app-scaled-frame [designWidth]="390" [designHeight]="780" [scrollable]="true">
+              <app-wedding-website [template]="d" [details]="details()" mode="preview" heroHeight="724px" />
+            </app-scaled-frame>
+          </div>
+        }
+      </section>
+    </div>
+
+    <section class="panel list">
+      <h2>Generated websites ({{ sites().length }})</h2>
+      @if (!sites().length) {
+        <p class="muted">No websites generated yet.</p>
+      } @else {
+        <ul>
+          @for (s of sites(); track s.slug) {
+            <li>
+              <div>
+                <strong>{{ s.bride }} &amp; {{ s.groom }}</strong>
+                <small>{{ designName(s.design) }} · wedding {{ s.date }} · made {{ s.created.slice(0, 10) }}</small>
+                <a class="link" [href]="siteUrl(s.slug)" target="_blank" rel="noopener">{{ siteUrl(s.slug) }}</a>
+              </div>
+              <div class="row">
+                <button type="button" class="btn btn-ghost btn-sm" (click)="copy(siteUrl(s.slug))">Copy</button>
+                <a class="btn btn-ghost btn-sm" [href]="siteUrl(s.slug)" target="_blank" rel="noopener">Open</a>
+                <button type="button" class="btn btn-ghost btn-sm danger" (click)="remove(s)">Delete</button>
+              </div>
+            </li>
+          }
+        </ul>
+      }
+    </section>
+  </div>
+}

@@ -3,6 +3,7 @@ import { Meta } from '@angular/platform-browser';
 import { ActivatedRouteSnapshot, NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs';
 import { BRAND } from '../constants/brand.constants';
+import { priceOf } from '../constants/pricing.constants';
 import { WeddingDesign } from '../models/wedding-template.model';
 import { TemplateCatalogService } from './template-catalog.service';
 
@@ -51,8 +52,19 @@ export class SeoService {
     const cards = this.catalog.total('card');
     const websites = this.catalog.total('website');
 
+    // Admin area and couples' private websites are never indexed.
+    if (path === '/admin' || path.startsWith('/i/')) {
+      return { description: `Wedding invitation by ${BRAND.name}.`, canonicalPath: path, noindex: true, jsonLd: [] };
+    }
     if (design) return this.designPage(design, path);
 
+    if (path === '/prices') {
+      return {
+        description: `Wedding invitation prices: cards from ₹149 and wedding websites from ₹599 – realistic 3D websites ₹1,999. Personalised with your names and photo; order on WhatsApp.`,
+        canonicalPath: '/prices',
+        jsonLd: [this.breadcrumbs([['Prices', '/prices']])],
+      };
+    }
     if (path === '/templates') {
       return {
         description: `${cards} wedding invitation card designs – Royal, Kerala, Traditional, Christian, Nikah, Floral and Modern. Add your names and photo, preview instantly and order on WhatsApp.`,
@@ -107,13 +119,21 @@ export class SeoService {
       jsonLd: [
         {
           '@context': 'https://schema.org',
-          '@type': 'CreativeWork',
+          '@type': 'Product',
           name: `${design.name} – ${design.style}`,
           description: design.description,
           url: `${ORIGIN}${detailPath}`,
-          genre: isWebsite ? 'Wedding invitation website' : 'Wedding invitation card',
+          category: isWebsite ? 'Wedding invitation website' : 'Wedding invitation card',
+          brand: { '@type': 'Brand', name: BRAND.name },
+          image: LOGO,
+          offers: {
+            '@type': 'Offer',
+            price: priceOf(design),
+            priceCurrency: 'INR',
+            availability: 'https://schema.org/InStock',
+            url: `${ORIGIN}${detailPath}`,
+          },
           keywords: design.tags.join(', '),
-          creator: { '@type': 'Organization', name: BRAND.name, url: ORIGIN },
           inLanguage: 'en-IN',
         },
         this.breadcrumbs([

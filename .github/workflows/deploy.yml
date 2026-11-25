@@ -5,6 +5,7 @@
 #   FTP_SERVER      FTP host from hPanel → Files → FTP Accounts (e.g. ftp.velouraone.in or the server IP)
 #   FTP_USERNAME    FTP username (e.g. u123456789.invitations)
 #   FTP_PASSWORD    FTP password
+#   ADMIN_USERNAME, ADMIN_PASSWORD_HASH   Admin sign-in – create both with: npm run admin:password
 #   FTP_SERVER_DIR  Folder of the subdomain on the server, ending with "/".
 #                   "/" if the FTP account opens straight into the subdomain folder,
 #                   otherwise e.g. "/domains/velouraone.in/public_html/invitations/"
@@ -47,10 +48,28 @@ jobs:
       - name: Build for production
         run: npm run build -- --configuration production
 
+      # The PHP part (admin sign-in + generated websites) lives in server/ and sits next to the site.
+      - name: Add the server part (api/, uploads/)
+        run: cp -r server/. dist/velouraone-wedding/browser/
+
+      # Admin sign-in: only the Argon2id hash of the password is stored (never the password).
+      # Without these secrets the admin login simply stays switched off.
+      - name: Write the admin sign-in config (from secrets)
+        env:
+          ADMIN_USERNAME: ${{ secrets.ADMIN_USERNAME }}
+          ADMIN_PASSWORD_HASH: ${{ secrets.ADMIN_PASSWORD_HASH }}
+        run: node scripts/write-admin-config.mjs
+
       - name: Check the build output
         run: |
           test -f dist/velouraone-wedding/browser/index.html
           test -f dist/velouraone-wedding/browser/.htaccess
+          test -f dist/velouraone-wedding/browser/api/auth.php
+          test -f dist/velouraone-wedding/browser/api/.htaccess
+          test -f dist/velouraone-wedding/browser/api/_data/.htaccess
+          test -f dist/velouraone-wedding/browser/uploads/.htaccess
+          # Never ship a local test login.
+          test ! -f dist/velouraone-wedding/browser/api/_config.local.php
           echo "Files to upload:" && find dist/velouraone-wedding/browser -type f | wc -l
 
       - name: Keep the build for the deploy job

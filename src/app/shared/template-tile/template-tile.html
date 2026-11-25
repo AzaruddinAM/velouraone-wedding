@@ -14,6 +14,7 @@
     <div class="info">
       <h3>{{ t.name }}</h3>
       <p>{{ t.style }} · {{ catalog.categoryLabel(t.category) }}</p>
+      <p class="price" [attr.aria-label]="'Price ' + price()">{{ price() }}</p>
       <div class="badges">
         @if (t.threeD) {
           <span class="feature-badge three-d">🧊 3D</span>

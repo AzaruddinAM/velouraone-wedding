@@ -26,6 +26,7 @@ const lines = [
   url('/', '1.0', 'daily'),
   url('/websites', '0.9', 'daily'),
   url('/templates', '0.9', 'daily'),
+  url('/prices', '0.8', 'weekly'),
   ...WEDDING_WEBSITES.map((d) => url(`/websites/${d.slug}`, realistic(d) ? '0.8' : '0.7', 'monthly')),
   ...WEDDING_TEMPLATES.map((d) => url(`/templates/${d.slug}`, '0.6', 'monthly')),
 ];

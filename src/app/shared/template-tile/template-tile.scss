@@ -44,6 +44,15 @@
   50% { opacity: 0.6; }
 }
 
+// Price under the name.
+.meta .price {
+  margin: 0.3rem 0 0;
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--plum);
+}
+
 // Badges row under the design name (nothing floats over the preview).
 .badges {
   display: flex;
@@ -175,6 +184,10 @@
 
   .meta p {
     font-size: 0.75rem;
+  }
+
+  .meta .price {
+    font-size: 1rem;
   }
 
   .swatches,

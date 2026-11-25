@@ -79,6 +79,8 @@ export class GalleryPage {
     { value: 'number', label: `${this.product().codePrefix}1 → ${this.product().codePrefix}${this.total()}` },
     { value: 'popular', label: 'Most popular' },
     { value: 'newest', label: 'Newest' },
+    { value: 'price-asc', label: 'Price: low to high' },
+    { value: 'price-desc', label: 'Price: high to low' },
   ]);
 
   constructor() {

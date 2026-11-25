@@ -59,6 +59,10 @@
       <section class="info-col">
         <span class="badge">{{ t.code }} · {{ product.label }} · {{ catalog.categoryLabel(t.category) }}</span>
         <h1>{{ t.name }} <span>{{ t.style }}</span></h1>
+        <p class="price-line">
+          <strong>{{ price() }}</strong>
+          <span>One-time price · personalised with your names &amp; photo · <a routerLink="/prices">see all prices</a></span>
+        </p>
         <p class="description">{{ t.description }}</p>
 
         <ul class="tags">
@@ -80,7 +84,7 @@
 
         <div class="buy">
           <button type="button" class="btn btn-whatsapp btn-lg" (click)="order()">
-            <app-icon name="whatsapp" /> Order {{ t.code }} on WhatsApp
+            <app-icon name="whatsapp" /> Order {{ t.code }} · {{ price() }}
           </button>
           <button type="button" class="btn btn-ghost btn-lg heart" [class.active]="isShortlisted()" (click)="toggleShortlist()"
             [attr.aria-pressed]="isShortlisted()">
@@ -115,7 +119,7 @@
 
   <!-- Sticky order bar on phones -->
   <div class="mobile-bar">
-    <span><strong>{{ t.code }}</strong> {{ t.style }}</span>
+    <span><strong>{{ t.code }}</strong> {{ t.style }} · <strong>{{ price() }}</strong></span>
     <button type="button" class="btn btn-whatsapp" (click)="order()"><app-icon name="whatsapp" /> Order</button>
   </div>
 } @else {

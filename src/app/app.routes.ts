@@ -37,5 +37,24 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/website-demo/website-demo-page').then((m) => m.WebsiteDemoPage),
   },
 
+  {
+    path: 'prices',
+    title: `Prices – Wedding Invitation Cards & Websites | ${BRAND.name}`,
+    loadComponent: () => import('./pages/prices/prices-page').then((m) => m.PricesPage),
+  },
+
+  // Admin only (sign-in required – checked on the server).
+  {
+    path: 'admin',
+    title: `Admin | ${BRAND.name}`,
+    loadComponent: () => import('./pages/admin/admin-page').then((m) => m.AdminPage),
+  },
+  // A couple's own generated website.
+  {
+    path: 'i/:slug',
+    title: 'Wedding Invitation',
+    loadComponent: () => import('./pages/generated-site/generated-site-page').then((m) => m.GeneratedSitePage),
+  },
+
   { path: '**', redirectTo: '' },
 ];

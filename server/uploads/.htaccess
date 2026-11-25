@@ -1,0 +1,9 @@
+# Couple photos only: images are served, scripts can never run here.
+Options -Indexes
+<FilesMatch "(?i)\.(php\d?|phtml|phar|pht|pl|py|cgi|sh|asp|aspx|jsp|htaccess)$">
+  Require all denied
+</FilesMatch>
+<FilesMatch "(?i)\.(jpe?g)$">
+  Header set Cache-Control "public, max-age=2592000"
+  Header set X-Content-Type-Options "nosniff"
+</FilesMatch>

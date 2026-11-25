@@ -1,5 +1,6 @@
 import { Component, computed, inject, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { formatPrice, priceOf } from '../../core/constants/pricing.constants';
 import { detailLink } from '../../core/constants/products.constants';
 import { WeddingDesign } from '../../core/models/wedding-template.model';
 import { InvitationDraftService } from '../../core/services/invitation-draft.service';
@@ -25,6 +26,7 @@ export class TemplateTile {
   protected readonly details = inject(InvitationDraftService).details;
 
   protected readonly link = computed(() => detailLink(this.template()));
+  protected readonly price = computed(() => formatPrice(priceOf(this.template())));
   protected readonly isShortlisted = computed(() => this.shortlist.selected().has(this.template().id));
 
   protected toggleShortlist(): void {

@@ -24,9 +24,9 @@ export class App {
     filter((event): event is NavigationEnd => event instanceof NavigationEnd),
   );
 
-  /** Full-screen demo pages (`/demo/…` cards, `/site/…` websites) hide the site chrome. */
+  /** Full-screen pages (`/demo/…` cards, `/site/…` demos, `/i/…` couples' websites) hide the site chrome. */
   protected readonly isFullscreen = toSignal(
-    this.navigationEnd$.pipe(map((event) => /^\/(demo|site)\//.test(event.urlAfterRedirects))),
+    this.navigationEnd$.pipe(map((event) => /^\/(demo|site|i)\//.test(event.urlAfterRedirects))),
     { initialValue: false },
   );
 

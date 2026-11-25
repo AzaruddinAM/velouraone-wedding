@@ -3,6 +3,7 @@ import { BRAND } from '../constants/brand.constants';
 import { InvitationDetails } from '../models/invitation-details.model';
 import { WeddingDesign } from '../models/wedding-template.model';
 import { PRODUCTS } from '../constants/products.constants';
+import { formatPrice, priceOf } from '../constants/pricing.constants';
 import { formatTime, parseLocalDate } from '../../invitation/invitation-view-model';
 
 export interface OrderRequest {
@@ -57,6 +58,7 @@ export class WhatsappOrderService {
       `I would like to order a ${PRODUCTS[template.kind].singular}.`,
       ``,
       `*Template:* ${template.name} – ${template.style} (${template.code})`,
+      `*Price:* ${formatPrice(priceOf(template))}`,
       `*Preview:* ${this.previewUrl(template)}`,
       ``,
       `*Couple:* ${details.bride} & ${details.groom}`,
