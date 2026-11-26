@@ -107,6 +107,54 @@
   --band-card: transparent;
 }
 
+// ----- Backgrounds of the structural looks --------------------------------
+// Luxe: every section is dark velvet with gold; stays readable on any palette.
+.s-luxe .band {
+  --band-bg: color-mix(in srgb, var(--primary) 16%, #0d0a0e);
+  --band-ink: #efe6d6;
+  --band-head: #f6ecd8;
+  --band-soft: #bdb09f;
+  --band-card: rgb(255 255 255 / 0.04);
+  background:
+    radial-gradient(ellipse at 50% 0%, color-mix(in srgb, var(--accent) 12%, transparent), transparent 60%),
+    var(--band-bg);
+
+  &.alt { --band-bg: color-mix(in srgb, var(--primary) 9%, #080609); }
+}
+
+// Glass: soft colour glows behind the frosted cards.
+.s-glass .band {
+  background:
+    radial-gradient(circle at 12% 18%, color-mix(in srgb, var(--accent) 26%, transparent), transparent 42%),
+    radial-gradient(circle at 88% 82%, color-mix(in srgb, var(--primary) 20%, transparent), transparent 46%),
+    var(--band-bg);
+}
+
+// Garden: a faint leafy wash in the corners.
+.s-garden .band.alt {
+  background:
+    radial-gradient(ellipse at 0% 100%, color-mix(in srgb, var(--accent) 16%, transparent), transparent 45%),
+    radial-gradient(ellipse at 100% 0%, color-mix(in srgb, var(--primary) 10%, transparent), transparent 45%),
+    var(--band-bg);
+}
+
+// Postcard: warm kraft-paper sections with a light speckle.
+.s-postcard .band {
+  --band-bg: color-mix(in srgb, var(--bg) 88%, #c8a675);
+  background:
+    radial-gradient(color-mix(in srgb, var(--ink) 7%, transparent) 1px, transparent 1.5px) 0 0 / 14px 14px,
+    var(--band-bg);
+
+  &.alt { --band-bg: color-mix(in srgb, var(--surface) 92%, #c8a675); }
+}
+
+// Framed: the frame sits on a slightly deeper paper tone.
+.s-framed .band { --band-bg: color-mix(in srgb, var(--bg) 94%, var(--accent)); }
+.s-framed .band.alt { --band-bg: var(--surface); }
+
+// Minimal: no alternating colours, just white space.
+.s-minimal .band.alt { --band-bg: var(--bg); }
+
 // ----- Light textures on plain bands -----------------------------------
 $tint: color-mix(in srgb, var(--accent) 14%, transparent);
 

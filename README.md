@@ -100,7 +100,7 @@ npm start          # http://localhost:4200
 
 ## Prices
 
-All prices live in `src/app/core/constants/pricing.constants.ts` (maximum ₹1,999). Tiles, design pages, the `/prices` page, the "Price" sorts and the WhatsApp order message all read from it. New designs are priced automatically by their series.
+All prices live in `src/app/core/constants/pricing.constants.ts` (maximum ₹1,299). Tiles, design pages, the `/prices` page, the "Price" sorts and the WhatsApp order message all read from it. New designs are priced automatically by their series.
 
 ## Admin: sign in and generate couples' websites
 

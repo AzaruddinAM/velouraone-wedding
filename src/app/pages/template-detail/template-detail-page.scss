@@ -27,15 +27,23 @@
   align-items: start;
 
   @media (max-width: 900px) {
-    grid-template-columns: 1fr;
+    // minmax(0, …) lets the column shrink below the 390 px preview inside it (no sideways scroll on phones).
+    grid-template-columns: minmax(0, 1fr);
     gap: 2rem;
   }
+}
+
+.preview-col,
+.info-col {
+  min-width: 0;
 }
 
 .preview-sticky {
   position: sticky;
   top: 5.5rem;
   display: grid;
+  // One shrinkable column: the phone frame and buttons fit narrow screens instead of widening the page.
+  grid-template-columns: minmax(0, 1fr);
   gap: 1rem;
   justify-items: center;
 }
@@ -60,6 +68,8 @@
 
 .info-col {
   display: grid;
+  // A defined shrinkable column: wide items (buttons, long names) wrap instead of widening the column.
+  grid-template-columns: minmax(0, 1fr);
   gap: 1.1rem;
 }
 
@@ -76,9 +86,11 @@
 h1 {
   margin: 0;
   font-family: var(--font-display);
-  font-size: clamp(2.4rem, 5vw, 3.4rem);
+  // Scales down on small phones; long words wrap instead of widening the page.
+  font-size: clamp(1.9rem, 9vw, 3.4rem);
   font-weight: 500;
-  line-height: 1;
+  line-height: 1.05;
+  overflow-wrap: anywhere;
 
   span {
     display: block;
@@ -104,8 +116,10 @@ h1 {
   }
 
   span {
+    min-width: 0;
     font-size: 0.9rem;
     color: var(--muted);
+    overflow-wrap: anywhere;
   }
 
   a {
@@ -183,6 +197,7 @@ h1 {
 
 .perks {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: 0.4rem;
   margin: 0;
   padding: 0;
@@ -193,6 +208,8 @@ h1 {
     gap: 0.5rem;
     align-items: center;
     color: var(--muted);
+    // Web addresses in a perk can break on small phones.
+    overflow-wrap: anywhere;
   }
 
   app-icon {
@@ -233,6 +250,7 @@ h1 {
 
 .not-found {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   justify-items: center;
   gap: 0.75rem;
   padding: 5rem 1rem;

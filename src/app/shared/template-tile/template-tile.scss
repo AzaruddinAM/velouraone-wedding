@@ -97,6 +97,7 @@
 
 .heart {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   place-items: center;
   width: 2.3rem;
   height: 2.3rem;
@@ -141,6 +142,7 @@
 // Heart above the colour swatches, on the right of the name.
 .side {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   justify-items: end;
   gap: 0.5rem;
   flex-shrink: 0;
@@ -161,7 +163,7 @@
 
 .actions {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 0.5rem;
   margin-top: auto;
 }
@@ -196,7 +198,7 @@
   }
 
   .actions {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
     gap: 0.4rem;
 
     .btn {

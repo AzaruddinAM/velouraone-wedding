@@ -88,7 +88,7 @@ import { Icon, IconName } from '../../shared/icon/icon';
     @media (max-width: 720px) { .feature:nth-child(3) { border-left: 0; } }
 
     .grid { position: relative; z-index: 1; display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 2.5rem; padding-top: 3rem; }
-    @media (max-width: 720px) { .grid { grid-template-columns: 1fr; gap: 1.75rem; } }
+    @media (max-width: 720px) { .grid { grid-template-columns: minmax(0, 1fr); gap: 1.75rem; } }
     .logo { width: auto; height: 3.4rem; }
     .slogan { margin: 0.8rem 0 0; font-size: 0.78rem; font-weight: 600; letter-spacing: 0.3em; text-transform: uppercase; color: var(--plum-dark); }
     .motto { margin: 0.2rem 0 0.8rem; font-family: var(--font-script); font-size: 1.5rem; color: var(--plum); }

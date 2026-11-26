@@ -59,3 +59,79 @@
 :host(.s-bold) .tile {
   border: 3px solid var(--band-head);
 }
+
+// ===== Structural looks ==========================================================
+:host(.s-arch) .tile { border-radius: 999px 999px 8px 8px; }
+
+:host(.s-glass) .tile {
+  border-radius: 26px;
+  box-shadow: 0 14px 30px rgb(0 0 0 / 0.14);
+}
+
+:host(.s-framed) .tile {
+  padding: 6px;
+  border-radius: 0;
+  background: var(--band-card);
+  outline: 1px solid var(--band-accent);
+}
+
+:host(.s-magazine) {
+  .grid {
+    gap: 4px;
+    grid-auto-rows: 170px;
+  }
+
+  .tile { border-radius: 0; }
+}
+
+:host(.s-minimal) {
+  .grid { gap: 2px; }
+  .tile { border-radius: 0; }
+}
+
+:host(.s-luxe) .tile {
+  border: 1px solid var(--band-accent);
+  border-radius: 0;
+}
+
+:host(.s-timeline) .tile { border-radius: 6px; }
+
+// Postcard: a scatter of polaroids.
+:host(.s-postcard) {
+  .grid { gap: 16px; }
+
+  .tile {
+    padding: 8px 8px 26px;
+    border-radius: 2px;
+    background: #fff;
+    box-shadow: 0 10px 22px rgb(0 0 0 / 0.16);
+
+    &:nth-child(odd) { rotate: -2.5deg; }
+    &:nth-child(even) { rotate: 2deg; }
+  }
+}
+
+// Garden: round photos with a soft ring.
+:host(.s-garden) {
+  .grid { grid-auto-rows: auto; }
+
+  .tile {
+    aspect-ratio: 1;
+    border-radius: 50%;
+    outline: 2px solid color-mix(in srgb, var(--band-accent) 50%, transparent);
+    outline-offset: 4px;
+
+    &.tall,
+    &.wide {
+      grid-row: auto;
+      grid-column: auto;
+    }
+
+    // An odd last photo is centred under the others.
+    &:last-child:nth-child(odd) {
+      grid-column: 1 / -1;
+      justify-self: center;
+      width: calc(50% - 5px);
+    }
+  }
+}

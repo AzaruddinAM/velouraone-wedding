@@ -16,7 +16,7 @@ import { Icon } from '../../shared/icon/icon';
         <h1>Prices</h1>
         <p class="lead">
           Every design is personalised with your names, date, venue and photo. Nothing costs more than
-          <strong>₹1,999</strong> – order in one tap on WhatsApp.
+          <strong>₹1,299</strong> – order in one tap on WhatsApp.
         </p>
       </div>
     </section>

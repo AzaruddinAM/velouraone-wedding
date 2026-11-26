@@ -3,22 +3,22 @@ import { WeddingDesign } from '../models/wedding-template.model';
 /**
  * Prices (Indian rupees). Change the numbers here only – tiles, design pages,
  * the Prices page, sorting and WhatsApp order messages all read from this file.
- * Nothing costs more than ₹1,999.
+ * Nothing costs more than ₹1,299.
  */
 export const PRICES = {
   card: {
-    classic: 149,
-    animated: 199,
-    scratch: 249,
+    classic: 99,
+    animated: 149,
+    scratch: 199,
   },
   website: {
-    classic: 599,
-    animatedNikah: 799,
-    invite: 999,
-    threeD: 1199,
-    journey: 1399,
-    venue: 1599,
-    realistic: 1999,
+    classic: 499,
+    animatedNikah: 599,
+    invite: 699,
+    threeD: 799,
+    journey: 999,
+    venue: 1099,
+    realistic: 1299,
   },
 } as const;
 
@@ -40,7 +40,7 @@ export const CARD_TIERS: readonly PriceTier[] = [
 export const WEBSITE_TIERS: readonly PriceTier[] = [
   { label: 'Classic website', designs: 'W1 – W34', price: PRICES.website.classic },
   { label: 'Animated Nikah website', designs: 'W35 – W52', price: PRICES.website.animatedNikah },
-  { label: 'Invite series', designs: 'W83 – W92', price: PRICES.website.invite, note: 'Opening screen, music, wishes wall' },
+  { label: 'Invite & Stationery series', designs: 'W83 – W92 · W114 – W123', price: PRICES.website.invite, note: 'Opening animation, music, wishes wall' },
   { label: '3D website', designs: 'W53 – W62', price: PRICES.website.threeD },
   { label: '3D walk-through journey', designs: 'W63 – W82', price: PRICES.website.journey, highlight: true },
   { label: '3D venue series', designs: 'W93 – W105', price: PRICES.website.venue },
@@ -57,8 +57,8 @@ export const ADD_ONS: readonly { label: string; price: string }[] = [
 
 export const BUNDLES: readonly { label: string; detail: string; price: string }[] = [
   { label: 'Card + website', detail: 'Any card with any website', price: '₹100 off' },
-  { label: 'Wedding package – Classic', detail: 'Website, invitation card and save-the-date', price: '₹999' },
-  { label: 'Wedding package – Realistic 3D', detail: 'Realistic 3D website, card and save-the-date', price: '₹1,999' },
+  { label: 'Wedding package – Classic', detail: 'Website, invitation card and save-the-date', price: '₹799' },
+  { label: 'Wedding package – Realistic 3D', detail: 'Realistic 3D website, card and save-the-date', price: '₹1,299' },
 ];
 
 /** Price of a design, from its series (new designs are priced automatically). */
@@ -77,7 +77,7 @@ export function priceOf(design: WeddingDesign): number {
   return PRICES.website.classic;
 }
 
-/** `₹1,999` */
+/** e.g. `₹1,299` */
 export function formatPrice(price: number): string {
   return `₹${price.toLocaleString('en-IN')}`;
 }

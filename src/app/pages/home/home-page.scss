@@ -50,6 +50,7 @@
 
 .brand-lines {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: 0.15rem;
 
   .slogan {
@@ -76,12 +77,13 @@
   align-items: center;
 
   @media (max-width: 960px) {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
 }
 
 .hero-copy {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: 1.25rem;
 
   h1 {
@@ -199,6 +201,7 @@
 
   div {
     display: grid;
+    grid-template-columns: minmax(0, 1fr);
   }
 
   strong {
@@ -258,7 +261,7 @@
   }
 
   @media (max-width: 520px) {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
 
   li {
@@ -270,6 +273,7 @@
 
   .num {
     display: grid;
+    grid-template-columns: minmax(0, 1fr);
     place-items: center;
     width: 2.6rem;
     height: 2.6rem;
@@ -300,6 +304,7 @@
 .category {
   position: relative;
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: 0.3rem;
   min-height: 9.5rem;
   padding: 1.25rem;
@@ -346,6 +351,7 @@
 
 .faq {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: 0.75rem;
 
   details {
@@ -368,6 +374,7 @@
 
 .cta-band {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   justify-items: center;
   gap: 0.75rem;
   margin-top: 5rem;
@@ -381,8 +388,9 @@
   h2 {
     margin: 0;
     font-family: var(--font-display);
-    font-size: clamp(1.9rem, 4vw, 2.6rem);
+    font-size: clamp(1.6rem, 6vw, 2.6rem);
     font-weight: 500;
+    overflow-wrap: anywhere;
   }
 
   p {
@@ -394,11 +402,11 @@
 // ---------- Product chooser ----------
 .products {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   gap: 1.5rem;
 
   @media (max-width: 860px) {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
 }
 
@@ -428,27 +436,31 @@
   }
 
   @media (max-width: 480px) {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
 }
 
 .product-preview {
+  min-width: 0;
   overflow: hidden;
   border-radius: var(--radius-md);
   box-shadow: var(--shadow-md);
 }
 
 .product-text {
+  min-width: 0;
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: 0.6rem;
   justify-items: start;
 
   h3 {
     margin: 0;
     font-family: var(--font-display);
-    font-size: 2rem;
+    font-size: clamp(1.6rem, 7vw, 2rem);
     font-weight: 500;
     line-height: 1;
+    overflow-wrap: anywhere;
   }
 
   p {
@@ -458,6 +470,7 @@
 
   ul {
     display: grid;
+    grid-template-columns: minmax(0, 1fr);
     gap: 0.25rem;
     margin: 0 0 0.4rem;
     padding-left: 1.1rem;
@@ -511,6 +524,7 @@
 
 .nikah-head {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   justify-items: center;
   gap: 0.6rem;
   margin-bottom: 2.25rem;
@@ -565,4 +579,11 @@
   max-width: 40rem;
   margin: 0.6rem 0 0;
   color: var(--muted);
+}
+
+// Buttons inside the narrow product cards may wrap on small phones.
+.product-text .btn {
+  max-width: 100%;
+  white-space: normal;
+  text-align: center;
 }

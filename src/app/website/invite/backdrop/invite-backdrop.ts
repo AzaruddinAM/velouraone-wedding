@@ -63,5 +63,20 @@ export class InviteBackdrop {
   protected readonly bokeh = Array.from({ length: 12 }, (_, i) => ({ x: (i * 37) % 100, y: (i * 53) % 100, s: 30 + ((i * 17) % 60) }));
   protected readonly stars = Array.from({ length: 24 }, (_, i) => i);
   /** Fairy-light bulbs hanging along the garden wire. */
+  /** Flame lilies at the foot of the gold arch (cotton backdrop). */
+  protected readonly lilies = [
+    { x: 70, y: 700, r: -20, s: 1.2 }, { x: 110, y: 728, r: 10, s: 0.9 }, { x: 52, y: 650, r: 30, s: 0.8 },
+    { x: 330, y: 700, r: 20, s: 1.2 }, { x: 290, y: 728, r: -10, s: 0.9 }, { x: 348, y: 650, r: -30, s: 0.8 },
+  ];
+  /** Embroidered poppies in the corners (linen backdrop). */
+  protected readonly poppies = [
+    { x: 46, y: 640, s: 1.1 }, { x: 96, y: 700, s: 0.8 }, { x: 354, y: 640, s: 1.1 }, { x: 304, y: 700, s: 0.8 },
+    { x: 40, y: 260, s: 0.7 }, { x: 360, y: 260, s: 0.7 },
+  ];
+  /** Ink cosmos flowers in the marble corners. */
+  protected readonly cosmos = [
+    { x: 30, y: 40, r: 10, s: 1.3 }, { x: 96, y: 18, r: -20, s: 0.8 }, { x: 370, y: 60, r: 30, s: 1.1 },
+    { x: 36, y: 760, r: -15, s: 1.1 }, { x: 360, y: 770, r: 25, s: 1.4 }, { x: 300, y: 790, r: 0, s: 0.8 },
+  ];
   protected readonly bulbs = this.stars.map((s) => ({ x: s * 17, y: 132 + Math.sin(s / 2.4) * 22, delay: -s * 0.2 }));
 }

@@ -50,3 +50,154 @@ h3 {
   font-family: var(--f-heading);
   font-size: 28px;
 }
+
+// ===== Structural looks ==========================================================
+// Timeline: moments along a line – left on phones, alternating on wide screens.
+:host(.s-timeline) {
+  .timeline {
+    position: relative;
+    grid-template-columns: minmax(0, 1fr);
+    max-width: 760px;
+    margin: 0 auto;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 14px;
+      width: 1px;
+      background: var(--band-accent);
+    }
+  }
+
+  .moment {
+    position: relative;
+    padding-left: 44px;
+    text-align: left;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 24px;
+      left: 8px;
+      width: 13px;
+      height: 13px;
+      border: 2px solid var(--band-accent);
+      border-radius: 50%;
+      background: var(--band-bg);
+    }
+  }
+
+  .year { justify-self: start; }
+
+  @container site (min-width: 720px) {
+    .timeline::before { left: 50%; }
+
+    .moment {
+      width: 50%;
+      padding: 18px 36px 18px 0;
+      text-align: right;
+
+      &::before {
+        left: auto;
+        right: -8px;
+      }
+
+      .year { justify-self: end; }
+    }
+
+    .moment:nth-child(even) {
+      margin-left: 50%;
+      padding: 18px 0 18px 36px;
+      text-align: left;
+
+      &::before {
+        left: -8px;
+        right: auto;
+      }
+
+      .year { justify-self: start; }
+    }
+  }
+}
+
+// Magazine: the year large in the margin.
+:host(.s-magazine) {
+  .timeline {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+  }
+
+  .moment {
+    grid-template-columns: 110px minmax(0, 1fr);
+    column-gap: 18px;
+    text-align: left;
+
+    > :not(.year) { grid-column: 2; }
+  }
+
+  .year {
+    grid-row: 1 / span 2;
+    justify-self: start;
+    padding: 0;
+    border-radius: 0;
+    background: none;
+    color: var(--band-accent);
+    font-family: var(--f-heading);
+    font-size: 44px;
+    font-weight: 200;
+  }
+}
+
+// Postcard: the year as a stamp in the corner.
+:host(.s-postcard) {
+  .moment {
+    position: relative;
+    padding-top: 56px;
+    text-align: left;
+  }
+
+  .year {
+    position: absolute;
+    top: 18px;
+    right: 20px;
+    padding: 6px 8px;
+    border: 2px dotted var(--band-bg);
+    border-radius: 2px;
+    outline: 3px solid var(--band-accent);
+    rotate: 4deg;
+  }
+}
+
+// Minimal: the year as a small label.
+:host(.s-minimal) {
+  .timeline { grid-template-columns: minmax(0, 1fr); }
+  .moment { text-align: left; }
+
+  .year {
+    justify-self: start;
+    padding: 0;
+    background: none;
+    color: var(--band-accent);
+  }
+}
+
+// Luxe: the year between two gold lines.
+:host(.s-luxe) .year {
+  border-block: 1px solid var(--band-accent);
+  border-radius: 0;
+  background: none;
+  color: var(--band-accent);
+}
+
+// Arch and garden: the year in a round seal.
+:host(.s-arch) .year,
+:host(.s-garden) .year {
+  display: grid;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+  padding: 0;
+  border-radius: 50%;
+}

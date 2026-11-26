@@ -5,7 +5,7 @@ import { WebsiteViewModel } from '../../website-view-model';
 import { InviteBackdrop } from '../backdrop/invite-backdrop';
 
 /** How long each opening animation plays before the invitation appears. */
-const OPEN_MS: Record<string, number> = { envelope: 1700, welcome: 900, doors: 1800, curtain: 1700, scroll: 2000 };
+const OPEN_MS: Record<string, number> = { envelope: 1700, welcome: 900, doors: 1800, curtain: 1700, scroll: 2000, waxseal: 2100, bow: 2000, inkbloom: 1900, crescent: 1900, pocket: 1800 };
 
 /**
  * The first screen of an Invite-series website. Five different openings:

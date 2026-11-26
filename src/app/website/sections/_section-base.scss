@@ -1,7 +1,9 @@
 // Shared look for every website section.
 // Colours come from the "band" variables set by WeddingWebsite (they alternate per section):
 //   --band-bg  --band-ink  --band-head  --band-accent  --band-soft  --band-card
-// Four looks are selected by the host class: s-classic | s-cards | s-editorial | s-bold.
+// Looks are selected by the host class: s-classic | s-cards | s-editorial | s-bold,
+// plus the structural looks in _section-skins.scss.
+@use "section-skins" as skins;
 
 @mixin base {
   :host {
@@ -152,4 +154,6 @@
       box-shadow: 4px 4px 0 var(--band-accent);
     }
   }
+
+  @include skins.skins;
 }

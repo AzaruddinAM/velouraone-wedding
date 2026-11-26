@@ -242,3 +242,107 @@
     background: linear-gradient(var(--accent), var(--primary));
   }
 }
+
+// ----- Handmade cotton paper with a gold-foil arch and lilies ---------------------------------
+.cotton {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 20% 15%, rgb(255 255 255 / 0.6), transparent 40%),
+    radial-gradient(circle at 85% 80%, color-mix(in srgb, var(--accent) 10%, transparent), transparent 45%),
+    color-mix(in srgb, var(--bg) 80%, #e9dfd0);
+}
+
+.deckle {
+  fill: var(--surface);
+  filter: drop-shadow(0 6px 14px rgb(0 0 0 / 0.08));
+}
+
+.foil {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 3;
+
+  &.thin { stroke-width: 1.2; opacity: 0.8; }
+}
+
+.lily { fill: color-mix(in srgb, var(--primary) 70%, #f2a35e); opacity: 0.9; }
+.lily-heart { fill: var(--accent); }
+
+// ----- Embroidered linen with a hoop ----------------------------------------------------------
+.linen {
+  position: absolute;
+  inset: 0;
+  background:
+    repeating-linear-gradient(0deg, rgb(0 0 0 / 0.035) 0 1px, transparent 1px 4px),
+    repeating-linear-gradient(90deg, rgb(255 255 255 / 0.35) 0 1px, transparent 1px 4px),
+    color-mix(in srgb, var(--surface) 88%, #d8cbb8);
+}
+
+.hoop { fill: none; stroke: #b98a5a; stroke-width: 9; &.inner { stroke: #d2a874; stroke-width: 3; } }
+.hoop-screw { fill: #a77a4c; }
+.hoop-text { font-family: var(--f-script); font-size: 34px; fill: var(--primary); }
+
+.stitch-petal {
+  fill: color-mix(in srgb, var(--primary) 18%, transparent);
+  stroke: var(--primary);
+  stroke-width: 2;
+  stroke-dasharray: 5 3;
+}
+
+.stitch-heart { fill: none; stroke: var(--accent); stroke-width: 3; stroke-dasharray: 3 2; }
+.stitch-stem { fill: none; stroke: #6f8f5a; stroke-width: 2.5; stroke-dasharray: 6 4; }
+.running-stitch { stroke: var(--accent); stroke-width: 2; stroke-dasharray: 10 8; }
+
+// ----- Marble with ink cosmos ------------------------------------------------------------------
+.cosmos { fill: color-mix(in srgb, var(--primary) 85%, #000); opacity: 0.88; }
+.cosmos-heart { fill: var(--accent); }
+
+// ----- Celestial night: gold filigree and drifting silk veils -----------------------------------
+.celestial {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 50% 20%, color-mix(in srgb, var(--accent) 18%, transparent), transparent 55%),
+    linear-gradient(180deg, color-mix(in srgb, var(--bg) 85%, #000), var(--bg));
+}
+
+.filigree { fill: none; stroke: var(--accent); stroke-width: 1.6; opacity: 0.85; &.thin { stroke-width: 0.8; } }
+.filigree-dot { fill: var(--accent); }
+
+.star-dot {
+  fill: #fff;
+  animation: twinkle 3s ease-in-out infinite;
+}
+
+.veil {
+  position: absolute;
+  top: -10%;
+  width: 46%;
+  height: 120%;
+  border-radius: 50%;
+  background: linear-gradient(180deg, rgb(255 255 255 / 0.12), rgb(255 255 255 / 0.02));
+  filter: blur(18px);
+  animation: veil-drift 9s ease-in-out infinite alternate;
+
+  &.v1 { left: -12%; }
+  &.v2 { right: -12%; animation-delay: -4.5s; }
+}
+
+@keyframes veil-drift {
+  to { transform: translateX(14%) skewX(-6deg); }
+}
+
+// ----- Watercolour estate at golden hour -------------------------------------------------------
+.hill {
+  &.far { fill: color-mix(in srgb, var(--primary) 30%, #c9d8c0); opacity: 0.8; }
+  &.near { fill: color-mix(in srgb, var(--primary) 40%, #9fb98e); opacity: 0.9; }
+}
+
+.manor { fill: color-mix(in srgb, var(--primary) 25%, #c7a98d); opacity: 0.85; }
+.wc-tree { fill: color-mix(in srgb, var(--primary) 35%, #6f8f5a); opacity: 0.85; }
+
+@media (prefers-reduced-motion: reduce) {
+  .veil,
+  .star-dot { animation: none; }
+}

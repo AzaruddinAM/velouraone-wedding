@@ -3,7 +3,8 @@ import { FONT, WORDING } from './design-tokens';
 import { NIKAH_WEBSITES } from './nikah-websites.data';
 import { NIKAH_3D_WEBSITES } from './nikah-3d-websites.data';
 import { JOURNEY_3D_WEBSITES } from './journey-3d-websites.data';
-import { INVITE_WEBSITES } from './invite-websites.data';
+import { INVITE_WEBSITES, STATIONERY_WEBSITES } from './invite-websites.data';
+import { assignSectionLooks } from './section-looks';
 import { VENUE_3D_WEBSITES } from './venue-3d-websites.data';
 import { REALISTIC_3D_WEBSITES } from './realistic-3d-websites.data';
 
@@ -58,7 +59,8 @@ function defineWebsite(number: number, style: string, input: WebsiteInput): Webs
 /* ------------------------------------------------------------------ */
 /*  Websites                                                           */
 /* ------------------------------------------------------------------ */
-export const WEDDING_WEBSITES: readonly WebsiteTemplate[] = [
+/** Every website gets its own look below the first screen – see section-looks.ts. */
+export const WEDDING_WEBSITES: readonly WebsiteTemplate[] = assignSectionLooks([
   defineWebsite(1, 'Royal Palace', {
     description: 'Velvet maroon curtains part to reveal your names under a golden mandala – a palace welcome for every guest.',
     category: 'royal', hero: 'curtain', sectionStyle: 'classic', motif: 'mandala', popular: true,
@@ -275,4 +277,6 @@ export const WEDDING_WEBSITES: readonly WebsiteTemplate[] = [
   ...VENUE_3D_WEBSITES,
   // Realistic series (real HDR light, PBR surfaces, CC0 GLB models) – see realistic-3d-websites.data.ts
   ...REALISTIC_3D_WEBSITES,
-];
+  // Stationery series (tactile openings, paper backdrops) – see invite-websites.data.ts
+  ...STATIONERY_WEBSITES,
+]);

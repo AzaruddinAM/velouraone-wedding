@@ -85,3 +85,148 @@ h3 {
   justify-items: start;
   text-align: left;
 }
+
+// ===== Structural looks ==========================================================
+// Arch: portraits in tall Mughal arches.
+:host(.s-arch) .portrait {
+  width: 170px;
+  height: 220px;
+  border-radius: 999px 999px 10px 10px;
+  outline-offset: 6px;
+}
+
+// Glass: soft squircle portraits.
+:host(.s-glass) .portrait {
+  width: 170px;
+  height: 170px;
+  border: 0;
+  border-radius: 32px;
+  outline: 0;
+  box-shadow: 0 16px 34px rgb(0 0 0 / 0.18);
+}
+
+// Framed: diamond portraits inside a thin frame.
+:host(.s-framed) .portrait {
+  width: 130px;
+  height: 130px;
+  margin: 22px 0 26px;
+  border-radius: 6px;
+  outline-offset: 7px;
+  rotate: 45deg;
+
+  img,
+  span {
+    rotate: -45deg;
+    scale: 1.42;
+  }
+}
+
+// Magazine: two tall cover photos side by side, names in capitals.
+:host(.s-magazine) {
+  .pair {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: start;
+    gap: 14px;
+  }
+
+  .and { display: none; }
+
+  .person {
+    justify-items: start;
+    text-align: left;
+  }
+
+  .portrait {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 3 / 4;
+    border: 0;
+    border-radius: 0;
+    outline: 0;
+  }
+
+  h3 {
+    font-family: var(--f-heading);
+    font-size: 24px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+}
+
+// Postcard: polaroid portraits, slightly tilted.
+:host(.s-postcard) {
+  .portrait {
+    width: 170px;
+    height: 190px;
+    padding: 9px 9px 34px;
+    border: 0;
+    border-radius: 2px;
+    outline: 0;
+    background: #fff;
+    box-shadow: 0 10px 24px rgb(0 0 0 / 0.18);
+  }
+
+  .person:first-child .portrait { rotate: -4deg; }
+  .person:last-child .portrait { rotate: 3deg; }
+}
+
+// Luxe: gold double ring, gold names.
+:host(.s-luxe) {
+  .portrait {
+    border: 0;
+    outline: 0;
+    box-shadow:
+      0 0 0 3px var(--band-accent),
+      0 0 0 9px var(--band-bg),
+      0 0 0 10px color-mix(in srgb, var(--band-accent) 60%, transparent);
+  }
+
+  h3 {
+    font-family: var(--f-heading);
+    font-size: 26px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--band-accent);
+  }
+}
+
+// Minimal: small portraits, quiet names.
+:host(.s-minimal) {
+  .portrait {
+    width: 96px;
+    height: 96px;
+    border-width: 1px;
+    outline: 0;
+  }
+
+  h3 {
+    font-family: var(--f-heading);
+    font-size: 26px;
+  }
+
+  .and { font-size: 30px; }
+}
+
+// Garden: leaf-shaped portraits.
+:host(.s-garden) .portrait {
+  width: 170px;
+  height: 170px;
+  border-radius: 50% 6px;
+  outline-offset: 6px;
+}
+
+// Timeline: names in capitals, a fine line joining the couple.
+:host(.s-timeline) {
+  h3 {
+    font-family: var(--f-heading);
+    font-size: 26px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  @container site (min-width: 720px) {
+    .pair {
+      background: linear-gradient(var(--band-accent), var(--band-accent)) center 95px / 60% 1px no-repeat;
+    }
+  }
+}

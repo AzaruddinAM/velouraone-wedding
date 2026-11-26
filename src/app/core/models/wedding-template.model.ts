@@ -62,9 +62,9 @@ export type WebsiteHero =
   | 'invite';
 
 /** How an Invite-series website opens. */
-export type InviteIntro = 'envelope' | 'welcome' | 'doors' | 'curtain' | 'scroll';
+export type InviteIntro = 'envelope' | 'welcome' | 'doors' | 'curtain' | 'scroll' | 'waxseal' | 'bow' | 'inkbloom' | 'crescent' | 'pocket';
 /** Illustrated backdrop behind the Invite-series hero. */
-export type InviteBackdrop = 'palace' | 'garden' | 'lanterns' | 'dome' | 'photo' | 'jaali';
+export type InviteBackdrop = 'palace' | 'garden' | 'lanterns' | 'dome' | 'photo' | 'jaali' | 'cotton' | 'linen' | 'marble' | 'celestial' | 'watercolor';
 /** Card look of the Invite-series sections. */
 export type InviteCards = 'glass' | 'framed' | 'editorial';
 
@@ -114,7 +114,21 @@ export type Scene3DKind =
   | 'realgallery';
 
 /** How the website's content sections look. */
-export type SectionStyle = 'classic' | 'cards' | 'editorial' | 'bold';
+export type SectionStyle =
+  | 'classic'
+  | 'cards'
+  | 'editorial'
+  | 'bold'
+  // Structural looks (layouts change, not just colours)
+  | 'timeline'
+  | 'arch'
+  | 'glass'
+  | 'framed'
+  | 'magazine'
+  | 'postcard'
+  | 'luxe'
+  | 'minimal'
+  | 'garden';
 
 /** Hand-drawn SVG ornaments available to every design. */
 export type MotifName =

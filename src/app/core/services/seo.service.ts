@@ -60,7 +60,7 @@ export class SeoService {
 
     if (path === '/prices') {
       return {
-        description: `Wedding invitation prices: cards from ₹149 and wedding websites from ₹599 – realistic 3D websites ₹1,999. Personalised with your names and photo; order on WhatsApp.`,
+        description: `Wedding invitation prices: cards from ₹99 and wedding websites from ₹499 – realistic 3D websites ₹1,299. Personalised with your names and photo; order on WhatsApp.`,
         canonicalPath: '/prices',
         jsonLd: [this.breadcrumbs([['Prices', '/prices']])],
       };

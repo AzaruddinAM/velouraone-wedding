@@ -70,3 +70,136 @@ h3 {
   letter-spacing: 0.04em;
   text-transform: uppercase;
 }
+
+// ===== Structural looks ==========================================================
+// Timeline: a vertical line with a numbered dot for every event.
+:host(.s-timeline) {
+  .events {
+    position: relative;
+    grid-template-columns: minmax(0, 1fr);
+    max-width: 620px;
+    margin: 0 auto;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 24px;
+      bottom: 24px;
+      left: 28px;
+      width: 1px;
+      background: var(--band-accent);
+    }
+  }
+
+  .event {
+    grid-template-columns: 40px minmax(0, 1fr);
+    justify-items: start;
+    column-gap: 22px;
+    text-align: left;
+
+    > :not(.index) { grid-column: 2; }
+  }
+
+  .index {
+    position: relative;
+    z-index: 1;
+    grid-row: 1 / span 4;
+    background: var(--band-bg);
+  }
+
+  h3 {
+    font-family: var(--f-heading);
+    font-size: 22px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+}
+
+// Magazine: a programme listing – one row per event, big numbers.
+:host(.s-magazine) {
+  .events {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+  }
+
+  .event {
+    grid-template-columns: 64px minmax(0, 1fr);
+    justify-items: start;
+    column-gap: 18px;
+    text-align: left;
+
+    > :not(.index) { grid-column: 2; }
+  }
+
+  .index {
+    grid-row: 1 / span 4;
+    width: auto;
+    height: auto;
+    border: 0;
+    border-radius: 0;
+    font-size: 52px;
+    font-weight: 200;
+    line-height: 1;
+  }
+
+  h3 {
+    font-family: var(--f-heading);
+    font-size: 26px;
+    font-style: italic;
+  }
+}
+
+// Postcard: event tickets.
+:host(.s-postcard) {
+  .event {
+    position: relative;
+    padding-top: 44px;
+
+    &::before {
+      content: 'Admit two';
+      position: absolute;
+      top: 18px;
+      left: 0;
+      right: 0;
+      font: 700 10px var(--f-body);
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--band-accent);
+    }
+  }
+
+  .index { border-style: dashed; }
+}
+
+// Minimal: a simple list.
+:host(.s-minimal) {
+  .events {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 8px;
+  }
+
+  .event {
+    justify-items: start;
+    text-align: left;
+  }
+
+  .index { display: none; }
+
+  h3 {
+    font-family: var(--f-heading);
+    font-size: 22px;
+  }
+}
+
+// Luxe and arch: gold event names.
+:host(.s-luxe) h3,
+:host(.s-arch) h3 {
+  color: var(--band-accent);
+}
+
+:host(.s-luxe) h3 {
+  font-family: var(--f-heading);
+  font-size: 22px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}

@@ -101,5 +101,103 @@
       </div>
       <p class="tap">Tap to unroll</p>
     }
+
+    <!-- =============== Wax seal + ribbon + vellum jacket =============== -->
+    @case ('waxseal') {
+      <p class="invited top-line">{{ isNikah() ? 'Bismillah' : 'You are invited' }}</p>
+      <div class="suite">
+        <div class="suite-card">
+          <app-motif class="suite-motif" [name]="t.motif" />
+          <p class="names">{{ v.bride }} <span>&amp;</span> {{ v.groom }}</p>
+          <span class="rule"></span>
+          <p class="when">{{ v.day }} · {{ v.monthNumber }} · {{ v.year }}</p>
+        </div>
+        <div class="vellum"><p>{{ v.brideInitial }} <em>&amp;</em> {{ v.groomInitial }}</p></div>
+        <span class="ribbon-band"></span>
+        <span class="wax">
+          <i class="half left"></i>
+          <i class="half right"></i>
+          <b>{{ v.brideInitial }}{{ v.groomInitial }}</b>
+        </span>
+      </div>
+      <p class="tap">Tap to break the seal</p>
+    }
+
+    <!-- =============== Satin bow on a linen envelope =============== -->
+    @case ('bow') {
+      <p class="invited top-line">{{ isNikah() ? 'Nikah invitation' : 'Wedding invitation' }}</p>
+      <div class="linen-env">
+        <div class="linen-body">
+          <p class="names small">{{ v.bride }} <span>&amp;</span> {{ v.groom }}</p>
+          <p class="when">{{ v.dateLong }}</p>
+        </div>
+        <div class="linen-flap"></div>
+        <span class="satin-band"></span>
+        <span class="bow">
+          <i class="loop left"></i>
+          <i class="loop right"></i>
+          <i class="tail left"></i>
+          <i class="tail right"></i>
+          <i class="knot"></i>
+        </span>
+      </div>
+      <p class="tap">Tap to untie the bow</p>
+    }
+
+    <!-- =============== Ink blooming across marble =============== -->
+    @case ('inkbloom') {
+      <svg class="marble-art" viewBox="0 0 400 800" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+        <filter [attr.id]="'veins' + v.brideInitial + v.groomInitial" x="0" y="0" width="100%" height="100%">
+          <feTurbulence type="fractalNoise" baseFrequency="0.006 0.022" numOctaves="4" seed="7" />
+          <feColorMatrix type="matrix" values="0 0 0 0 0.55  0 0 0 0 0.53  0 0 0 0 0.5  0 0 0 -2.2 1.25" />
+        </filter>
+        <rect width="400" height="800" fill="#f7f5f1" />
+        <rect width="400" height="800" [attr.filter]="'url(#veins' + v.brideInitial + v.groomInitial + ')'" opacity="0.55" />
+      </svg>
+      <p class="marble-mono">{{ v.brideInitial }}<em>&amp;</em>{{ v.groomInitial }}</p>
+      <span class="drop"></span>
+      <div class="ink">
+        <p class="invited">{{ isNikah() ? 'With the blessings of Allah' : 'Together with their families' }}</p>
+        <p class="names">{{ v.bride }} <span>&amp;</span> {{ v.groom }}</p>
+        <p class="when">{{ v.weekday }} · {{ v.dateLong }}</p>
+      </div>
+      <p class="tap dark">Tap to let the ink bloom</p>
+    }
+
+    <!-- =============== Midnight envelope with a gold crescent seal =============== -->
+    @case ('crescent') {
+      <span class="night-stars" aria-hidden="true"></span>
+      <p class="invited top-line light">{{ isNikah() ? 'Nikah invitation' : 'You are invited' }}</p>
+      <div class="night-env">
+        <div class="night-card">
+          <p class="names small">{{ v.bride }} <span>&amp;</span> {{ v.groom }}</p>
+          <p class="when light">{{ v.day }} {{ v.month }} {{ v.year }}</p>
+        </div>
+        <div class="night-pocket"><p class="env-names">{{ v.bride }} &amp; {{ v.groom }}</p></div>
+        <div class="night-flap"></div>
+        <span class="crescent-seal">
+          <svg viewBox="0 0 40 40" aria-hidden="true"><path d="M26 6a15 15 0 1 0 8 26A12 12 0 1 1 26 6z" /></svg>
+        </span>
+      </div>
+      <p class="tap">Tap the crescent to open</p>
+    }
+
+    <!-- =============== Pocket-fold card with a belly band =============== -->
+    @case ('pocket') {
+      <div class="pocket-suite">
+        <div class="insert">
+          <p class="invited">{{ isNikah() ? 'Bismillah' : 'Save the date' }}</p>
+          <p class="names">{{ v.bride }} <span>&amp;</span> {{ v.groom }}</p>
+          <p class="when">{{ v.dateLong }}</p>
+        </div>
+        <div class="pocket-front">
+          <app-motif class="pocket-motif" [name]="t.motif" />
+          <p class="invited">The wedding of</p>
+          <p class="pocket-names">{{ v.bride }} &amp; {{ v.groom }}</p>
+        </div>
+        <span class="belly"><b>{{ v.brideInitial }} · {{ v.groomInitial }}</b></span>
+      </div>
+      <p class="tap">Tap to slide out the card</p>
+    }
   }
 </div>

@@ -126,3 +126,84 @@ export const INVITE_WEBSITES: readonly WebsiteTemplate[] = [
     wording: WORDING.general, events: EVENTS.general, tags: ['black gold', 'curtain', 'photo'],
   }),
 ];
+
+/**
+ * Stationery series (W114 … W123): tactile openings – wax seal, satin bow, ink bloom,
+ * crescent envelope, pocket card – on paper-like backdrops (cotton, linen, marble,
+ * celestial night, watercolour). One standard type system for all ten:
+ * Great Vibes (names), Cinzel (headings), Cormorant Garamond (text), Amiri (Arabic).
+ */
+const STANDARD_FONTS = { fontScript: FONT.greatVibes, fontHeading: FONT.cinzel, fontBody: FONT.cormorant, pattern: 'none' } as const;
+
+export const STATIONERY_WEBSITES: readonly WebsiteTemplate[] = [
+  defineInvite(114, 'Ivory Wax Seal', {
+    category: 'nikah', sectionStyle: 'classic', motif: 'crescent', popular: true,
+    invite: { intro: 'waxseal', backdrop: 'cotton', cards: 'framed', particles: 'petal' },
+    description: 'A gold wax seal cracks, the ribbon slips and a vellum jacket lifts – revealing a gold-foil arch with flame lilies on handmade cotton paper.',
+    theme: { bg: '#f7f0e4', surface: '#fdf8ef', ink: '#4a3326', primary: '#7a2232', accent: '#c29a4e', soft: '#8b7462', ...STANDARD_FONTS },
+    wording: WORDING.nikahArabic, events: EVENTS.nikahGrand, tags: ['wax seal', 'vellum', 'cotton paper', 'stationery'],
+  }),
+  defineInvite(115, 'Linen & Poppy Bow', {
+    category: 'floral', sectionStyle: 'classic', motif: 'rose', popular: true,
+    invite: { intro: 'bow', backdrop: 'linen', cards: 'framed', particles: 'petal' },
+    description: 'A satin bow unties and a linen envelope opens onto stitched poppies and an embroidery hoop with your initials.',
+    theme: { bg: '#f2ebe0', surface: '#faf6ef', ink: '#3f332c', primary: '#b2384a', accent: '#c49a62', soft: '#86776b', ...STANDARD_FONTS },
+    wording: WORDING.general, events: EVENTS.general, tags: ['linen', 'embroidery', 'poppies', 'stationery'],
+  }),
+  defineInvite(116, 'Burgundy Ink', {
+    category: 'royal', sectionStyle: 'editorial', motif: 'deco', popular: true,
+    invite: { intro: 'inkbloom', backdrop: 'marble', cards: 'editorial', particles: 'none' },
+    description: 'A drop of wine-dark ink blooms across white marble to reveal your names, framed by gilded ink-cosmos flowers.',
+    theme: { bg: '#f7f4ef', surface: '#ffffff', ink: '#2e2326', primary: '#6d1830', accent: '#b8924a', soft: '#7a6a6c', ...STANDARD_FONTS },
+    wording: WORDING.general, events: EVENTS.general, tags: ['marble', 'ink', 'burgundy', 'stationery'],
+  }),
+  defineInvite(117, 'Midnight Crescent', {
+    category: 'nikah', sectionStyle: 'cards', motif: 'crescent', popular: true,
+    invite: { intro: 'crescent', backdrop: 'celestial', cards: 'glass', particles: 'star' },
+    description: 'A midnight envelope sealed with a gold crescent opens to gold filigree, drifting silk veils and a sky full of stars.',
+    theme: { bg: '#0f1a33', surface: '#18274a', ink: '#ece9f4', primary: '#f0d58e', accent: '#d3ad5a', soft: '#aab3cf', ...STANDARD_FONTS },
+    wording: WORDING.nikahLove, events: EVENTS.nikah, tags: ['midnight', 'crescent', 'celestial', 'stationery'],
+  }),
+  defineInvite(118, 'Chateau Pocket', {
+    category: 'christian', sectionStyle: 'classic', motif: 'leaf',
+    invite: { intro: 'pocket', backdrop: 'watercolor', cards: 'framed', particles: 'petal' },
+    description: 'The belly band slides off and the card rises from its pocket – onto a watercolour country estate at golden hour.',
+    theme: { bg: '#f4efe6', surface: '#fbf8f2', ink: '#33402f', primary: '#4f6a45', accent: '#c19a62', soft: '#7a8473', ...STANDARD_FONTS },
+    wording: WORDING.christian, events: EVENTS.general, tags: ['watercolour', 'estate', 'pocket fold', 'stationery'],
+  }),
+  defineInvite(119, 'Blush Marble Seal', {
+    category: 'modern', sectionStyle: 'editorial', motif: 'heart',
+    invite: { intro: 'waxseal', backdrop: 'marble', cards: 'editorial', particles: 'none' },
+    description: 'A rose-gold wax seal and blush ribbon on a vellum jacket – opening onto soft marble with blush cosmos flowers.',
+    theme: { bg: '#fbf3f1', surface: '#ffffff', ink: '#43302f', primary: '#b4677a', accent: '#c99a7d', soft: '#8f7774', ...STANDARD_FONTS },
+    wording: WORDING.general, events: EVENTS.general, tags: ['blush', 'marble', 'wax seal', 'stationery'],
+  }),
+  defineInvite(120, 'Sage Garden Bow', {
+    category: 'kerala', sectionStyle: 'cards', motif: 'leaf',
+    invite: { intro: 'bow', backdrop: 'watercolor', cards: 'glass', particles: 'petal' },
+    description: 'A sage satin bow unties to a soft watercolour garden at dusk – gentle and fresh for a Kerala Nikah.',
+    theme: { bg: '#f1f4ec', surface: '#fafcf6', ink: '#2e3a2c', primary: '#5d7a55', accent: '#c4a466', soft: '#6f7c6b', ...STANDARD_FONTS },
+    wording: WORDING.nikahPairs, events: EVENTS.kerala, tags: ['sage', 'bow', 'watercolour', 'stationery'],
+  }),
+  defineInvite(121, 'Indigo Ink Night', {
+    category: 'modern', sectionStyle: 'cards', motif: 'sparkle',
+    invite: { intro: 'inkbloom', backdrop: 'celestial', cards: 'glass', particles: 'star' },
+    description: 'Indigo ink blooms across marble into a starry night with silver filigree and drifting veils.',
+    theme: { bg: '#141a3a', surface: '#1e2650', ink: '#e8ebf8', primary: '#b9c4ff', accent: '#c7ccdf', soft: '#a3abcd', ...STANDARD_FONTS },
+    wording: WORDING.general, events: EVENTS.general, tags: ['indigo', 'ink', 'night', 'stationery'],
+  }),
+  defineInvite(122, 'Marigold Pocket', {
+    category: 'traditional', sectionStyle: 'classic', motif: 'mandala', popular: true,
+    invite: { intro: 'pocket', backdrop: 'cotton', cards: 'framed', particles: 'petal' },
+    description: 'A maroon pocket card with a gold belly band slides open onto cotton paper, a gold arch and marigold-orange lilies.',
+    theme: { bg: '#fbf1e2', surface: '#fff8ec', ink: '#4a2c1c', primary: '#8c2a1e', accent: '#e09a2d', soft: '#8a6a52', ...STANDARD_FONTS },
+    wording: WORDING.hindu, events: EVENTS.general, tags: ['marigold', 'pocket fold', 'cotton paper', 'stationery'],
+  }),
+  defineInvite(123, 'Teal Poppy Crescent', {
+    category: 'nikah', sectionStyle: 'classic', motif: 'star8',
+    invite: { intro: 'crescent', backdrop: 'linen', cards: 'framed', particles: 'petal' },
+    description: 'A crescent-sealed envelope opens onto teal embroidered poppies, a running stitch and an embroidery hoop.',
+    theme: { bg: '#eef2ef', surface: '#f8faf7', ink: '#22363a', primary: '#1f5c63', accent: '#c48a52', soft: '#62767a', ...STANDARD_FONTS },
+    wording: WORDING.nikahArabic, events: EVENTS.nikah, tags: ['teal', 'linen', 'crescent', 'stationery'],
+  }),
+];

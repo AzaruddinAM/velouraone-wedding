@@ -28,7 +28,7 @@
   grid-template-columns: 280px 1fr;
 
   @media (max-width: 720px) {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
 }
 
@@ -38,6 +38,7 @@
   right: 0.75rem;
   z-index: 1;
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   place-items: center;
   width: 2.25rem;
   height: 2.25rem;
@@ -72,6 +73,7 @@
 
 .body {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: 0.85rem;
   align-content: start;
   padding: 1.75rem;
@@ -110,6 +112,7 @@
 
 .summary {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: 0.35rem;
   margin: 0;
   padding: 0.9rem 1rem;
@@ -129,6 +132,7 @@
 
 .field {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: 0.3rem;
 
   span {
@@ -164,6 +168,7 @@
 
 .photo-buttons {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: 0.5rem;
 }
 

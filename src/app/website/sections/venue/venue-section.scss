@@ -82,3 +82,42 @@
 :host(.s-bold) .map {
   border-radius: 0;
 }
+
+// ===== Structural looks ==========================================================
+:host(.s-arch) .map { border-radius: 999px 999px 18px 18px; }
+
+:host(.s-glass) .map {
+  border-radius: 28px;
+  box-shadow: 0 16px 34px rgb(0 0 0 / 0.14);
+}
+
+:host(.s-framed) .map {
+  border-radius: 0;
+  outline: 1px solid var(--band-accent);
+  outline-offset: 6px;
+}
+
+:host(.s-magazine) .map,
+:host(.s-minimal) .map {
+  border-radius: 0;
+}
+
+:host(.s-postcard) .map {
+  border: 8px solid #fff;
+  border-radius: 2px;
+  box-shadow: 0 10px 24px rgb(0 0 0 / 0.16);
+  rotate: -1.5deg;
+}
+
+:host(.s-luxe) .map {
+  border: 1px solid var(--band-accent);
+  border-radius: 0;
+}
+
+:host(.s-garden) .map { border-radius: 48% 14px 48% 14px / 30% 14px 30% 14px; }
+
+:host(.s-luxe) .details h3,
+:host(.s-magazine) .details h3 {
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
