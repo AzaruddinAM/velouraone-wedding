@@ -32,6 +32,9 @@ jobs:
   build:
     name: Build Angular site
     runs-on: ubuntu-latest
+    # Same environment as the upload, so admin secrets saved under
+    # "Environment secrets → production" are used too (they override repository secrets).
+    environment: production
     steps:
       - name: Check out code
         uses: actions/checkout@v4
