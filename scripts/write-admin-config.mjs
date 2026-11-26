@@ -4,15 +4,17 @@
 import { writeFileSync } from 'node:fs';
 
 const target = process.argv[2] ?? 'dist/velouraone-wedding/browser/api/_config.php';
-const username = process.env.ADMIN_USERNAME ?? '';
-const passwordHash = process.env.ADMIN_PASSWORD_HASH ?? '';
+// Tolerate stray spaces, line breaks or quotes around values pasted into GitHub.
+const clean = (v) => (v ?? '').trim().replace(/^['"]+|['"]+$/g, '').trim();
+const username = clean(process.env.ADMIN_USERNAME);
+const passwordHash = clean(process.env.ADMIN_PASSWORD_HASH);
 
 if (!username || !passwordHash) {
   console.log('Admin secrets are not set – the admin sign-in stays switched off on the server.');
   process.exit(0);
 }
 if (!/^\$(argon2id|argon2i|2y)\$/.test(passwordHash)) {
-  console.error('ADMIN_PASSWORD_HASH does not look like a password hash – run "npm run admin:password" to create one.');
+  console.error('ADMIN_PASSWORD_HASH is not an encrypted password (it must start with $argon2id$). Run "npm run admin:password" and paste the long value it prints – never the password itself.');
   process.exit(1);
 }
 
