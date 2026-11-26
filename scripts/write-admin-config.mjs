@@ -14,7 +14,16 @@ if (!username || !passwordHash) {
   process.exit(0);
 }
 if (!/^\$(argon2id|argon2i|2y)\$/.test(passwordHash)) {
-  console.error('ADMIN_PASSWORD_HASH is not an encrypted password (it must start with $argon2id$). Run "npm run admin:password" and paste the long value it prints – never the password itself.');
+  // Safe diagnosis only – never prints the value itself.
+  const shape = (v) =>
+    `length ${v.length}, starts with "$": ${v.startsWith('$')}, "$" signs: ${(v.match(/\$/g) ?? []).length}, ` +
+    `spaces inside: ${/\s/.test(v)}, starts with a letter: ${/^[A-Za-z]/.test(v)}`;
+  const looksSwapped = /^\$(argon2id|argon2i|2y)\$/.test(username);
+  console.log(
+    `::error::ADMIN_PASSWORD_HASH is not an encrypted password (a real one starts with $argon2id$ and is about 97 characters). ` +
+      `It has ${shape(passwordHash)}.` +
+      (looksSwapped ? ' The encrypted value seems to be in ADMIN_USERNAME instead – the two secrets are swapped.' : ''),
+  );
   process.exit(1);
 }
 
