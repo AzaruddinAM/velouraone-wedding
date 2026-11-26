@@ -139,6 +139,9 @@
   min-width: 0;
 }
 
+.short { display: none; }
+
+
 // Heart above the colour swatches, on the right of the name.
 .side {
   display: grid;
@@ -171,9 +174,20 @@
 // Compact tile when the grid is narrow (2 columns on phones).
 @container (max-width: 240px) {
   .tile {
-    gap: 0.5rem;
-    padding: 0.5rem;
+    gap: 0.45rem;
+    padding: 0.4rem;
   }
+
+  // One line each – no tall, wrapped titles.
+  .meta h3,
+  .meta p:not(.price) {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  .meta { padding: 0 0.1rem; }
+  .badges { margin-top: 0.3rem; }
 
   .heart {
     width: 2rem;
@@ -197,13 +211,42 @@
     display: none;
   }
 
+  // Both buttons on one row.
   .actions {
-    grid-template-columns: minmax(0, 1fr);
-    gap: 0.4rem;
+    gap: 0.3rem;
 
     .btn {
-      padding: 0.45rem 0.5rem;
+      min-width: 0;
+      padding: 0.42rem 0.2rem;
+      font-size: 0.76rem;
+      gap: 0.2rem;
     }
+  }
+}
+
+// Compact grid (the "more per row" view): just the preview, the code and the price.
+:host-context(.tile-grid.dense) {
+  .tile {
+    gap: 0.35rem;
+    padding: 0.3rem;
+    border-radius: var(--radius-md);
+  }
+
+  .preview { border-radius: calc(var(--radius-md) - 4px); }
+  .meta { align-items: center; }
+  .meta h3 { font-size: 0.95rem; }
+  .full { display: none; }
+  .short { display: inline; }
+  .meta .price { margin: 0; font-size: 0.85rem; }
+  .meta p:not(.price),
+  .badges,
+  .swatches,
+  .actions { display: none; }
+
+  .heart {
+    width: 1.6rem;
+    height: 1.6rem;
+    font-size: 0.8rem;
   }
 }
 

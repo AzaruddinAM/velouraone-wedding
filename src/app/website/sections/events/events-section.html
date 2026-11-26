@@ -14,7 +14,7 @@
         <h3>{{ event.name }}</h3>
         <p class="date">{{ event.date }}</p>
         <p class="time">{{ event.time }}</p>
-        <p class="muted">{{ v.venue }}</p>
+        <p class="muted">{{ event.place || v.venue }}</p>
       </article>
     }
   </div>

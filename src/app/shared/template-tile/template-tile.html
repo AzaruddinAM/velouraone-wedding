@@ -12,7 +12,7 @@
   <!-- Badges and the heart sit below the preview so they never cover the design. -->
   <div class="meta">
     <div class="info">
-      <h3>{{ t.name }}</h3>
+      <h3><span class="full">{{ t.name }}</span><span class="short">{{ t.code }}</span></h3>
       <p>{{ t.style }} · {{ catalog.categoryLabel(t.category) }}</p>
       <p class="price" [attr.aria-label]="'Price ' + price()">{{ price() }}</p>
       <div class="badges">

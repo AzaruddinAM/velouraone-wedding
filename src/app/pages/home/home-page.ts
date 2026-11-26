@@ -30,13 +30,13 @@ export class HomePage {
   protected readonly cardTotal = this.catalog.total('card');
   protected readonly websiteTotal = this.catalog.total('website');
 
-  /** Card – website – card fanned out in the hero. */
-  protected readonly heroDesigns = this.pick(['v11', 'w1', 'v4']);
+  /** Three wedding websites fanned out in the hero (websites come first on this site). */
+  protected readonly heroDesigns = this.pick(['w63', 'w1', 'w7']);
   /** One sample of each product for the product chooser. */
   protected readonly productSamples = { card: this.pick(['v3'])[0], website: this.pick(['w7'])[0] };
 
   /** Highlights of the animated Nikah collection (scratch site, moonrise card, lantern site, scratch card). */
-  protected readonly nikahShowcase = this.pick(['w47', 'v43', 'w35', 'v49']);
+  protected readonly nikahShowcase = this.pick(['w47', 'w35', 'w43', 'v43']);
   protected readonly nikahCount =
     this.catalog.ofKind('card').filter((d) => d.category === 'nikah').length +
     this.catalog.ofKind('website').filter((d) => d.category === 'nikah').length;
@@ -45,7 +45,7 @@ export class HomePage {
   protected readonly threeDShowcase = this.pick(['w63', 'w65', 'w67', 'w69']);
   protected readonly threeDCount = this.catalog.countWithFeature('website', '3d');
 
-  protected readonly popularWebsites = this.catalog.popular('website', 4);
+  protected readonly popularWebsites = this.catalog.popular('website', 8);
   protected readonly popularCards = this.catalog.popular('card', 4);
 
   /** Each category tile is coloured with its first design's palette. */

@@ -3,6 +3,7 @@ import { LowerCasePipe } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { PRODUCTS } from '../../core/constants/products.constants';
 import { DesignFeature, DesignKind, TemplateCategory } from '../../core/models/wedding-template.model';
+import { browserStorage } from '../../core/services/browser-storage';
 import { InvitationDraftService } from '../../core/services/invitation-draft.service';
 import { ShortlistService } from '../../core/services/shortlist.service';
 import { TemplateCatalogService, TemplateSort } from '../../core/services/template-catalog.service';
@@ -10,6 +11,8 @@ import { Icon } from '../../shared/icon/icon';
 import { TemplateTile } from '../../shared/template-tile/template-tile';
 
 type CategoryFilter = TemplateCategory | 'all';
+
+const DENSE_KEY = 'vo-grid-dense';
 
 /** All designs with search, category chips, sorting and shortlist filter. */
 @Component({
@@ -44,6 +47,8 @@ export class GalleryPage {
   );
 
   protected readonly search = signal('');
+  /** Compact grid (more designs per row); remembered in the browser. */
+  protected readonly dense = signal(browserStorage.read<boolean>(DENSE_KEY, false));
   protected readonly sort = signal<TemplateSort>('featured');
 
   /** Local state that resets whenever the URL query param changes. */
@@ -105,6 +110,11 @@ export class GalleryPage {
   protected toggleShortlistFilter(): void {
     this.onlyShortlist.update((value) => !value);
     this.syncUrl();
+  }
+
+  protected setDense(dense: boolean): void {
+    this.dense.set(dense);
+    browserStorage.write(DENSE_KEY, dense);
   }
 
   protected clearFilters(): void {

@@ -1,0 +1,144 @@
+@let x = extras();
+@let def = defaults();
+<div class="custom">
+  <div class="head">
+    <h2>3 · Customise everything</h2>
+    <button type="button" class="btn btn-link btn-sm" (click)="reset()">Clear all</button>
+  </div>
+
+  <!-- ============ Photos ============ -->
+  <details open>
+    <summary>
+      Gallery photos <span class="count">{{ x.photos.length }} / {{ maxPhotos }}</span>
+    </summary>
+    <p class="hint">
+      Choose several photos at once. They fill the gallery in this order. If no couple photo is set above, the first one is
+      also used as the main photo.
+    </p>
+    @if (x.photos.length) {
+      <ul class="thumbs">
+        @for (p of x.photos; track $index; let i = $index, first = $first, last = $last) {
+          <li>
+            <img [src]="p" [alt]="'Photo ' + (i + 1)" />
+            <span class="n">{{ i + 1 }}</span>
+            <div class="tools">
+              <button type="button" (click)="movePhoto(i, -1)" [disabled]="first" aria-label="Move earlier">‹</button>
+              <button type="button" (click)="removePhoto(i)" aria-label="Remove photo" class="del">✕</button>
+              <button type="button" (click)="movePhoto(i, 1)" [disabled]="last" aria-label="Move later">›</button>
+            </div>
+          </li>
+        }
+      </ul>
+    }
+    <div class="row">
+      <label class="btn btn-ghost btn-sm upload" [class.disabled]="busy() || x.photos.length >= maxPhotos">
+        <input type="file" accept="image/*" multiple (change)="addPhotos($event)" [disabled]="busy() || x.photos.length >= maxPhotos" />
+        {{ busy() ? 'Adding photos…' : x.photos.length ? '+ Add more photos' : '+ Upload photos' }}
+      </label>
+      @if (x.photos.length) {
+        <small class="hint">{{ photoSize() }} to upload</small>
+      }
+    </div>
+    @if (photoError()) {
+      <p class="error">{{ photoError() }}</p>
+    }
+  </details>
+
+  <!-- ============ Wording ============ -->
+  <details>
+    <summary>Wording &amp; hashtag</summary>
+    <p class="hint">Leave a box empty to keep the design's own text (shown in grey).</p>
+    <label>
+      Opening line
+      <input type="text" maxlength="140" [value]="x.opening" [placeholder]="def?.vm?.opening ?? ''" (input)="setText('opening', $event)" />
+    </label>
+    <label>
+      Invitation sentence
+      <input type="text" maxlength="240" [value]="x.invitation" [placeholder]="def?.vm?.invitation ?? ''" (input)="setText('invitation', $event)" />
+    </label>
+    <label>
+      Welcome message
+      <textarea rows="3" maxlength="500" [value]="x.welcome" placeholder="With hearts full of joy, we invite you…" (input)="setText('welcome', $event)"></textarea>
+    </label>
+    <label>
+      Hashtag
+      <input type="text" maxlength="40" [value]="x.hashtag" [placeholder]="def?.vm?.hashtag ?? ''" (input)="setText('hashtag', $event)" />
+    </label>
+  </details>
+
+  <!-- ============ Story ============ -->
+  <details>
+    <summary>Love story <span class="count">{{ x.story.length ? x.story.length + ' moments' : 'sample' }}</span></summary>
+    @if (!x.story.length) {
+      <p class="hint">The website shows a short sample story.</p>
+      <div class="row">
+        <button type="button" class="btn btn-ghost btn-sm" (click)="startStory()">Edit the sample story</button>
+        <button type="button" class="btn btn-ghost btn-sm" (click)="addMoment()">Write from scratch</button>
+      </div>
+    } @else {
+      @for (m of x.story; track $index; let i = $index) {
+        <fieldset class="item">
+          <legend>Moment {{ i + 1 }}</legend>
+          <div class="two">
+            <label>Year <input type="text" maxlength="12" [value]="m.year" (input)="setMoment(i, 'year', $event)" /></label>
+            <label>Title <input type="text" maxlength="70" [value]="m.title" (input)="setMoment(i, 'title', $event)" /></label>
+          </div>
+          <label>Text <textarea rows="2" maxlength="400" [value]="m.text" (input)="setMoment(i, 'text', $event)"></textarea></label>
+          <button type="button" class="btn btn-link btn-sm danger" (click)="removeMoment(i)">Remove moment</button>
+        </fieldset>
+      }
+      @if (x.story.length < 8) {
+        <button type="button" class="btn btn-ghost btn-sm" (click)="addMoment()">+ Add moment</button>
+      }
+    }
+  </details>
+
+  <!-- ============ Events ============ -->
+  <details>
+    <summary>Events <span class="count">{{ x.events.length ? x.events.length + ' events' : 'design default' }}</span></summary>
+    @if (!x.events.length) {
+      <p class="hint">
+        The website shows the design's events:
+        @for (e of def?.vm?.events ?? []; track $index; let last = $last) {
+          {{ e.name }}{{ last ? '.' : ',' }}
+        }
+      </p>
+      <div class="row">
+        <button type="button" class="btn btn-ghost btn-sm" (click)="startEvents()" [disabled]="!design()">Edit these events</button>
+        <button type="button" class="btn btn-ghost btn-sm" (click)="addEvent()">Write from scratch</button>
+      </div>
+    } @else {
+      @for (e of x.events; track $index; let i = $index) {
+        <fieldset class="item">
+          <legend>Event {{ i + 1 }}</legend>
+          <label>Name <input type="text" maxlength="60" placeholder="e.g. Mehendi, Nikah, Reception" [value]="e.name" (input)="setEvent(i, 'name', $event)" /></label>
+          <div class="two">
+            <label>Date <input type="date" [value]="e.date" (input)="setEvent(i, 'date', $event)" /></label>
+            <label>Time <input type="time" [value]="e.time" (input)="setEvent(i, 'time', $event)" /></label>
+          </div>
+          <label>Place <small>(only if not the main venue)</small>
+            <input type="text" maxlength="120" [value]="e.place" (input)="setEvent(i, 'place', $event)" />
+          </label>
+          <button type="button" class="btn btn-link btn-sm danger" (click)="removeEvent(i)">Remove event</button>
+        </fieldset>
+      }
+      @if (x.events.length < 10) {
+        <button type="button" class="btn btn-ghost btn-sm" (click)="addEvent()">+ Add event</button>
+      }
+    }
+  </details>
+
+  <!-- ============ Sections ============ -->
+  <details>
+    <summary>Sections on the website <span class="count">{{ sectionOptions.length - x.hidden.length }} shown</span></summary>
+    <div class="checks">
+      @for (s of sectionOptions; track s.key) {
+        <label class="check">
+          <input type="checkbox" [checked]="isShown(s.key)" (change)="toggleSection(s.key, $event)" />
+          {{ s.label }}
+        </label>
+      }
+    </div>
+    <p class="hint">Some designs don't have every section (e.g. the wishes wall); those switches simply have no effect there.</p>
+  </details>
+</div>

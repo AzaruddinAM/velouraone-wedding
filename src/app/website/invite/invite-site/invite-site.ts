@@ -52,17 +52,18 @@ export class InviteSite {
   /** The main ceremony (the event without its own time) and the others. */
   protected readonly mainEvent = computed(() => {
     const events = this.vm().events;
-    const index = Math.max(0, this.template().events.findIndex((e) => e.dayOffset === 0 && !e.time));
+    const index = this.vm().customEvents ? 0 : Math.max(0, this.template().events.findIndex((e) => e.dayOffset === 0 && !e.time));
     return { main: events[index], others: events.filter((_, i) => i !== index) };
   });
 
   protected readonly welcomeMessage = computed(() =>
-    this.isNikah()
+    this.vm().welcome ||
+    (this.isNikah()
       ? 'With hearts full of joy and gratitude to Allah, we invite you to share in the beginning of our new journey. Your presence and heartfelt duas will mean the world to us.'
-      : 'With hearts full of joy, we invite you to celebrate the beginning of our forever. Your presence and blessings will make our day complete.',
+      : 'With hearts full of joy, we invite you to celebrate the beginning of our forever. Your presence and blessings will make our day complete.'),
   );
 
-  protected readonly menu: readonly { id: SectionId; label: string }[] = [
+  private readonly allMenu: readonly { id: SectionId; label: string }[] = [
     { id: 'home', label: 'Home' },
     { id: 'glimpse', label: 'A glimpse of us' },
     { id: 'event', label: 'The day' },
@@ -73,13 +74,30 @@ export class InviteSite {
     { id: 'rsvp', label: 'RSVP' },
     { id: 'wishes', label: 'Wishes' },
   ];
+  /** Menu without the sections the admin switched off. */
+  protected readonly menu = computed(() => {
+    const keyOf: Partial<Record<SectionId, string>> = { journey: 'story', gallery: 'gallery', family: 'family', venue: 'venue', rsvp: 'rsvp', wishes: 'wishes' };
+    return this.allMenu.filter((item) => !keyOf[item.id] || this.show(keyOf[item.id]!));
+  });
 
-  protected readonly galleryTiles = [
+  private readonly galleryLooks = [
     { focus: '50% 25%', filter: 'none', tall: true },
     { focus: '20% 50%', filter: 'grayscale(1)', tall: false },
     { focus: '80% 40%', filter: 'sepia(0.35)', tall: false },
     { focus: '50% 70%', filter: 'saturate(1.2)', tall: false },
   ];
+  /** Every uploaded photo gets its own tile; one photo is shown in four crops & tones. */
+  protected readonly galleryTiles = computed(() => {
+    const photos = this.vm().photos;
+    if (photos.length <= 1) return this.galleryLooks.map((look) => ({ ...look, src: photos[0] ?? null }));
+    return photos.map((src, i) => ({ focus: '50% 40%', filter: 'none', tall: i % 5 === 0, src }));
+  });
+
+  /** Sections the admin switched off. */
+  private readonly hidden = computed(() => new Set<string>(this.vm().hidden));
+  protected show(key: string): boolean {
+    return !this.hidden().has(key);
+  }
 
   // ----- Wishes wall (kept in the browser for the demo) -------------------------
   private readonly wishesKey = computed(() => `vo-wishes-${this.template().id}`);

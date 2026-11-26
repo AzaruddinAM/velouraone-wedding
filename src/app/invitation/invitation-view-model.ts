@@ -36,8 +36,8 @@ export function buildInvitationViewModel(
     groom,
     brideInitial: bride.charAt(0).toUpperCase(),
     groomInitial: groom.charAt(0).toUpperCase(),
-    opening: template.wording.opening,
-    invitation: template.wording.invitation,
+    opening: details.opening?.trim() || template.wording.opening,
+    invitation: details.invitation?.trim() || template.wording.invitation,
     familyLine: details.familyLine.trim(),
     weekday: date.toLocaleDateString(locale, { weekday: 'long' }),
     day: String(date.getDate()).padStart(2, '0'),
@@ -50,6 +50,6 @@ export function buildInvitationViewModel(
     time: formatTime(details.time),
     venue: details.venue.trim() || 'Venue',
     address: details.address.trim(),
-    photoUrl: details.photoUrl,
+    photoUrl: details.photoUrl ?? details.photos?.[0] ?? null,
   };
 }

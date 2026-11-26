@@ -66,14 +66,20 @@ export class WeddingWebsite {
 
   protected readonly vm = computed(() => buildWebsiteViewModel(this.details(), this.template()));
 
-  protected readonly sections: readonly SectionId[] = ['welcome', 'couple', 'story', 'events', 'gallery', 'venue', 'rsvp', 'footer'];
-
-  protected readonly navLinks: readonly { id: SectionId; label: string }[] = [
+  private static readonly ALL_SECTIONS: readonly SectionId[] = ['welcome', 'couple', 'story', 'events', 'gallery', 'venue', 'rsvp', 'footer'];
+  private static readonly ALL_LINKS: readonly { id: SectionId; label: string }[] = [
     { id: 'story', label: 'Our Story' },
     { id: 'events', label: 'Events' },
     { id: 'gallery', label: 'Gallery' },
     { id: 'venue', label: 'Venue' },
   ];
+
+  /** Sections the admin switched off ('family' is called 'couple' here). */
+  private readonly hiddenIds = computed(() => new Set<string>(this.vm().hidden.map((key) => (key === 'family' ? 'couple' : key))));
+  protected readonly sections = computed(() => WeddingWebsite.ALL_SECTIONS.filter((id) => !this.hiddenIds().has(id)));
+  protected readonly navLinks = computed(() => WeddingWebsite.ALL_LINKS.filter((link) => !this.hiddenIds().has(link.id)));
+  protected readonly showRsvp = computed(() => !this.hiddenIds().has('rsvp'));
+  protected readonly noCountdown = computed(() => this.hiddenIds().has('countdown'));
 
   protected readonly themeVars = computed(() => {
     const t = this.template().theme;

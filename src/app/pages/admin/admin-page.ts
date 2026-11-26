@@ -6,6 +6,7 @@ import { AdminApiService, ApiError, GeneratedSiteSummary } from '../../core/serv
 import { InvitationDraftService } from '../../core/services/invitation-draft.service';
 import { TemplateCatalogService } from '../../core/services/template-catalog.service';
 import { Icon } from '../../shared/icon/icon';
+import { AdminCustomise, AdminExtras, EMPTY_EXTRAS } from './admin-customise';
 import { PersonaliseForm } from '../../shared/personalise-form/personalise-form';
 import { ScaledFrame } from '../../shared/scaled-frame/scaled-frame';
 import { WeddingWebsite } from '../../website/wedding-website/wedding-website';
@@ -16,7 +17,7 @@ import { WeddingWebsite } from '../../website/wedding-website/wedding-website';
  */
 @Component({
   selector: 'app-admin-page',
-  imports: [FormsModule, Icon, PersonaliseForm, ScaledFrame, WeddingWebsite],
+  imports: [FormsModule, Icon, PersonaliseForm, ScaledFrame, WeddingWebsite, AdminCustomise],
   templateUrl: './admin-page.html',
   styleUrl: './admin-page.scss',
 })
@@ -27,7 +28,11 @@ export class AdminPage {
 
   protected readonly signedIn = this.api.signedIn;
   protected readonly checking = signal(true);
-  protected readonly details = this.draft.details;
+  /** Couple's basic details (shared form) … */
+  protected readonly basics = this.draft.details;
+  /** … plus the admin-only extras: photos, wording, story, events, sections. */
+  protected readonly extras = signal<AdminExtras>({ ...EMPTY_EXTRAS });
+  protected readonly details = computed(() => ({ ...this.basics(), ...this.extras() }));
 
   // Sign-in form
   protected username = '';
@@ -89,6 +94,7 @@ export class AdminPage {
 
   protected startFresh(): void {
     this.draft.reset();
+    this.extras.set({ ...EMPTY_EXTRAS });
     this.result.set(null);
   }
 

@@ -16,7 +16,7 @@
 .site-nav {
   position: sticky;
   top: 0;
-  z-index: 20;
+  z-index: 19; // below the gallery's sticky filter bar (20) so previews never cover it
   display: flex;
   align-items: center;
   justify-content: space-between;

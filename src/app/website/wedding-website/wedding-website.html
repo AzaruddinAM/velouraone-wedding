@@ -1,6 +1,6 @@
 @let t = template();
 @let v = vm();
-<div [class]="'site s-' + t.sectionStyle + ' pattern-' + t.theme.pattern" [style]="themeVars()">
+<div [class]="'site s-' + t.sectionStyle + ' pattern-' + t.theme.pattern" [class.no-countdown]="noCountdown()" [style]="themeVars()">
   @if (t.invite) {
     <!-- Invite series: its own mobile-first layout with an opening screen and music -->
     <app-invite-site [template]="t" [details]="details()" [mode]="mode()" />
@@ -9,12 +9,14 @@
     <span class="mono">{{ v.brideInitial }} <em>&amp;</em> {{ v.groomInitial }}</span>
     @if (mode() === 'full') {
       <div class="links">
-        @for (link of navLinks; track link.id) {
+        @for (link of navLinks(); track link.id) {
           <button type="button" (click)="scrollTo(link.id)">{{ link.label }}</button>
         }
       </div>
-      <button type="button" class="rsvp" (click)="scrollTo('rsvp')">RSVP</button>
-    } @else {
+      @if (showRsvp()) {
+        <button type="button" class="rsvp" (click)="scrollTo('rsvp')">RSVP</button>
+      }
+    } @else if (showRsvp()) {
       <span class="rsvp">RSVP</span>
     }
   </nav>
@@ -47,7 +49,7 @@
   </div>
 
   @if (mode() === 'full') {
-    @for (section of sections; track section; let even = $even) {
+    @for (section of sections(); track section; let even = $even) {
       <div class="band" [class.alt]="even" [attr.data-section]="section" [appRevealOnScroll]="!!t.animated">
         @switch (section) {
           @case ('welcome') { <app-welcome-section [vm]="v" [template]="t" /> }

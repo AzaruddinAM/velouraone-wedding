@@ -18,10 +18,10 @@
 
     <nav id="main-nav" class="nav" [class.open]="menuOpen()" (click)="menuOpen.set(false)">
       <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Home</a>
-      <a [routerLink]="products.card.basePath" routerLinkActive="active">Invitation Cards</a>
       <a [routerLink]="products.website.basePath" routerLinkActive="active">
-        Websites <span class="new-pill">New</span>
+        Wedding Websites <span class="new-pill">New</span>
       </a>
+      <a [routerLink]="products.card.basePath" routerLinkActive="active">Invitation Cards</a>
       <a routerLink="/prices" routerLinkActive="active">Prices</a>
       <a [routerLink]="shortlistPath()" [queryParams]="{ shortlist: 'true' }" class="shortlist-link">
         <app-icon name="heart" /> Shortlist

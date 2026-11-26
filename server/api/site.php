@@ -17,4 +17,5 @@ header('Cache-Control: public, max-age=60');
 header('X-Robots-Tag: noindex');
 $details = $site['details'];
 $details['photoUrl'] = $site['photo'] ? '/' . $site['photo'] : null;
+$details['photos'] = array_map(fn ($p) => '/' . $p, $site['photos'] ?? []);
 respond(['ok' => true, 'design' => $site['design'], 'details' => $details]);

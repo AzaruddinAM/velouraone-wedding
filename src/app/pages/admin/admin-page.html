@@ -73,6 +73,8 @@
         </div>
         <app-personalise-form />
 
+        <app-admin-customise [(extras)]="extras" [design]="design()" [details]="basics()" />
+
         <div class="generate">
           <button type="button" class="btn btn-whatsapp btn-lg" (click)="generate()" [disabled]="generating() || !design()">
             <app-icon name="rocket" /> {{ generating() ? 'Generating…' : 'Generate website' }}
@@ -102,7 +104,7 @@
         @if (design(); as d) {
           <div class="phone">
             <app-scaled-frame [designWidth]="390" [designHeight]="780" [scrollable]="true">
-              <app-wedding-website [template]="d" [details]="details()" mode="preview" heroHeight="724px" />
+              <app-wedding-website [template]="d" [details]="details()" heroHeight="724px" />
             </app-scaled-frame>
           </div>
         }

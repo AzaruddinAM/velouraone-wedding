@@ -85,9 +85,10 @@ export class AdminApiService {
 
   /** Creates the couple's website; returns its address path (/i/…). */
   async generate(design: string, details: InvitationDetails): Promise<{ slug: string; path: string }> {
-    const { photoUrl, ...fields } = details;
+    const { photoUrl, photos: gallery = [], ...fields } = details;
     const photo = photoUrl?.startsWith('data:image/') ? photoUrl : null;
-    return this.call('sites.php', { method: 'POST', body: JSON.stringify({ design, details: fields, photo }) }, true);
+    const photos = gallery.filter((p) => p.startsWith('data:image/'));
+    return this.call('sites.php', { method: 'POST', body: JSON.stringify({ design, details: fields, photo, photos }) }, true);
   }
 
   async remove(slug: string): Promise<void> {

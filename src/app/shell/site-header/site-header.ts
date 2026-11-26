@@ -22,7 +22,7 @@ export class SiteHeader {
   /** Opens the shortlist where the visitor has hearted designs (websites if only websites). */
   protected readonly shortlistPath = computed(() => {
     const ids = [...this.shortlist.selected()];
-    const onlyWebsites = ids.length > 0 && ids.every((id) => id.startsWith('w'));
-    return onlyWebsites ? PRODUCTS.website.basePath : PRODUCTS.card.basePath;
+    const onlyCards = ids.length > 0 && ids.every((id) => id.startsWith('v'));
+    return onlyCards ? PRODUCTS.card.basePath : PRODUCTS.website.basePath;
   });
 }

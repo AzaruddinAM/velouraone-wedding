@@ -1,8 +1,8 @@
 <section class="intro">
   <div class="container">
     <nav class="switch" aria-label="Product">
-      <a [routerLink]="products.card.basePath" [class.active]="kind() === 'card'">{{ products.card.label }}</a>
       <a [routerLink]="products.website.basePath" [class.active]="kind() === 'website'">{{ products.website.label }}</a>
+      <a [routerLink]="products.card.basePath" [class.active]="kind() === 'card'">{{ products.card.label }}</a>
     </nav>
     <h1>{{ total() }} {{ product().label | lowercase }}</h1>
     <p class="sub">{{ product().shortDescription }}</p>
@@ -40,6 +40,15 @@
     <button type="button" class="chip heart-chip" [class.active]="onlyShortlist()" (click)="toggleShortlistFilter()">
       <app-icon [name]="onlyShortlist() ? 'heart-filled' : 'heart'" /> Shortlist ({{ shortlistCount() }})
     </button>
+
+    <div class="view" role="group" aria-label="Grid size">
+      <button type="button" [class.active]="!dense()" [attr.aria-pressed]="!dense()" (click)="setDense(false)" title="Large tiles">
+        <span class="ico big" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span class="sr-only">Large tiles</span>
+      </button>
+      <button type="button" [class.active]="dense()" [attr.aria-pressed]="dense()" (click)="setDense(true)" title="More designs per row">
+        <span class="ico small" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span><span class="sr-only">More designs per row</span>
+      </button>
+    </div>
   </div>
 
   <div #chipBar class="container chips" role="tablist" aria-label="Categories">
@@ -69,7 +78,7 @@
   <p class="count" aria-live="polite">Showing {{ results().length }} of {{ total() }} designs</p>
 
   @if (results().length) {
-    <div class="tile-grid">
+    <div class="tile-grid" [class.dense]="dense()">
       @for (t of results(); track t.id) {
         <app-template-tile [template]="t" />
       }

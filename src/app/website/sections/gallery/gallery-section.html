@@ -8,10 +8,10 @@
   </header>
 
   <div class="grid">
-    @for (tile of tiles; track tile.id) {
+    @for (tile of tiles(); track tile.id) {
       <figure [class]="'tile ' + tile.shape">
-        @if (v.photoUrl) {
-          <img [src]="v.photoUrl" alt="" [style.object-position]="tile.focus" [style.filter]="tile.filter" />
+        @if (tile.src) {
+          <img [src]="tile.src" alt="" loading="lazy" decoding="async" [style.object-position]="tile.focus" [style.filter]="tile.filter" />
         } @else {
           <div class="placeholder" [style.opacity]="tile.opacity">
             <app-motif [name]="template().motif" />

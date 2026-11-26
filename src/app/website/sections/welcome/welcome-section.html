@@ -21,5 +21,8 @@
     <p class="names">{{ v.bride }} <span>&amp;</span> {{ v.groom }}</p>
     <p class="when">{{ v.weekday }}, {{ v.dateLong }} · {{ v.time }}</p>
     <p class="where muted">{{ v.venue }}, {{ v.address }}</p>
+    @if (v.welcome) {
+      <p class="message">“{{ v.welcome }}”</p>
+    }
   </div>
 </section>
